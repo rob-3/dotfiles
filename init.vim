@@ -113,6 +113,10 @@ nnoremap <Space> o<Esc>
 
 let mapleader=","
 
+set smartindent
+
+set background=dark
+colo gruvbox
 
 inoremap " ""<Left>
 inoremap (<CR> ()<CR>{<CR>}<C-o>O
