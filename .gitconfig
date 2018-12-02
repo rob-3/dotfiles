@@ -1,0 +1,16 @@
+[user]
+	name = Robert Boyd III
+	email = rob@robertcboyd.com
+	signingkey = 55B95B9349D916DF
+[credential]
+	helper = store
+[mergetool]
+	keepBackup = false
+[merge]
+	tool = vimdiff
+[commit]
+	gpgsign = true
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
