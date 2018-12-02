@@ -14,9 +14,6 @@ set foldmethod=manual
 set incsearch
 set nohlsearch
 
-" write with sudo trick
-cnoremap w!! w !sudo tee > /dev/null %
-
 " Keep at least 2 lines above/below cursor showing
 set scrolloff=3
 
@@ -115,8 +112,7 @@ let mapleader=","
 
 set smartindent
 
-set background=dark
-colo gruvbox
+colo solarized8_dark_flat
 
 inoremap " ""<Left>
 inoremap (<CR> ()<CR>{<CR>}<C-o>O
@@ -139,7 +135,6 @@ call deoplete#custom#option('ignore_case', v:false)
 call deoplete#custom#option('auto_refresh_delay', 1)
 call deoplete#custom#option('auto_complete_delay', 0)
 
-
 "force wrapping in a special way
 set tw=0
 set wm=0
@@ -154,6 +149,16 @@ endfunction
 "change to prose settings
 nnoremap <Leader>p :call Prose()<CR>
 function! Prose()
+	iunmap "
+	iunmap (<CR>
+	iunmap )<CR>
+	iunmap {<CR>
+	iunmap ;;
+	iunmap {{
+	iunmap ""
+	iunmap ((
+	set linebreak
+	set wrap
 	set textwidth=80
 	set fo=tcwqa
 endfunction
@@ -185,3 +190,7 @@ set noexpandtab
 set fillchars=vert:\|,fold:-
 
 set runtimepath^=/usr/share/vim/vimfiles
+
+if (has("termguicolors"))
+  set termguicolors
+endif
