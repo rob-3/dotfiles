@@ -80,7 +80,7 @@ set showcmd
 syntax on
 
 " searches case insensitive
-set ignorecase
+"set ignorecase
 
 " show mode on bottom
 set showmode
@@ -114,14 +114,18 @@ set smartindent
 
 colo solarized8_dark_flat
 
-inoremap " ""<Left>
-inoremap (<CR> ()<CR>{<CR>}<C-o>O
-inoremap )<CR> )<Space>{<CR>}<C-o>O
-inoremap {<CR> {<CR>}<C-o>O
-inoremap ;; ();
-inoremap {{ {<CR>}<C-o>O
-inoremap "" ""<Left>
-inoremap (( ()<CR>{<CR>}<Up><Up><Esc>$F(a
+nnoremap <Leader>j :call Java()<CR>
+
+function! Java()
+	inoremap " ""<Left>
+	inoremap ( ()<Left>
+	inoremap (<CR> ()<CR>{<CR>}<C-o>O
+	inoremap )<CR> )<Space>{<CR>}<C-o>O
+	inoremap {{ <C-o>o{<CR>}<C-o>O
+	inoremap ;; ();
+	inoremap {<CR> {<CR>}<C-o>O
+	inoremap () ()
+endfunction
 
 
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
