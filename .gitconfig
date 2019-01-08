@@ -14,3 +14,9 @@
 	tool = vimdiff
 [difftool]
 	prompt = false
+[fetch]
+	fsckObjects = true
+[transfer]
+	fsckObjects = true
+[recieve]
+	fsckObjects = true
