@@ -1,8 +1,15 @@
 " freespeech's .vimrc
 
+" Theming
+let g:airline_powerline_fonts = 1
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
+
+colo solarized8_dark_flat
+
 " Omnicomplete
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
+"filetype plugin on
+"set omnifunc=syntaxcomplete#Complete
 
 " Relative line numbers
 set relativenumber number
@@ -15,7 +22,7 @@ set incsearch
 set nohlsearch
 
 " Keep at least 2 lines above/below cursor showing
-set scrolloff=3
+set scrolloff=20
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
 " confusing.
@@ -27,18 +34,14 @@ set history=500
 " Show @@@ in the last line if it is truncated.
 set display=truncate
 
-"Better autocomplete
-"inoremap <Tab> <c-n>
-"inoremap <s-tab> <c-p>
-
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 " Revert with: ":delcommand DiffOrig".
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
-endif
+"if !exists(":DiffOrig")
+"  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+"		  \ | wincmd p | diffthis
+"endif
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -65,7 +68,7 @@ if has("autocmd")
       \ | endif
 
   augroup END
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions-=o
 endif " has("autocmd")
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
@@ -77,24 +80,18 @@ inoremap <C-U> <C-G>u<C-U>
 set showcmd
 
 " Syntax highlighting
-syntax on
+"syntax on
 
 " searches case insensitive
 "set ignorecase
 
 " show mode on bottom
-set showmode
+"set showmode
 
 " backup files and send all mess files to the same place
 set backup		" keep a backup file (restore to previous version)
 set backupdir=~/.config/nvim/.neovim_backups
 set dir=~/.config/nvim/.neovim_tmp
-
-" The matchit plugin makes the % command work better, but it is not backwards
-" compatible.
-"if has('syntax') && has('eval')
-"  packadd matchit
-"endif
 
 "persistent undo
 set undofile
@@ -112,29 +109,14 @@ let mapleader=","
 
 set smartindent
 
-colo solarized8_dark_flat
-
-nnoremap <Leader>j :call Java()<CR>
-
-function! Java()
-	inoremap " ""<Left>
-	inoremap ( ()<Left>
-	inoremap (<CR> ()<CR>{<CR>}<C-o>O
-	inoremap )<CR> )<Space>{<CR>}<C-o>O
-	inoremap {{ <C-o>o{<CR>}<C-o>O
-	inoremap ;; ();
-	inoremap {<CR> {<CR>}<C-o>O
-	inoremap () ()
-endfunction
-
-
+" Map F5 to remove end of line whitespace
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 let g:python3_host_prog = "/usr/bin/python3"
 let g:deoplete#enable_at_startup = 1
 
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+"inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+"inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 call deoplete#custom#option('ignore_case', v:false)
 call deoplete#custom#option('auto_refresh_delay', 1)
 call deoplete#custom#option('auto_complete_delay', 0)
@@ -153,14 +135,6 @@ endfunction
 "change to prose settings
 nnoremap <Leader>p :call Prose()<CR>
 function! Prose()
-	iunmap "
-	iunmap (<CR>
-	iunmap )<CR>
-	iunmap {<CR>
-	iunmap ;;
-	iunmap {{
-	iunmap ""
-	iunmap ((
 	set linebreak
 	set wrap
 	set textwidth=80
@@ -176,11 +150,10 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-nnoremap <Leader>t i [todo: ]<Esc>i
-set pastetoggle=<F3>
-
+" A common typo when I do :wq
 cnoremap Q q
 
+" A nice spelling remap
 nnoremap <Leader>s :call ToggleSpelling()<CR>
 
 function! ToggleSpelling()
@@ -191,8 +164,9 @@ set tabstop=4
 set softtabstop=0
 set shiftwidth=4
 set noexpandtab
-set fillchars=vert:\|,fold:-
+"set fillchars=vert:\|,fold:-
 
+" Uses default arch vim plugin directory for sourcing
 set runtimepath^=/usr/share/vim/vimfiles
 
 if (has("termguicolors"))
