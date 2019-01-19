@@ -17,10 +17,7 @@ bindkey -v
 # End of lines configured by zsh-newuser-install
 
 alias ls='ls --color=auto'
-alias q=exit
-alias :q=exit
 setopt histignorespace
-function pvim(){ nvim -S /mnt/crypto/.vimrc /mnt/crypto/$(date '+%F|%I:%M:%S_%p'); }
 
 export EDITOR="/usr/bin/nvim"
 export VISUAL=nvim

@@ -8,8 +8,6 @@
 	keepBackup = false
 [merge]
 	tool = vimdiff
-[commit]
-	gpgsign = true
 [diff]
 	tool = vimdiff
 [difftool]
