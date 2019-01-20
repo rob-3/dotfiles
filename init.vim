@@ -1,5 +1,12 @@
 " freespeech's .vimrc
 
+" Watch for VIMrc changes
+augroup myvimrc
+    au!
+    au BufWritePost .vimrc,init.vim so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
+
 " fixes moving with wrapping
 nnoremap j gj
 nnoremap k gk
