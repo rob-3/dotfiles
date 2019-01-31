@@ -3,7 +3,7 @@
 " Watch for VIMrc changes
 augroup myvimrc
     au!
-    au BufWritePost .vimrc,init.vim so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+    au BufWritePost init.vim so ~/.config/nvim/init.vim | if has('gui_running') | so ~/.config/nvim/init.vim | endif
 augroup END
 
 "plugins
@@ -15,8 +15,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'flazz/vim-colorschemes'
+Plug 'airblade/vim-gitgutter'
+""Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
+
+set updatetime=100
+let g:gitgutter_override_sign_column_highlight = 0
+highlight SignColumn ctermbg=NONE
 
 " remap arrow keys in normal mode to move windows
 nnoremap <Up> <c-w>k
@@ -57,7 +63,7 @@ autocmd BufNewFile,BufRead ~/robotics/2019Main/* set softtabstop=0 expandtab shi
 "let g:airline_solarized_bg='dark'
 
 " vim theme
-colo solarized8_dark_flat
+colo solarized8_dark_low
 
 " Omnicomplete
 "filetype plugin on
@@ -205,6 +211,6 @@ endfunction
 
 " something to do with coloring; not sure what
 " TODO test to see what this does
-if (has("termguicolors"))
-  set termguicolors
-endif
+"if (has("termguicolors"))
+"  set termguicolors
+"endif
