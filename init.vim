@@ -6,6 +6,35 @@ augroup myvimrc
     au BufWritePost .vimrc,init.vim so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
 
+"plugins
+call plug#begin('~/.config/nvim/plugged')
+
+Plug 'w0rp/ale'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'flazz/vim-colorschemes'
+
+call plug#end()
+
+" remap arrow keys in normal mode to move windows
+nnoremap <Up> <c-w>k
+nnoremap <Down> <c-w>j
+nnoremap <Left> <c-w>h
+nnoremap <Right> <c-w>l
+
+" remap <c-direction> to the appropriate window change
+nnoremap <c-k> <c-w>k
+nnoremap <c-j> <c-w>j
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" remap arrow keys to no-op in insert mode
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>
 
 " fixes moving with wrapping
 nnoremap j gj
@@ -20,7 +49,7 @@ set smarttab
 set tabstop=4
 
 " in the robotics project use 2 spaces instead of tab
-autocmd BufNewFile,BufRead ~/2019Main/* set softtabstop=0 expandtab shiftwidth=2
+autocmd BufNewFile,BufRead ~/robotics/2019Main/* set softtabstop=0 expandtab shiftwidth=2
 
 " Theming
 "let g:airline_powerline_fonts = 1
@@ -164,9 +193,6 @@ set encoding=utf-8
 " self-explanatory
 nnoremap ; :
 
-" A common typo when I do :wq
-cnoremap Q q
-
 " A nice spelling remap
 nnoremap <Leader>s :call ToggleSpelling()<CR>
 
@@ -175,7 +201,7 @@ function! ToggleSpelling()
 endfunction
 
 " Uses default arch vim plugin directory for sourcing
-set runtimepath^=/usr/share/vim/vimfiles
+"set runtimepath^=/usr/share/vim/vimfiles
 
 " something to do with coloring; not sure what
 " TODO test to see what this does

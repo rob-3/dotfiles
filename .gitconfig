@@ -18,3 +18,17 @@
 	fsckObjects = true
 [recieve]
 	fsckObjects = true
+[commit]
+	gpgsign = true
+	verbose = true
+[alias]
+	co = checkout
+	a = add
+	c = commit
+	r = rebase
+	m = merge
+	s = status
+	l = log
+	b = branch
+[rerere]
+	enabled = true
