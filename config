@@ -30,7 +30,7 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -187,7 +187,7 @@ bar {
 default_border none
 hide_edge_borders both
 default_floating_border none
-exec --no-startup-id i3-msg 'workspace 2; append_layout /home/rob/.config/i3/workspace-2.json'
-exec --no-startup-id i3-msg 'workspace 2; exec /usr/bin/firefox'
-exec --no-startup-id i3-msg 'workspace 1; append_layout /home/rob/.config/i3/workspace-1.json'
-exec --no-startup-id i3-msg 'workspace 1; exec /usr/bin/xfce4-terminal'
+#exec --no-startup-id i3-msg 'workspace 2; append_layout /home/rob/.config/i3/workspace-2.json'
+#exec --no-startup-id i3-msg 'workspace 2; exec /usr/bin/firefox'
+#exec --no-startup-id i3-msg 'workspace 1; append_layout /home/rob/.config/i3/workspace-1.json'
+#exec --no-startup-id i3-msg 'workspace 1; exec /usr/bin/xfce4-terminal'
