@@ -16,12 +16,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim'
-""Plug 'mhinz/vim-signify'
 
 call plug#end()
-
-""let g:signify_realtime = 1
-""let g:signify_vcs_list = [ 'git' ]
 
 set updatetime=100
 let g:gitgutter_override_sign_column_highlight = 0
@@ -60,11 +56,6 @@ set tabstop=4
 " in the robotics project use 2 spaces instead of tab
 autocmd BufNewFile,BufRead ~/programming/robotics/2019Main/* set softtabstop=0 expandtab shiftwidth=2
 
-" Theming
-"let g:airline_powerline_fonts = 1
-"let g:airline_theme='solarized'
-"let g:airline_solarized_bg='dark'
-
 " vim theme
 colo solarized
 
@@ -88,10 +79,6 @@ set nohlsearch
 
 " Keep at least 20 lines above/below cursor showing
 set scrolloff=20
-
-" Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
-" confusing.
-set nrformats-=octal
 
 " Keep way too much history
 set history=500
@@ -199,8 +186,8 @@ set tw=80
 set encoding=utf-8
 
 " self-explanatory
-nnoremap ; :
-vnoremap ; :
+noremap ; :
+noremap : ;
 
 " A nice spelling remap
 nnoremap <Leader>s :call ToggleSpelling()<CR>
