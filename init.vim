@@ -14,11 +14,14 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'flazz/vim-colorschemes'
 Plug 'airblade/vim-gitgutter'
-""Plug 'altercation/vim-colors-solarized'
+Plug 'Shougo/deoplete.nvim'
+""Plug 'mhinz/vim-signify'
 
 call plug#end()
+
+""let g:signify_realtime = 1
+""let g:signify_vcs_list = [ 'git' ]
 
 set updatetime=100
 let g:gitgutter_override_sign_column_highlight = 0
@@ -55,7 +58,7 @@ set smarttab
 set tabstop=4
 
 " in the robotics project use 2 spaces instead of tab
-autocmd BufNewFile,BufRead ~/robotics/2019Main/* set softtabstop=0 expandtab shiftwidth=2
+autocmd BufNewFile,BufRead ~/programming/robotics/2019Main/* set softtabstop=0 expandtab shiftwidth=2
 
 " Theming
 "let g:airline_powerline_fonts = 1
@@ -63,7 +66,7 @@ autocmd BufNewFile,BufRead ~/robotics/2019Main/* set softtabstop=0 expandtab shi
 "let g:airline_solarized_bg='dark'
 
 " vim theme
-colo solarized8_dark_low
+colo solarized
 
 " Omnicomplete
 "filetype plugin on
@@ -177,7 +180,6 @@ set smartindent
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " deoplete config
-let g:python3_host_prog = "/usr/bin/python3"
 let g:deoplete#enable_at_startup = 1
 
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -198,6 +200,7 @@ set encoding=utf-8
 
 " self-explanatory
 nnoremap ; :
+vnoremap ; :
 
 " A nice spelling remap
 nnoremap <Leader>s :call ToggleSpelling()<CR>
@@ -211,6 +214,8 @@ endfunction
 
 " something to do with coloring; not sure what
 " TODO test to see what this does
-"if (has("termguicolors"))
-"  set termguicolors
-"endif
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+set nowrap
