@@ -2,8 +2,8 @@
 
 " Watch for VIMrc changes
 augroup myvimrc
-    au!
-    au BufWritePost init.vim so ~/.config/nvim/init.vim | if has('gui_running') | so ~/.config/nvim/init.vim | endif
+	au!
+	au BufWritePost init.vim so ~/.config/nvim/init.vim | if has('gui_running') | so ~/.config/nvim/init.vim | endif
 augroup END
 
 "plugins
@@ -24,10 +24,10 @@ let g:gitgutter_override_sign_column_highlight = 0
 highlight SignColumn ctermbg=NONE
 
 " remap arrow keys in normal mode to move windows
-nnoremap <Up> <c-w>k
-nnoremap <Down> <c-w>j
-nnoremap <Left> <c-w>h
-nnoremap <Right> <c-w>l
+"nnoremap <Up> <c-w>k
+"nnoremap <Down> <c-w>j
+"nnoremap <Left> <c-w>h
+"nnoremap <Right> <c-w>l
 
 " remap <c-direction> to the appropriate window change
 nnoremap <c-k> <c-w>k
@@ -46,7 +46,7 @@ nnoremap j gj
 nnoremap k gk
 
 " fixes git commit message wrapping
-au FileType gitcommit setlocal tw=72
+au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
 
 " use tabs by default; size equivalent to 4 spaces
 set shiftwidth=4
@@ -109,22 +109,22 @@ if has("autocmd")
   " Put these in an autocmd group, so that you can revert them with:
   " ":augroup vimStartup | au! | augroup END"
   augroup vimStartup
-    au!
+	au!
 
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid, when inside an event handler
-    " (happens when dropping a file on gvim) and for a commit message (it's
-    " likely a different one than last time).
-    autocmd BufReadPost *
-      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-      \ |   exe "normal! g`\""
-      \ | endif
+	" When editing a file, always jump to the last known cursor position.
+	" Don't do it when the position is invalid, when inside an event handler
+	" (happens when dropping a file on gvim) and for a commit message (it's
+	" likely a different one than last time).
+	autocmd BufReadPost *
+	  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+	  \ |	exe "normal! g`\""
+	  \ | endif
 
   augroup END
-autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions-=o
+autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions+=o
 endif " has("autocmd")
 
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 " Revert with ":iunmap <C-U>".
 inoremap <C-U> <C-G>u<C-U>
