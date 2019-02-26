@@ -78,7 +78,7 @@ set incsearch
 set nohlsearch
 
 " Keep at least 20 lines above/below cursor showing
-set scrolloff=20
+set scrolloff=5
 
 " Keep way too much history
 set history=500
@@ -206,3 +206,10 @@ if (has("termguicolors"))
 endif
 
 set nowrap
+
+nnoremap <Leader><Leader> "0p
+
+"fugitive.vim maps
+""nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>g :Gstatus<CR>
+""nnoremap <Leader>gd :Gdiff<CR>
