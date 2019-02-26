@@ -16,6 +16,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim'
+Plug 'tpope/vim-obsession'
 
 call plug#end()
 
@@ -44,6 +45,10 @@ inoremap <Right> <nop>
 " fixes moving with wrapping
 nnoremap j gj
 nnoremap k gk
+
+nnoremap 0 g0
+nnoremap $ g$
+nnoremap ^ g^
 
 " fixes git commit message wrapping
 au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
@@ -121,7 +126,7 @@ if has("autocmd")
 	  \ | endif
 
   augroup END
-autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions+=o
+"autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions+=o
 endif " has("autocmd")
 
 " CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo,
@@ -205,7 +210,7 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-set nowrap
+set wrap
 
 nnoremap <Leader><Leader> "0p
 
