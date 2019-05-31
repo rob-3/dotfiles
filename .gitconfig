@@ -25,10 +25,12 @@
 	co = checkout
 	a = add
 	c = commit
-	r = rebase
 	m = merge
 	s = status
 	l = log
 	b = branch
+	ca = commit --amend
 [rerere]
 	enabled = true
+[hub]
+	protocal = https
