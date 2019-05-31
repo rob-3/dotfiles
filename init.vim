@@ -18,17 +18,18 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-obsession'
 
+Plug 'deoplete-plugins/deoplete-jedi'
+"Plug 'ervandew/supertab'
+
 call plug#end()
+
+autocmd FileType python setlocal completeopt-=preview
+"set completeopt+=noinsert
 
 set updatetime=100
 let g:gitgutter_override_sign_column_highlight = 0
 highlight SignColumn ctermbg=NONE
 
-" remap arrow keys in normal mode to move windows
-"nnoremap <Up> <c-w>k
-"nnoremap <Down> <c-w>j
-"nnoremap <Left> <c-w>h
-"nnoremap <Right> <c-w>l
 
 " remap <c-direction> to the appropriate window change
 nnoremap <c-k> <c-w>k
@@ -58,15 +59,8 @@ set shiftwidth=4
 set smarttab
 set tabstop=4
 
-" in the robotics project use 2 spaces instead of tab
-autocmd BufNewFile,BufRead ~/programming/robotics/2019Main/* set softtabstop=0 expandtab shiftwidth=2
-
 " vim theme
 colo solarized
-
-" Omnicomplete
-"filetype plugin on
-"set omnifunc=syntaxcomplete#Complete
 
 " line numbers
 set number
@@ -137,15 +131,6 @@ inoremap <C-U> <C-G>u<C-U>
 " show partial commands
 set showcmd
 
-" Syntax highlighting
-"syntax on
-
-" searches case insensitive
-"set ignorecase
-
-" show mode on bottom
-"set showmode
-
 " backup files and send all mess files to the same place
 set backup
 set backupdir=~/.config/nvim/.neovim_backups
@@ -174,8 +159,8 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " deoplete config
 let g:deoplete#enable_at_startup = 1
 
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+"inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+"inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 call deoplete#custom#option('ignore_case', v:false)
 call deoplete#custom#option('auto_refresh_delay', 1)
 call deoplete#custom#option('auto_complete_delay', 0)
@@ -213,8 +198,4 @@ endif
 set wrap
 
 nnoremap <Leader><Leader> "0p
-
-"fugitive.vim maps
-""nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>g :Gstatus<CR>
-""nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>p :!python %<CR>
