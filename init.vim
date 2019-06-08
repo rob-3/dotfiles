@@ -148,7 +148,7 @@ set lbr
 "create new line from normal mode with space
 nnoremap <Space> o<Esc>
 
-let mapleader=","
+"let mapleader=","
 
 " automatically attempt to insert appropriate indentation as you go
 set smartindent
@@ -178,6 +178,10 @@ set encoding=utf-8
 " self-explanatory
 noremap ; :
 noremap : ;
+nnoremap <Right> ;
+nnoremap <Left> ,
+nnoremap <Up> ;
+nnoremap <Down> ,
 
 " A nice spelling remap
 nnoremap <Leader>s :call ToggleSpelling()<CR>
