@@ -199,7 +199,7 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-set wrap
+set nowrap
 
 nnoremap <Leader><Leader> "0p
 nnoremap <Leader>p :!python %<CR>
