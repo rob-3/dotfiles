@@ -17,11 +17,14 @@ Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-obsession'
+Plug 'lambdalisue/suda.vim'
 
 Plug 'deoplete-plugins/deoplete-jedi'
 "Plug 'ervandew/supertab'
 
 call plug#end()
+
+cnoremap W w suda://%
 
 autocmd FileType python setlocal completeopt-=preview
 "set completeopt+=noinsert
@@ -47,9 +50,9 @@ inoremap <Right> <nop>
 nnoremap j gj
 nnoremap k gk
 
-nnoremap 0 g0
-nnoremap $ g$
-nnoremap ^ g^
+"nnoremap 0 g0
+"nnoremap $ g$
+"nnoremap ^ g^
 
 " fixes git commit message wrapping
 au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
@@ -60,7 +63,7 @@ set smarttab
 set tabstop=4
 
 " vim theme
-colo solarized
+colo transparent
 
 " line numbers
 set number
