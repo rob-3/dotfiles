@@ -17,6 +17,7 @@ bindkey -v
 # End of lines configured by zsh-newuser-install
 
 alias ls='ls --color=auto'
+alias git=hub
 setopt histignorespace
 
 export EDITOR="/usr/bin/nvim"
@@ -30,11 +31,14 @@ export LANGUAGE=en_US.UTF-8
 
 autoload -Uz promptinit
 promptinit
+# Completion for kitty
+kitty + complete setup zsh | source /dev/stdin
+prompt pure
 
-powerline-daemon -q
-. /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
+#powerline-daemon -q
+#. /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
-ZSH_THEME="agnoster"
+#ZSH_THEME="agnoster"
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -52,5 +56,9 @@ bindkey '^k' history-substring-search-up
 
 # accept-line() {: "${BUFFER:="git status"}"; zle ".$WIDGET"}
 #zle -N accept-line
+alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror'
 
 ANDROID_SDK_HOME=/home/rob/Android/Sdk
+XDG_DESKTOP_DIR="$HOME/"
+export PATH="$HOME/.node_modules_global/bin:$PATH"
+export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
