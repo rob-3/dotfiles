@@ -60,5 +60,5 @@ alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror
 
 ANDROID_SDK_HOME=/home/rob/Android/Sdk
 XDG_DESKTOP_DIR="$HOME/"
-export PATH="$HOME/.node_modules_global/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
