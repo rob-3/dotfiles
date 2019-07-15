@@ -214,6 +214,7 @@ set wrap
 nnoremap <Leader><Leader> "0p
 "nnoremap <Leader>p :!python %<CR>
 nnoremap <Leader>p :term python %<CR>
+nnoremap <Leader>m :r !./tools/mission-codename<CR>kJE
 nnoremap <Leader>c :!g++ % -o $(basename % .cpp) && ./$(basename % .cpp)<CR>
 
 tnoremap <Esc><Esc> <c-\><c-n>
