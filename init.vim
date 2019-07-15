@@ -18,6 +18,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-obsession'
 "Plug 'lambdalisue/suda.vim'
+Plug 'rstacruz/vim-closer'
 
 Plug 'deoplete-plugins/deoplete-jedi'
 
