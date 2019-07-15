@@ -10,21 +10,22 @@ augroup END
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'w0rp/ale'
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-obsession'
-Plug 'lambdalisue/suda.vim'
+"Plug 'lambdalisue/suda.vim'
 
 Plug 'deoplete-plugins/deoplete-jedi'
-"Plug 'ervandew/supertab'
+
+" Vim-Plug
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 call plug#end()
-
-cnoremap W w suda://%
 
 autocmd FileType python setlocal completeopt-=preview
 "set completeopt+=noinsert
@@ -59,7 +60,8 @@ au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
 
 " use tabs by default; size equivalent to 4 spaces
 set shiftwidth=4
-set smarttab
+" @Deprecated: on by default
+"set smarttab
 set tabstop=4
 
 " vim theme
@@ -161,10 +163,14 @@ nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
+" use langauge server completions from ale
+call deoplete#custom#option('sources', {
+\ '_': [],
+\})
 
 "inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 "inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-call deoplete#custom#option('ignore_case', v:false)
+"call deoplete#custom#option('ignore_case', v:false)
 call deoplete#custom#option('auto_refresh_delay', 1)
 call deoplete#custom#option('auto_complete_delay', 0)
 
@@ -202,7 +208,15 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-set nowrap
+set wrap
 
 nnoremap <Leader><Leader> "0p
-nnoremap <Leader>p :!python %<CR>
+"nnoremap <Leader>p :!python %<CR>
+nnoremap <Leader>p :term python %<CR>
+nnoremap <Leader>c :!g++ % -o $(basename % .cpp) && ./$(basename % .cpp)<CR>
+
+tnoremap <Esc><Esc> <c-\><c-n>
+
+autocmd FileType typescript setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+autocmd FileType typescript setlocal completeopt-=preview
+autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
