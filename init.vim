@@ -24,7 +24,21 @@ Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
+Plug 'tpope/vim-ragtag'
+
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
 call plug#end()
+
+imap <c-space> <c-x><Space>
+
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\}
+let g:ale_fix_on_save = 1
+let g:ale_javascript_prettier_options = '--backtick-quote --trailing-comma'
 
 autocmd FileType python setlocal completeopt-=preview
 "set completeopt+=noinsert
@@ -221,3 +235,13 @@ autocmd FileType typescript setlocal tabstop=4 softtabstop=0 expandtab shiftwidt
 autocmd FileType typescript setlocal completeopt-=preview
 autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set nomodeline
+
+nmap s <Plug>Ysurround
+vmap s S 
+
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
