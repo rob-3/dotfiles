@@ -234,6 +234,7 @@ tnoremap <Esc><Esc> <c-\><c-n>
 autocmd FileType typescript setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd FileType typescript setlocal completeopt-=preview
 autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set nomodeline
 
 nnoremap <c-d> i<c-d>
