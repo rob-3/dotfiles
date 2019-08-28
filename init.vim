@@ -236,6 +236,7 @@ autocmd FileType typescript setlocal completeopt-=preview
 autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set nomodeline
 
+nnoremap <c-d> i<c-d>
 nmap s <Plug>Ysurround
 vmap s S 
 
