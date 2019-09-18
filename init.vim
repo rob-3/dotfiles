@@ -31,7 +31,7 @@ Plug 'mxw/vim-jsx'
 
 call plug#end()
 
-imap <c-space> <c-x><Space>
+"imap <c-space> <c-x><Space>
 
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
@@ -224,8 +224,7 @@ endif
 set wrap
 
 nnoremap <Leader><Leader> "0p
-"nnoremap <Leader>p :!python %<CR>
-nnoremap <Leader>p :term python %<CR>
+nnoremap <Leader>p :term python %<CR>i
 nnoremap <Leader>m :r !./tools/mission-codename<CR>kJE
 nnoremap <Leader>c :!g++ % -o $(basename % .cpp) && ./$(basename % .cpp)<CR>
 
@@ -247,3 +246,7 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
+
+inoremap <c-space> <nop>
+
+nnoremap <Leader>a :ALEToggle<CR>
