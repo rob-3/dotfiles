@@ -54,27 +54,15 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" remap arrow keys to no-op in insert mode
-inoremap <Up> <nop>
-inoremap <Down> <nop>
-inoremap <Left> <nop>
-inoremap <Right> <nop>
-
 " fixes moving with wrapping
 nnoremap j gj
 nnoremap k gk
-
-"nnoremap 0 g0
-"nnoremap $ g$
-"nnoremap ^ g^
 
 " fixes git commit message wrapping
 au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
 
 " use tabs by default; size equivalent to 4 spaces
 set shiftwidth=4
-" @Deprecated: on by default
-"set smarttab
 set tabstop=4
 
 " vim theme
@@ -102,15 +90,6 @@ set history=500
 
 " Show @@@ in the last line if it is truncated.
 set display=truncate
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-" Revert with: ":delcommand DiffOrig".
-"if !exists(":DiffOrig")
-"  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-"		  \ | wincmd p | diffthis
-"endif
 
 " Only do this part when compiled with support for autocommands.
 " TODO check if neovim ever is compiled without autocommands
@@ -165,8 +144,9 @@ set lbr
 
 "create new line from normal mode with space
 nnoremap <Space> o<Esc>
-
-"let mapleader=","
+"nnoremap <Space> <c-x>
+nnoremap <c-n> o<Esc>
+nnoremap <c-p> O<Esc>
 
 " automatically attempt to insert appropriate indentation as you go
 set smartindent
@@ -181,9 +161,6 @@ call deoplete#custom#option('sources', {
 \ '_': [],
 \})
 
-"inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-"inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-"call deoplete#custom#option('ignore_case', v:false)
 call deoplete#custom#option('auto_refresh_delay', 1)
 call deoplete#custom#option('auto_complete_delay', 0)
 
@@ -211,9 +188,6 @@ nnoremap <Leader>s :call ToggleSpelling()<CR>
 function! ToggleSpelling()
 	set spell! spelllang=en
 endfunction
-
-" Uses default arch vim plugin directory for sourcing
-"set runtimepath^=/usr/share/vim/vimfiles
 
 " something to do with coloring; not sure what
 " TODO test to see what this does
@@ -250,3 +224,27 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 inoremap <c-space> <nop>
 
 nnoremap <Leader>a :ALEToggle<CR>
+inoremap <c-o> <nop>
+
+function! CreateBox()
+	normal! I│
+	normal! A│
+	let wordLength = strwidth(getline('.')) - 2
+	let counter = 0
+	let pastestring = ''
+	while counter < wordLength
+		let counter += 1
+		let pastestring .= '─'
+	endwhile
+	normal! O
+	call setline('.', '┌'.pastestring.'┐')
+	normal! jo
+	call setline('.', '└'.pastestring.'┘')
+endfunction
+nnoremap <silent> <Leader>b :call CreateBox()<CR>
+function! UnBox()
+	normal! dd
+	call setline('.', getline('.')[3:-4])
+	normal! jdd
+endfunction
+nnoremap <silent> <Leader>u :call UnBox()<CR>

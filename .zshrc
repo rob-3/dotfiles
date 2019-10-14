@@ -62,3 +62,4 @@ ANDROID_SDK_HOME=/home/rob/Android/Sdk
 XDG_DESKTOP_DIR="$HOME/"
 export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
+alias diary="nvim ~/.diary/$(date +%m-%d-%y)"
