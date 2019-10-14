@@ -47,7 +47,6 @@ set updatetime=100
 let g:gitgutter_override_sign_column_highlight = 0
 highlight SignColumn ctermbg=NONE
 
-
 " remap <c-direction> to the appropriate window change
 nnoremap <c-k> <c-w>k
 nnoremap <c-j> <c-w>j
@@ -144,9 +143,7 @@ set lbr
 
 "create new line from normal mode with space
 nnoremap <Space> o<Esc>
-"nnoremap <Space> <c-x>
-nnoremap <c-n> o<Esc>
-nnoremap <c-p> O<Esc>
+nnoremap <c-Space> O<Esc>
 
 " automatically attempt to insert appropriate indentation as you go
 set smartindent
@@ -170,17 +167,13 @@ set fo+=or
 set tw=80
 "set wm=80
 
-"character encoding fix
-" TODO test to see if this is still needed
-set encoding=utf-8
-
 " self-explanatory
 noremap ; :
 noremap : ;
 nnoremap <Right> ;
 nnoremap <Left> ,
-nnoremap <Up> ;
-nnoremap <Down> ,
+nnoremap <Up> <c-y>
+nnoremap <Down> <c-e>
 
 " A nice spelling remap
 nnoremap <Leader>s :call ToggleSpelling()<CR>
@@ -198,7 +191,7 @@ endif
 set wrap
 
 nnoremap <Leader><Leader> "0p
-nnoremap <Leader>p :term python %<CR>i
+nnoremap <Leader>p :term python -i %<CR>i
 nnoremap <Leader>m :r !./tools/mission-codename<CR>kJE
 nnoremap <Leader>c :!g++ % -o $(basename % .cpp) && ./$(basename % .cpp)<CR>
 
@@ -214,12 +207,12 @@ nnoremap <c-d> i<c-d>
 nmap s <Plug>Ysurround
 vmap s S 
 
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
+nnoremap <silent> <A-j> :m .+1<CR>==
+nnoremap <silent> <A-k> :m .-2<CR>==
+inoremap <silent> <A-j> <Esc>:m .+1<CR>==gi
+inoremap <silent> <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <silent> <A-j> :m '>+1<CR>gv=gv
+vnoremap <silent> <A-k> :m '<-2<CR>gv=gv
 
 inoremap <c-space> <nop>
 
