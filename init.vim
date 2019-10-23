@@ -241,3 +241,9 @@ function! UnBox()
 	normal! jdd
 endfunction
 nnoremap <silent> <Leader>u :call UnBox()<CR>
+
+" edit this file easily
+nnoremap <Leader>v :vs ~/.config/nvim/init.vim<CR>
+
+" node binding for source and interactive shell
+nnoremap <Leader>n :term node -i -e "$(< %)"<CR>i
