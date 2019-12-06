@@ -35,10 +35,6 @@ promptinit
 kitty + complete setup zsh | source /dev/stdin
 prompt pure
 
-#powerline-daemon -q
-#. /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
-
-#ZSH_THEME="agnoster"
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -54,8 +50,6 @@ bindkey '^l' autosuggest-accept
 bindkey '^j' history-substring-search-down
 bindkey '^k' history-substring-search-up
 
-# accept-line() {: "${BUFFER:="git status"}"; zle ".$WIDGET"}
-#zle -N accept-line
 alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror'
 
 ANDROID_SDK_HOME=/home/rob/Android/Sdk
@@ -66,4 +60,4 @@ alias diary="nvim ~/.diary/$(date +%m-%d-%y)"
 alias vimrc="vim ~/.config/nvim/init.vim"
 
 alias please="sudo"
-alias vpn="sudo protonvpn-cli"
+alias dog="cat"
