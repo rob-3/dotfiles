@@ -64,3 +64,6 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 alias diary="nvim ~/.diary/$(date +%m-%d-%y)"
 alias vimrc="vim ~/.config/nvim/init.vim"
+
+alias please="sudo"
+alias vpn="sudo protonvpn-cli"
