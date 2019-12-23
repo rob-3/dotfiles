@@ -61,3 +61,4 @@ alias vimrc="vim ~/.config/nvim/init.vim"
 
 alias please="sudo"
 alias dog="cat"
+alias vpn="sudo protonvpn-cli"
