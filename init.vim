@@ -6,32 +6,32 @@ augroup myvimrc
 	au BufWritePost init.vim so ~/.config/nvim/init.vim | if has('gui_running') | so ~/.config/nvim/init.vim | endif
 augroup END
 
-"plugins
+" Vim-Plug
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'w0rp/ale'
-Plug 'tpope/vim-fugitive'
+" General plugins
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'airblade/vim-gitgutter'
-Plug 'Shougo/deoplete.nvim'
-Plug 'tpope/vim-obsession'
 Plug 'rstacruz/vim-closer'
-
-Plug 'deoplete-plugins/deoplete-jedi'
-
-" Vim-Plug
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-
 Plug 'tpope/vim-ragtag'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+"Plug 'w0rp/ale'
+"Plug 'Shougo/deoplete.nvim'
+
+"Plug 'deoplete-plugins/deoplete-jedi'
+
+"Plug 'HerringtonDarkholme/yats.vim'
+"Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+
+
+"Plug 'pangloss/vim-javascript'
+"Plug 'mxw/vim-jsx'
+
+Plug 'neovim/nvim-lsp'
 
 call plug#end()
-
-"imap <c-space> <c-x><Space>
 
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
@@ -41,7 +41,6 @@ let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_options = '--backtick-quote --trailing-comma'
 
 autocmd FileType python setlocal completeopt-=preview
-"set completeopt+=noinsert
 
 set updatetime=100
 let g:gitgutter_override_sign_column_highlight = 0
@@ -152,20 +151,19 @@ set smartindent
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " deoplete config
-let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 1
 " use langauge server completions from ale
-call deoplete#custom#option('sources', {
-\ '_': [],
-\})
+"call deoplete#custom#option('sources', {
+"\ '_': [],
+"\})
 
-call deoplete#custom#option('auto_refresh_delay', 1)
-call deoplete#custom#option('auto_complete_delay', 0)
+"call deoplete#custom#option('auto_refresh_delay', 1)
+"call deoplete#custom#option('auto_complete_delay', 0)
 
 " automatically insert comment characters with 'o' or with return
 set fo+=or
 " textwidth of 80 by default
 set tw=80
-"set wm=80
 
 " self-explanatory
 noremap ; :
@@ -188,9 +186,9 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-set wrap
+set nowrap
 
-nnoremap <Leader><Leader> "0p
+"nnoremap <Leader><Leader> "0p
 nnoremap <Leader>p :term python -i %<CR>i
 nnoremap <Leader>m :r !./tools/mission-codename<CR>kJE
 nnoremap <Leader>c :!g++ % -o $(basename % .cpp) && ./$(basename % .cpp)<CR>
@@ -199,11 +197,11 @@ tnoremap <Esc><Esc> <c-\><c-n>
 
 autocmd FileType typescript setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd FileType typescript setlocal completeopt-=preview
-autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+autocmd FileType javascript setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set nomodeline
 
-nnoremap <c-d> i<c-d>
+"nnoremap <c-d> i<c-d>
 nmap s <Plug>Ysurround
 vmap s S 
 
@@ -242,8 +240,23 @@ function! UnBox()
 endfunction
 nnoremap <silent> <Leader>u :call UnBox()<CR>
 
-" edit this file easily
-nnoremap <Leader>v :vs ~/.config/nvim/init.vim<CR>
-
 " node binding for source and interactive shell
 nnoremap <Leader>n :term node -i -e "$(< %)"<CR>i
+nnoremap , ;
+
+"autocmd FileType markdown setlocal tw=0 wm=80
+autocmd FileType javascript setlocal completeopt-=preview
+
+:lua << EOF
+	local nvim_lsp = require('nvim_lsp')
+	nvim_lsp.tsserver.setup({})
+	nvim_lsp.rust_analyzer.setup({})
+	nvim_lsp.clangd.setup({})
+EOF
+
+nnoremap Y y$
+"nnoremap C ct(
+"inoremap _ -
+"inoremap - _
+nnoremap x "_x
+nnoremap ss "-x"-p
