@@ -10,16 +10,16 @@ augroup END
 call plug#begin('~/.config/nvim/plugged')
 
 " General plugins
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-ragtag'
-Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'rstacruz/vim-closer'
+Plug 'tpope/vim-obsession'
 
 "Plug 'w0rp/ale'
 "Plug 'Shougo/deoplete.nvim'
-
 "Plug 'deoplete-plugins/deoplete-jedi'
 
 "Plug 'HerringtonDarkholme/yats.vim'
@@ -57,14 +57,11 @@ nnoremap j gj
 nnoremap k gk
 
 " fixes git commit message wrapping
-au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
+"au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
 
 " use tabs by default; size equivalent to 4 spaces
 set shiftwidth=4
 set tabstop=4
-
-" vim theme
-colo transparent
 
 " line numbers
 set number
@@ -166,8 +163,8 @@ set fo+=or
 set tw=80
 
 " self-explanatory
-noremap ; :
-noremap : ;
+"noremap ; :
+"noremap : ;
 nnoremap <Right> ;
 nnoremap <Left> ,
 nnoremap <Up> <c-y>
@@ -186,7 +183,17 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-set nowrap
+" vim theme
+"set background=light
+"colo solarized8_high
+colo transparent
+
+function! C()
+	set background=light
+	colo solarized8_high
+endfunction
+
+set wrap
 
 "nnoremap <Leader><Leader> "0p
 nnoremap <Leader>p :term python -i %<CR>i
@@ -202,8 +209,8 @@ autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 sma
 set nomodeline
 
 "nnoremap <c-d> i<c-d>
-nmap s <Plug>Ysurround
-vmap s S 
+nmap <silent> s <Plug>Ysurround
+vmap <silent> s S 
 
 nnoremap <silent> <A-j> :m .+1<CR>==
 nnoremap <silent> <A-k> :m .-2<CR>==
@@ -242,21 +249,19 @@ nnoremap <silent> <Leader>u :call UnBox()<CR>
 
 " node binding for source and interactive shell
 nnoremap <Leader>n :term node -i -e "$(< %)"<CR>i
-nnoremap , ;
 
 "autocmd FileType markdown setlocal tw=0 wm=80
 autocmd FileType javascript setlocal completeopt-=preview
 
 :lua << EOF
-	local nvim_lsp = require('nvim_lsp')
+	local nvim_lsp = require 'nvim_lsp'
 	nvim_lsp.tsserver.setup({})
 	nvim_lsp.rust_analyzer.setup({})
 	nvim_lsp.clangd.setup({})
 EOF
 
-nnoremap Y y$
-"nnoremap C ct(
-"inoremap _ -
-"inoremap - _
+nnoremap <silent>ss "-x"-p
 nnoremap x "_x
-nnoremap ss "-x"-p
+nnoremap Y y$
+nnoremap <leader>y :%y+<CR>
+nnoremap <leader><leader> :%y+<CR>
