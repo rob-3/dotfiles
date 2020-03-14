@@ -260,8 +260,9 @@ autocmd FileType javascript setlocal completeopt-=preview
 	nvim_lsp.clangd.setup({})
 EOF
 
-nnoremap <silent>ss "-x"-p
-nnoremap x "_x
 nnoremap Y y$
-nnoremap <leader>y :%y+<CR>
-nnoremap <leader><leader> :%y+<CR>
+"nnoremap C ct(
+"inoremap _ -
+"inoremap - _
+nnoremap <silent>x "_x
+nnoremap <silent>ss "-x"-p
