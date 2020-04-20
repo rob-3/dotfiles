@@ -56,9 +56,6 @@ nnoremap <c-l> <c-w>l
 nnoremap j gj
 nnoremap k gk
 
-" fixes git commit message wrapping
-"au FileType gitcommit setlocal tw=72 shiftwidth=4 smarttab tabstop=4
-
 " use tabs by default; size equivalent to 4 spaces
 set shiftwidth=4
 set tabstop=4
@@ -88,32 +85,22 @@ set display=truncate
 
 " Only do this part when compiled with support for autocommands.
 " TODO check if neovim ever is compiled without autocommands
-if has("autocmd")
 
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  " Revert with ":filetype off".
-  filetype plugin indent on
+" Enable file type detection.
+" Use the default filetype settings, so that mail gets 'tw' set to 72,
+" 'cindent' is on in C files, etc.
+" Also load indent files, to automatically do language-dependent indenting.
+" Revert with ":filetype off".
+filetype plugin indent on
 
-  " Put these in an autocmd group, so that you can revert them with:
-  " ":augroup vimStartup | au! | augroup END"
-  augroup vimStartup
-	au!
-
-	" When editing a file, always jump to the last known cursor position.
-	" Don't do it when the position is invalid, when inside an event handler
-	" (happens when dropping a file on gvim) and for a commit message (it's
-	" likely a different one than last time).
-	autocmd BufReadPost *
-	  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-	  \ |	exe "normal! g`\""
-	  \ | endif
-
-  augroup END
-"autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions+=o
-endif " has("autocmd")
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid, when inside an event handler
+" (happens when dropping a file on gvim) and for a commit message (it's
+" likely a different one than last time).
+autocmd BufReadPost *
+			\ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+			\ |	exe "normal! g`\""
+			\ | endif
 
 " CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
@@ -162,9 +149,6 @@ set fo+=or
 " textwidth of 80 by default
 set tw=80
 
-" self-explanatory
-"noremap ; :
-"noremap : ;
 nnoremap <Right> ;
 nnoremap <Left> ,
 nnoremap <Up> <c-y>
@@ -195,7 +179,6 @@ endfunction
 
 set wrap
 
-"nnoremap <Leader><Leader> "0p
 nnoremap <Leader>p :term python -i %<CR>i
 nnoremap <Leader>m :r !./tools/mission-codename<CR>kJE
 nnoremap <Leader>c :!g++ % -o $(basename % .cpp) && ./$(basename % .cpp)<CR>
@@ -208,7 +191,6 @@ autocmd FileType javascript setlocal tabstop=4 softtabstop=0 expandtab shiftwidt
 autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set nomodeline
 
-"nnoremap <c-d> i<c-d>
 nmap <silent> s <Plug>Ysurround
 vmap <silent> s S 
 
@@ -259,10 +241,8 @@ autocmd FileType javascript setlocal completeopt-=preview
 	nvim_lsp.rust_analyzer.setup({})
 	nvim_lsp.clangd.setup({})
 EOF
+autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-nnoremap Y y$
-"nnoremap C ct(
-"inoremap _ -
-"inoremap - _
-nnoremap <silent>x "_x
 nnoremap <silent>ss "-x"-p
+nnoremap x "_x
+nnoremap Y y$
