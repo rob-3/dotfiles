@@ -10,16 +10,19 @@ augroup END
 call plug#begin('~/.config/nvim/plugged')
 
 " General plugins
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-ragtag'
-Plug 'airblade/vim-gitgutter'
 Plug 'rstacruz/vim-closer'
-Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-ragtag'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 "Plug 'w0rp/ale'
 "Plug 'Shougo/deoplete.nvim'
+
 "Plug 'deoplete-plugins/deoplete-jedi'
 
 "Plug 'HerringtonDarkholme/yats.vim'
@@ -28,10 +31,14 @@ Plug 'tpope/vim-obsession'
 
 "Plug 'pangloss/vim-javascript'
 "Plug 'mxw/vim-jsx'
+"Plug 'MaxMEllon/vim-jsx-pretty'
 
 Plug 'neovim/nvim-lsp'
 
 call plug#end()
+
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
 
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
@@ -47,10 +54,10 @@ let g:gitgutter_override_sign_column_highlight = 0
 highlight SignColumn ctermbg=NONE
 
 " remap <c-direction> to the appropriate window change
-nnoremap <c-k> <c-w>k
-nnoremap <c-j> <c-w>j
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+"nnoremap <c-k> <c-w>k
+"nnoremap <c-j> <c-w>j
+"nnoremap <c-h> <c-w>h
+"nnoremap <c-l> <c-w>l
 
 " fixes moving with wrapping
 nnoremap j gj
@@ -60,13 +67,17 @@ nnoremap k gk
 set shiftwidth=4
 set tabstop=4
 
+" vim theme
+colo transparent
+
 " line numbers
 set number
 " Relative line numbers
 set relativenumber
 
 " code folding manual only
-set foldmethod=manual
+set foldmethod=syntax
+set foldlevelstart=99
 
 " setting up highlighting for search
 set incsearch
@@ -86,21 +97,9 @@ set display=truncate
 " Only do this part when compiled with support for autocommands.
 " TODO check if neovim ever is compiled without autocommands
 
-" Enable file type detection.
-" Use the default filetype settings, so that mail gets 'tw' set to 72,
-" 'cindent' is on in C files, etc.
-" Also load indent files, to automatically do language-dependent indenting.
-" Revert with ":filetype off".
-filetype plugin indent on
-
-" When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid, when inside an event handler
-" (happens when dropping a file on gvim) and for a commit message (it's
-" likely a different one than last time).
-autocmd BufReadPost *
-			\ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-			\ |	exe "normal! g`\""
-			\ | endif
+  augroup END
+"autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions+=o
+endif " has("autocmd")
 
 " CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
@@ -125,8 +124,7 @@ set undoreload=10000
 set lbr
 
 "create new line from normal mode with space
-nnoremap <Space> o<Esc>
-nnoremap <c-Space> O<Esc>
+"nnoremap <CR> o<Esc>
 
 " automatically attempt to insert appropriate indentation as you go
 set smartindent
@@ -167,17 +165,7 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-" vim theme
-"set background=light
-"colo solarized8_high
-colo transparent
-
-function! C()
-	set background=light
-	colo solarized8_high
-endfunction
-
-set wrap
+set nowrap
 
 nnoremap <Leader>p :term python -i %<CR>i
 nnoremap <Leader>m :r !./tools/mission-codename<CR>kJE
@@ -234,15 +222,27 @@ nnoremap <Leader>n :term node -i -e "$(< %)"<CR>i
 
 "autocmd FileType markdown setlocal tw=0 wm=80
 autocmd FileType javascript setlocal completeopt-=preview
+autocmd FileType javascript call RagtagInit()
 
 :lua << EOF
-	local nvim_lsp = require 'nvim_lsp'
+	local nvim_lsp = require('nvim_lsp')
 	nvim_lsp.tsserver.setup({})
 	nvim_lsp.rust_analyzer.setup({})
 	nvim_lsp.clangd.setup({})
 EOF
 autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-nnoremap <silent>ss "-x"-p
-nnoremap x "_x
-nnoremap Y y$
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+
+noremap Y y$
+"nnoremap x "_x
+"nnoremap ss "-x"-p
+
+autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
