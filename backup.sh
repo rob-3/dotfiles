@@ -26,7 +26,7 @@ sudo mkdir -p /mnt/backups/desktop/home/.config
 sudo mkdir -p /mnt/backups/desktop/etc
 echo Done!
 echo Backing up...
-if sudo sh -c 'pacman -Qqe > /mnt/backups/desktop/installed-packages' && sudo rsync -avzP --delete /home/daystrom/.config /mnt/backups/desktop/home/.config --delete-excluded && sudo rsync -avzP --delete /etc/ /mnt/backups/desktop/etc/ && rm ~/installed-packages ; then
+if sudo sh -c 'pacman -Qqe > /mnt/backups/desktop/installed-packages' && sudo rsync -avzP --delete /home/daystrom/.config /mnt/backups/desktop/home/.config --delete-excluded && sudo rsync -avzP --delete /etc/ /mnt/backups/desktop/etc/ then
 	echo Done!
 else
 	echo Backup aborted!
