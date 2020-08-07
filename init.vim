@@ -94,13 +94,6 @@ set history=500
 " Show @@@ in the last line if it is truncated.
 set display=truncate
 
-" Only do this part when compiled with support for autocommands.
-" TODO check if neovim ever is compiled without autocommands
-
-  augroup END
-"autocmd FileType * setlocal formatoptions-=c formatoptions+=r formatoptions+=o
-endif " has("autocmd")
-
 " CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 " Revert with ":iunmap <C-U>".

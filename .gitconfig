@@ -33,4 +33,6 @@
 [rerere]
 	enabled = true
 [hub]
-	protocal = https
+	protocol = https
+[pull]
+	ff = only
