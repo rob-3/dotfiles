@@ -16,20 +16,7 @@ setopt appendhistory autocd notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
 
-alias ls='ls --color=auto'
-alias git=hub
 setopt histignorespace
-
-export EDITOR="/usr/bin/nvim"
-export VISUAL="$EDITOR"
-
-export GIT_EDITOR="$EDITOR"
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
-export GTK_THEME=breeze-dark
-#export MOZ_ENABLE_WAYLAND=1
-export QT_QPA_PLATFORMTHEME=qt5ct
 
 autoload -Uz promptinit
 promptinit
@@ -51,12 +38,9 @@ bindkey '^l' autosuggest-accept
 bindkey '^j' history-substring-search-down
 bindkey '^k' history-substring-search-up
 
+alias ls='ls --color=auto'
+alias git=hub
 alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror'
-
-XDG_DESKTOP_DIR="$HOME/"
-export PATH="$HOME/.npm-global/bin:$PATH"
-export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 alias vimrc="vim ~/.config/nvim/init.vim"
-
 alias lock="swaylock -i ~/stuff/lock.png -u"
 alias ssh="kitty +kitten ssh"
