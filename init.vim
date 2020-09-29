@@ -10,6 +10,7 @@ augroup END
 call plug#begin('~/.config/nvim/plugged')
 
 " General plugins
+Plug 'farmergreg/vim-lastplace'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'rstacruz/vim-closer'
@@ -20,7 +21,7 @@ Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
-"Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 "Plug 'Shougo/deoplete.nvim'
 
 "Plug 'deoplete-plugins/deoplete-jedi'
@@ -29,9 +30,9 @@ Plug 'prettier/vim-prettier', {
 "Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 
-"Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 "Plug 'mxw/vim-jsx'
-"Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'MaxMEllon/vim-jsx-pretty'
 
 Plug 'neovim/nvim-lsp'
 
@@ -163,12 +164,13 @@ set nowrap
 nnoremap <Leader>p :term python -i %<CR>i
 nnoremap <Leader>m :r !./tools/mission-codename<CR>kJE
 nnoremap <Leader>c :!g++ % -o $(basename % .cpp) && ./$(basename % .cpp)<CR>
+nnoremap <Leader>l :silent !pdflatex % && zathura %<.pdf<CR>
 
 tnoremap <Esc><Esc> <c-\><c-n>
 
 autocmd FileType typescript setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd FileType typescript setlocal completeopt-=preview
-autocmd FileType javascript setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set nomodeline
 
