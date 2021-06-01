@@ -1,0 +1,17 @@
+{
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+	"svelte"
+  ],
+  "html.autoClosingTags": true,
+  "tsserver.disableAutomaticTypeAcquisition": false,
+  "typescript.format.enabled": false,
+  "javascript.format.enabled": false,
+  "python.pythonPath": "python3"
+}
