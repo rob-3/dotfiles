@@ -6,6 +6,7 @@
 	helper = store
 [mergetool]
 	keepBackup = false
+	path = nvim
 [merge]
 	tool = vimdiff
 [diff]
@@ -27,12 +28,15 @@
 	c = commit
 	m = merge
 	s = status
-	l = log
+	l = log --oneline --graph --decorate
 	b = branch
 	ca = commit --amend
+	st = stash
 [rerere]
 	enabled = true
 [hub]
 	protocol = https
 [pull]
 	ff = only
+[core]
+	editor = nvim
