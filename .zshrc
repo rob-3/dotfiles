@@ -1,5 +1,5 @@
 # The following lines were added by compinstall
-
+#zmodload zsh/zprof
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'l:|=* r:|=*'
 zstyle ':completion:*' max-errors 1 numeric
@@ -24,7 +24,6 @@ promptinit
 kitty + complete setup zsh | source /dev/stdin
 prompt pure
 
-#source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/autojump/autojump.zsh
@@ -39,9 +38,9 @@ bindkey '^l' autosuggest-accept
 bindkey '^j' history-substring-search-down
 bindkey '^k' history-substring-search-up
 
-alias ls='ls --color=auto'
-alias git=hub
-alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror'
+#alias ls='ls --color=auto'
+#alias git=hub
+#alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror'
 alias vimrc="vim ~/.config/nvim/init.vim"
-alias lock="swaylock -i ~/stuff/lock.png -u"
+#alias lock="swaylock -i ~/stuff/lock.png -u"
 alias ssh="kitty +kitten ssh"
