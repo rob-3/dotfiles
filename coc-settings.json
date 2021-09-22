@@ -1,5 +1,6 @@
 {
   "coc.preferences.formatOnType": true,
+  /*
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "markdown",
@@ -7,11 +8,33 @@
     "javascriptreact",
     "typescript",
     "typescriptreact",
-	"svelte"
+	"svelte",
+	"json"
   ],
+  */
   "html.autoClosingTags": true,
   "tsserver.disableAutomaticTypeAcquisition": false,
   "typescript.format.enabled": false,
   "javascript.format.enabled": false,
-  "python.pythonPath": "python3"
+  "python.pythonPath": "python3",
+  "python.linting.flake8Enabled": true,
+  "pyright.disableDiagnostics": true,
+  "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": [
+        "*.cabal",
+        "stack.yaml",
+        "cabal.project",
+        "package.yaml",
+        "hie.yaml"
+      ],
+      "filetypes": ["haskell", "lhaskell"]
+    }
+  },
+  "java.format.settings.url":
+  "/Users/rob/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml",
+  "java.format.settings.profile": "Eclipse",
+  "java.trace.server": "verbose"
 }
