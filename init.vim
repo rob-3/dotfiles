@@ -20,7 +20,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-Plug 'kabouzeid/nvim-lspinstall'
+"Plug 'kabouzeid/nvim-lspinstall'
 
 Plug 'neovim/nvim-lspconfig'
 
@@ -56,8 +56,9 @@ set tabstop=4
 set number
 
 " code folding manual only
-set foldmethod=syntax
-set foldlevelstart=99
+" this really slows down package-lock.json opening
+"set foldmethod=syntax
+"set foldlevelstart=99
 
 " setting up highlighting for search
 set incsearch
@@ -134,43 +135,44 @@ nnoremap <Leader>l :silent !pdflatex -shell-escape % && zathura %<.pdf<CR>
 tnoremap <Esc><Esc> <c-\><c-n>
 
 "autocmd BufNewFile,BufRead *.tsx setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-autocmd FileType typescript setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+autocmd FileType markdown setlocal wrap linebreak tw=0 tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+autocmd FileType typescript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType typescript setlocal completeopt-=preview
 autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType html setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType fsharp setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+autocmd FileType haskell setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 set nomodeline
 
 nmap <silent> s <Plug>Ysurround
 vmap <silent> s S 
 
-function! CreateBox()
-	normal! I│
-	normal! A│
-	let wordLength = strwidth(getline('.')) - 2
-	let counter = 0
-	let pastestring = ''
-	while counter < wordLength
-		let counter += 1
-		let pastestring .= '─'
-	endwhile
-	normal! O
-	call setline('.', '┌'.pastestring.'┐')
-	normal! jo
-	call setline('.', '└'.pastestring.'┘')
-endfunction
-nnoremap <silent> <Leader>b :call CreateBox()<CR>
-function! UnBox()
-	normal! dd
-	call setline('.', getline('.')[3:-4])
-	normal! jdd
-endfunction
-nnoremap <silent> <Leader>u :call UnBox()<CR>
+"function! CreateBox()
+"	normal! I│
+"	normal! A│
+"	let wordLength = strwidth(getline('.')) - 2
+"	let counter = 0
+"	let pastestring = ''
+"	while counter < wordLength
+"		let counter += 1
+"		let pastestring .= '─'
+"	endwhile
+"	normal! O
+"	call setline('.', '┌'.pastestring.'┐')
+"	normal! jo
+"	call setline('.', '└'.pastestring.'┘')
+"endfunction
+"nnoremap <silent> <Leader>b :call CreateBox()<CR>
+"function! UnBox()
+"	normal! dd
+"	call setline('.', getline('.')[3:-4])
+"	normal! jdd
+"endfunction
+"nnoremap <silent> <Leader>u :call UnBox()<CR>
 
-autocmd FileType markdown setlocal wrap linebreak tw=0
 autocmd FileType javascript setlocal completeopt-=preview
-autocmd FileType c setlocal completeopt-=preview
+autocmd FileType c setlocal completeopt-=preview noexpandtab tabstop=4 shiftwidth=4
 autocmd FileType javascript call RagtagInit()
 autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
@@ -189,10 +191,10 @@ autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
 autocmd TermOpen * setlocal nonumber norelativenumber
 autocmd Filetype text  setlocal tabstop=8 shiftwidth=8
 
-":lua << EOF
-	"local nvim_lsp = require('lspconfig')
-	"nvim_lsp.clangd.setup({})
-"EOF
+:lua << EOF
+	local nvim_lsp = require('lspconfig')
+	nvim_lsp.clangd.setup({})
+EOF
 	"nvim_lsp.rust_analyzer.setup({})
 	"nvim_lsp.tsserver.setup({})
 	"nvim_lsp.jdtls.setup({})
@@ -301,7 +303,7 @@ endif
 "xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
-"command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
 "command! -nargs=? Fold :call     CocAction('fold', <f-args>)
@@ -335,3 +337,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " fix enter expansions
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 	\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+" end coc config
+
+let g:vim_svelte_plugin_use_typescript = 1
