@@ -28,8 +28,6 @@ Plug 'lifepillar/vim-solarized8'
 
 Plug 'ap/vim-css-color'
 
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
 Plug 'leafOfTree/vim-svelte-plugin'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}

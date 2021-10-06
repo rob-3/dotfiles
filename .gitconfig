@@ -11,6 +11,7 @@
 	tool = vimdiff
 [diff]
 	tool = vimdiff
+	algorithm = histogram
 [difftool]
 	prompt = false
 [fetch]
@@ -32,6 +33,7 @@
 	b = branch
 	ca = commit --amend
 	st = stash
+	diffw = diff --word-diff=color
 [rerere]
 	enabled = true
 [hub]
@@ -40,3 +42,6 @@
 	ff = only
 [core]
 	editor = nvim
+	ignorecase = false
+	excludesFile = /Users/rob/.gitignore
+	attributesFile = /Users/rob/.gitattributes
