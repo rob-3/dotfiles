@@ -23,6 +23,7 @@ promptinit
 # Completion for kitty
 kitty + complete setup zsh | source /dev/stdin
 prompt pure
+zstyle :prompt:pure:git:stash show yes
 
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
