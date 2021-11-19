@@ -45,3 +45,5 @@
 	ignorecase = false
 	excludesFile = /Users/rob/.gitignore
 	attributesFile = /Users/rob/.gitattributes
+[init]
+	defaultBranch = main
