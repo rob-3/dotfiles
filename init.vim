@@ -34,6 +34,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'sheerun/vim-polyglot'
 
+"Plug 'github/copilot.vim'
+
 call plug#end()
 
 autocmd FileType python setlocal completeopt-=preview
@@ -126,6 +128,10 @@ if (has("termguicolors"))
 endif
 colo solarized8_flat
 
+if $THEME
+	set bg=light
+endif
+
 set nowrap
 
 nnoremap <Leader>l :silent !pdflatex -shell-escape % && zathura %<.pdf<CR>
@@ -141,6 +147,7 @@ autocmd FileType html setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 sm
 autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType fsharp setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd FileType haskell setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+autocmd BufWritePost *.tex :call jobstart(['pdflatex', expand('%')])
 set nomodeline
 
 nmap <silent> s <Plug>Ysurround
@@ -270,7 +277,8 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+"nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader><leader>  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
@@ -340,3 +348,4 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 " end coc config
 
 let g:vim_svelte_plugin_use_typescript = 1
+"set rtp+=/usr/local/opt/fzf
