@@ -45,3 +45,7 @@ bindkey '^k' history-substring-search-up
 alias vimrc="vim ~/.config/nvim/init.vim"
 #alias lock="swaylock -i ~/stuff/lock.png -u"
 alias ssh="kitty +kitten ssh"
+# theming
+export THEME=0
+alias dark="kitty @ set-colors -a "~/.config/kitty/kitty-themes/themes/Solarized_Dark.conf" && export THEME=0"
+alias light="kitty @ set-colors -a "~/.config/kitty/kitty-themes/themes/Solarized_Light.conf" && export THEME=1"
