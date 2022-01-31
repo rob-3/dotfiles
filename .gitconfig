@@ -47,3 +47,5 @@
 	attributesFile = /Users/rob/.gitattributes
 [init]
 	defaultBranch = main
+[checkout]
+	defaultRemote = origin
