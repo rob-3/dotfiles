@@ -3,7 +3,7 @@
 	email = rob@robertcboyd.com
 	signingkey = 55B95B9349D916DF
 [credential]
-	helper = store
+	#helper = store
 [mergetool]
 	keepBackup = false
 	path = nvim
@@ -24,7 +24,8 @@
 	gpgsign = true
 	verbose = true
 [alias]
-	co = checkout
+	#co = checkout
+	sw = switch
 	a = add
 	c = commit
 	m = merge
@@ -45,6 +46,7 @@
 	ignorecase = false
 	excludesFile = /Users/rob/.gitignore
 	attributesFile = /Users/rob/.gitattributes
+	autocrlf = input
 [init]
 	defaultBranch = main
 [checkout]
