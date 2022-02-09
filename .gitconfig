@@ -2,8 +2,6 @@
 	name = Robert Boyd III
 	email = rob@robertcboyd.com
 	signingkey = 55B95B9349D916DF
-[credential]
-	#helper = store
 [mergetool]
 	keepBackup = false
 	path = nvim
