@@ -28,7 +28,8 @@
 	c = commit
 	m = merge
 	s = status
-	l = log --oneline --graph --decorate
+	#l = log --oneline --graph --decorate
+	l = log --graph --pretty=format:'%C(auto)%h%d %w(100,0,8)%s %C(dim)(%ar by %aN)%Creset'
 	b = branch
 	ca = commit --amend
 	st = stash
@@ -49,3 +50,5 @@
 	defaultBranch = main
 [checkout]
 	defaultRemote = origin
+[stash]
+	showPatch = true
