@@ -28,7 +28,7 @@
 	c = commit
 	m = merge
 	s = status
-	l = log --oneline --graph --decorate
+	l = log --all --oneline --graph --decorate
 	b = branch
 	ca = commit --amend
 	st = stash
