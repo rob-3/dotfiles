@@ -17,18 +17,19 @@ Plug 'rob-3/vim-ragtag'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"Plug 'junegunn/fzf.vim'
 
 "Plug 'kabouzeid/nvim-lspinstall'
 
 Plug 'neovim/nvim-lspconfig'
 
-Plug 'lifepillar/vim-solarized8'
+Plug 'rob-3/vim-solarized8'
 
 Plug 'ap/vim-css-color'
 
 Plug 'leafOfTree/vim-svelte-plugin'
+"Plug 'evanleck/vim-svelte'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -147,6 +148,7 @@ autocmd FileType html setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 sm
 autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType fsharp setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd FileType haskell setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+autocmd FileType php setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd BufWritePost *.tex :call jobstart(['pdflatex', expand('%')])
 set nomodeline
 
@@ -181,10 +183,10 @@ autocmd FileType c setlocal completeopt-=preview noexpandtab tabstop=4 shiftwidt
 autocmd FileType javascript call RagtagInit()
 autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+"nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+"nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+"nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+"nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 "nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 "nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 "nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
@@ -205,8 +207,8 @@ EOF
 	"nvim_lsp.jdtls.setup({})
 	"nvim_lsp.svelte.setup({})
 
-nnoremap <Leader>f :FZF<CR>
-nnoremap <Leader><Leader> :Rg<CR>
+"nnoremap <Leader>f :FZF<CR>
+"nnoremap <Leader><Leader> :Rg<CR>
 
 " coc.nvim configuration
 
@@ -220,14 +222,7 @@ set updatetime=300
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set signcolumn=number
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -236,9 +231,9 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+"nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -348,4 +343,10 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 " end coc config
 
 let g:vim_svelte_plugin_use_typescript = 1
-"set rtp+=/usr/local/opt/fzf
+
+"temp
+autocmd FileType html setlocal wrap tw=0
+"syntax off
+
+"set list
+"set listchars=tab:»·,nbsp:·,trail:·
