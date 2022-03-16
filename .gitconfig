@@ -1,6 +1,6 @@
 [user]
 	name = Robert Boyd III
-	email = rob@robertcboyd.com
+	email = git@robertboyd.dev
 	signingkey = 55B95B9349D916DF
 [mergetool]
 	keepBackup = false
@@ -26,18 +26,16 @@
 	sw = switch
 	a = add
 	c = commit
-	m = merge
+	#m = merge
 	s = status
 	#l = log --oneline --graph --decorate
 	l = log --graph --pretty=format:'%C(auto)%h%d %w(100,0,8)%s %C(dim)(%ar by %aN)%Creset'
-	b = branch
+	#b = branch
 	ca = commit --amend
 	st = stash
 	diffw = diff --word-diff=color
 [rerere]
 	enabled = true
-[hub]
-	protocol = https
 [pull]
 	ff = only
 [core]
