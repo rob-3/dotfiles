@@ -1,10 +1,11 @@
 # The following lines were added by compinstall
 #zmodload zsh/zprof
-zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
+#zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'l:|=* r:|=*'
-zstyle ':completion:*' max-errors 1 numeric
+#zstyle ':completion:*' max-errors 1 numeric
 zstyle :compinstall filename '/home/daystrom/.zshrc'
 
+#fpath=(~/.zsh $fpath)
 autoload -Uz compinit
 compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 # End of lines added by compinstall
@@ -39,13 +40,18 @@ bindkey '^l' autosuggest-accept
 bindkey '^j' history-substring-search-down
 bindkey '^k' history-substring-search-up
 
-#alias ls='ls --color=auto'
-#alias git=hub
-#alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror'
+alias g++='g++ -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion -Werror'
 alias vimrc="vim ~/.config/nvim/init.vim"
-#alias lock="swaylock -i ~/stuff/lock.png -u"
 alias ssh="kitty +kitten ssh"
+alias vim=nvim
+alias vimdiff="nvim -d"
+export GPG_TTY=$(tty)
 # theming
 export THEME=0
 alias dark="kitty @ set-colors -a "~/.config/kitty/kitty-themes/themes/Solarized_Dark.conf" && export THEME=0"
 alias light="kitty @ set-colors -a "~/.config/kitty/kitty-themes/themes/Solarized_Light.conf" && export THEME=1"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
+gpg-connect-agent /bye
+
+alias icat="kitty +kitten icat"
