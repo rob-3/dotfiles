@@ -46,9 +46,9 @@ alias vim=nvim
 alias vimdiff="nvim -d"
 export GPG_TTY=$(tty)
 # theming
-export THEME=0
-alias dark="kitty @ set-colors -a "~/.config/kitty/kitty-themes/themes/Solarized_Dark.conf" && export THEME=0"
-alias light="kitty @ set-colors -a "~/.config/kitty/kitty-themes/themes/Solarized_Light.conf" && export THEME=1"
+source .theme.sh
+alias dark="cp ~/.config/kitty/kitty-themes/themes/Solarized_Dark.conf ~/.config/kitty/kitty-themes/themes/current.conf && cp ~/.dark.sh ~/.theme.sh"
+alias light="cp ~/.config/kitty/kitty-themes/themes/Solarized_Light.conf ~/.config/kitty/kitty-themes/themes/current.conf && cp ~/.light.sh ~/.theme.sh"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
 gpg-connect-agent /bye
