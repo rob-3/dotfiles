@@ -13,12 +13,8 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'farmergreg/vim-lastplace'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'rob-3/vim-ragtag'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-
-"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"Plug 'junegunn/fzf.vim'
 
 "Plug 'kabouzeid/nvim-lspinstall'
 
@@ -135,11 +131,6 @@ endif
 
 set nowrap
 
-nnoremap <Leader>l :silent !pdflatex -shell-escape % && zathura %<.pdf<CR>
-
-tnoremap <Esc><Esc> <c-\><c-n>
-
-"autocmd BufNewFile,BufRead *.tsx setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType markdown setlocal wrap linebreak tw=0 tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType typescript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 autocmd FileType typescript setlocal completeopt-=preview
