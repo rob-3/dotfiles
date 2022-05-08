@@ -171,7 +171,7 @@ vmap <silent> s S
 
 autocmd FileType javascript setlocal completeopt-=preview
 autocmd FileType c setlocal completeopt-=preview noexpandtab tabstop=4 shiftwidth=4
-autocmd FileType javascript call RagtagInit()
+"autocmd FileType javascript call RagtagInit()
 autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
@@ -189,10 +189,10 @@ autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
 autocmd TermOpen * setlocal nonumber norelativenumber
 autocmd Filetype text  setlocal tabstop=8 shiftwidth=8
 
-:lua << EOF
-	local nvim_lsp = require('lspconfig')
-	nvim_lsp.clangd.setup({})
-EOF
+":lua << EOF
+"	local nvim_lsp = require('lspconfig')
+"	nvim_lsp.clangd.setup({})
+"EOF
 	"nvim_lsp.rust_analyzer.setup({})
 	"nvim_lsp.tsserver.setup({})
 	"nvim_lsp.jdtls.setup({})
@@ -336,8 +336,14 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 let g:vim_svelte_plugin_use_typescript = 1
 
 "temp
-autocmd FileType html setlocal wrap tw=0
+"autocmd FileType html setlocal wrap tw=0
 "syntax off
 
 "set list
 "set listchars=tab:»·,nbsp:·,trail:·
+
+"inoremap <C-space> <space>
+map <C-c> <Nop>
+
+"set tw=0
+"set wrap
