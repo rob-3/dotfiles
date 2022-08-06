@@ -11,31 +11,54 @@ call plug#begin('~/.config/nvim/plugged')
 
 " General plugins
 Plug 'farmergreg/vim-lastplace'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
+Plug 'kylechui/nvim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-"Plug 'kabouzeid/nvim-lspinstall'
-
-Plug 'neovim/nvim-lspconfig'
-
 Plug 'rob-3/vim-solarized8'
 
-Plug 'ap/vim-css-color'
-
-Plug 'leafOfTree/vim-svelte-plugin'
-"Plug 'evanleck/vim-svelte'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'sheerun/vim-polyglot'
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
 "Plug 'github/copilot.vim'
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+
+Plug 'NMAC427/guess-indent.nvim'
+
+" LSP Support
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
+
+" Autocompletion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+
+" Snippets
+Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
+
+Plug 'VonHeikemen/lsp-zero.nvim'
+
+" AutoPairs
+Plug 'windwp/nvim-autopairs'
+
+Plug 'weilbith/nvim-code-action-menu'
+
 call plug#end()
 
-autocmd FileType python setlocal completeopt-=preview
+nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+nnoremap <leader>g <cmd>Telescope live_grep<cr>
+nnoremap <leader>p <cmd>Telescope buffers<cr>
+"nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 set updatetime=100
 let g:gitgutter_override_sign_column_highlight = 0
@@ -51,11 +74,6 @@ set tabstop=4
 
 " line numbers
 set number
-
-" code folding manual only
-" this really slows down package-lock.json opening
-"set foldmethod=syntax
-"set foldlevelstart=99
 
 " setting up highlighting for search
 set incsearch
@@ -75,7 +93,7 @@ set display=truncate
 " CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 " Revert with ":iunmap <C-U>".
-inoremap <C-U> <C-G>u<C-U>
+"inoremap <C-U> <C-G>u<C-U>
 
 " show partial commands
 set showcmd
@@ -105,10 +123,10 @@ set fo+=or
 " textwidth of 80 by default
 set tw=80
 
-nnoremap <Right> ;
-nnoremap <Left> ,
-nnoremap <Up> <c-y>
-nnoremap <Down> <c-e>
+"nnoremap <Right> ;
+"nnoremap <Left> ,
+"nnoremap <Up> <c-y>
+"nnoremap <Down> <c-e>
 
 " A nice spelling remap
 nnoremap <Leader>s :call ToggleSpelling()<CR>
@@ -131,80 +149,10 @@ endif
 
 set nowrap
 
-autocmd FileType markdown setlocal wrap linebreak tw=0 tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-autocmd FileType typescript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-autocmd FileType typescript setlocal completeopt-=preview
-autocmd FileType javascript setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-autocmd FileType html setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-autocmd FileType css setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-autocmd FileType fsharp setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
-autocmd FileType haskell setlocal tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-autocmd FileType php setlocal tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 autocmd BufWritePost *.tex :call jobstart(['pdflatex', expand('%')])
 set nomodeline
 
-nmap <silent> s <Plug>Ysurround
-vmap <silent> s S 
-
-"function! CreateBox()
-"	normal! I│
-"	normal! A│
-"	let wordLength = strwidth(getline('.')) - 2
-"	let counter = 0
-"	let pastestring = ''
-"	while counter < wordLength
-"		let counter += 1
-"		let pastestring .= '─'
-"	endwhile
-"	normal! O
-"	call setline('.', '┌'.pastestring.'┐')
-"	normal! jo
-"	call setline('.', '└'.pastestring.'┘')
-"endfunction
-"nnoremap <silent> <Leader>b :call CreateBox()<CR>
-"function! UnBox()
-"	normal! dd
-"	call setline('.', getline('.')[3:-4])
-"	normal! jdd
-"endfunction
-"nnoremap <silent> <Leader>u :call UnBox()<CR>
-
-autocmd FileType javascript setlocal completeopt-=preview
-autocmd FileType c setlocal completeopt-=preview noexpandtab tabstop=4 shiftwidth=4
-"autocmd FileType javascript call RagtagInit()
-autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
-
-"nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-"nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-"nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-"nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-"nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-"nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-"nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-"nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-
 noremap Y y$
-
-autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
-autocmd TermOpen * setlocal nonumber norelativenumber
-autocmd Filetype text  setlocal tabstop=8 shiftwidth=8
-
-":lua << EOF
-"	local nvim_lsp = require('lspconfig')
-"	nvim_lsp.clangd.setup({})
-"EOF
-	"nvim_lsp.rust_analyzer.setup({})
-	"nvim_lsp.tsserver.setup({})
-	"nvim_lsp.jdtls.setup({})
-	"nvim_lsp.svelte.setup({})
-
-"nnoremap <Leader>f :FZF<CR>
-"nnoremap <Leader><Leader> :Rg<CR>
-
-" coc.nvim configuration
-
-" Give more space for displaying messages.
-"set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -215,135 +163,87 @@ set shortmess+=c
 
 set signcolumn=number
 
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gy <Plug>(coc-type-definition)
-"nmap <silent> gi <Plug>(coc-implementation)
-"nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-"xmap <leader>f  <Plug>(coc-format-selected)
-"nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-"nmap <leader>ac  <Plug>(coc-codeaction)
-nmap <leader><leader>  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
-
-" Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of language server.
-"nmap <silent> <C-s> <Plug>(coc-range-select)
-"xmap <silent> <C-s> <Plug>(coc-range-select)
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-"command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Mappings for CoCList
-" Show all diagnostics.
-"nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-"nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-"nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-"nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-"nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-"nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-"nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-"nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-" fix enter expansions
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-	\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-
-" end coc config
-
-let g:vim_svelte_plugin_use_typescript = 1
-
-"temp
-"autocmd FileType html setlocal wrap tw=0
-"syntax off
-
 "set list
 "set listchars=tab:»·,nbsp:·,trail:·
 
-"inoremap <C-space> <space>
 map <C-c> <Nop>
 
-"set tw=0
-"set wrap
+"let g:netrw_banner = 0
+
+:lua << EOF
+	local lsp = require('lsp-zero')
+	lsp.preset('lsp-compe')
+	lsp.setup()
+
+	local cmp = require('cmp')
+	local cmp_config = lsp.defaults.cmp_config()
+    cmp_config.mapping['<C-p>'] = cmp.mapping.select_prev_item(select_opts)
+    cmp_config.mapping['<C-n>'] = cmp.mapping.select_next_item(select_opts)
+	cmp_config.experimental = { ghost_text = true }
+	cmp_config.sources = {
+		{ name = 'path' },
+		{ name = 'nvim_lsp', keyword_length = 1 },
+		{ name = 'buffer', keyword_length = 1 },
+		{ name = 'luasnip', keyword_length = 2 },
+	}
+	cmp.setup(cmp_config)
+
+	require('nvim-surround').setup({})
+
+	require('guess-indent').setup()
+
+	local npairs = require'nvim-autopairs'
+	npairs.setup({
+		check_ts = true,
+	})
+	local Rule = require'nvim-autopairs.rule'
+	npairs.add_rule(Rule("`", "`"))
+	local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+	local cmp = require('cmp')
+	cmp.event:on(
+		'confirm_done',
+		cmp_autopairs.on_confirm_done()
+	)
+
+	require'nvim-treesitter.configs'.setup {
+		-- A list of parser names, or "all"
+		ensure_installed = {},
+
+		-- Install parsers synchronously (only applied to `ensure_installed`)
+		sync_install = false,
+
+		-- Automatically install missing parsers when entering buffer
+		auto_install = true,
+
+		-- List of parsers to ignore installing (for "all")
+		ignore_install = {},
+
+		highlight = {
+			-- `false` will disable the whole extension
+			enable = true,
+
+			-- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+			-- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+			-- the name of the parser)
+			-- list of language that will be disabled
+			disable = {},
+
+			-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+			-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+			-- Using this option may slow down your editor, and you may see some duplicate highlights.
+			-- Instead of true it can also be a list of languages
+			additional_vim_regex_highlighting = false,
+		},
+		indent = {
+			enable = true
+		},
+	}
+EOF
+
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldlevel=99
+
+let g:code_action_menu_show_details = v:false
+let g:code_action_menu_show_diff = v:false
+nnoremap <silent> <leader>ca :CodeActionMenu<cr>
