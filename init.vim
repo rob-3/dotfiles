@@ -55,7 +55,7 @@ Plug 'weilbith/nvim-code-action-menu'
 call plug#end()
 
 nnoremap <leader>f <cmd>Telescope find_files<cr>
-nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+"nnoremap <leader><leader> <cmd>Telescope find_files<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
 nnoremap <leader>p <cmd>Telescope buffers<cr>
 "nnoremap <leader>fh <cmd>Telescope help_tags<cr>
@@ -179,6 +179,8 @@ map <C-c> <Nop>
 	local cmp_config = lsp.defaults.cmp_config()
     cmp_config.mapping['<C-p>'] = cmp.mapping.select_prev_item(select_opts)
     cmp_config.mapping['<C-n>'] = cmp.mapping.select_next_item(select_opts)
+    cmp_config.mapping['<C-Space>'] = cmp.mapping.complete()
+    cmp_config.mapping['<C-l>'] = cmp.mapping.confirm()
 	cmp_config.experimental = { ghost_text = true }
 	cmp_config.sources = {
 		{ name = 'path' },
@@ -246,4 +248,5 @@ set foldlevel=99
 
 let g:code_action_menu_show_details = v:false
 let g:code_action_menu_show_diff = v:false
-nnoremap <silent> <leader>ca :CodeActionMenu<cr>
+"nnoremap <silent> <leader>ca :CodeActionMenu<cr>
+nnoremap <silent> <leader><leader> :CodeActionMenu<cr>
