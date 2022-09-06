@@ -54,6 +54,9 @@ Plug 'weilbith/nvim-code-action-menu'
 
 call plug#end()
 
+nnoremap <space> <nop>
+let mapleader = " "
+
 nnoremap <leader>f <cmd>Telescope find_files<cr>
 "nnoremap <leader><leader> <cmd>Telescope find_files<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
@@ -180,7 +183,7 @@ map <C-c> <Nop>
     cmp_config.mapping['<C-p>'] = cmp.mapping.select_prev_item(select_opts)
     cmp_config.mapping['<C-n>'] = cmp.mapping.select_next_item(select_opts)
     cmp_config.mapping['<C-Space>'] = cmp.mapping.complete()
-    cmp_config.mapping['<C-l>'] = cmp.mapping.confirm()
+	cmp_config.mapping['<C-l>'] = cmp.mapping.confirm({ select = false })
 	cmp_config.experimental = { ghost_text = true }
 	cmp_config.sources = {
 		{ name = 'path' },
@@ -197,9 +200,10 @@ map <C-c> <Nop>
 	local npairs = require'nvim-autopairs'
 	npairs.setup({
 		check_ts = true,
+		break_undo = false,
 	})
-	local Rule = require'nvim-autopairs.rule'
-	npairs.add_rule(Rule("`", "`"))
+	--local Rule = require'nvim-autopairs.rule'
+	--npairs.add_rule(Rule("`", "`"))
 	local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 	local cmp = require('cmp')
 	cmp.event:on(
@@ -242,11 +246,21 @@ map <C-c> <Nop>
 	}
 EOF
 
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-set foldlevel=99
+"set foldmethod=expr
+"set foldexpr=nvim_treesitter#foldexpr()
+"set foldlevel=99
 
 let g:code_action_menu_show_details = v:false
 let g:code_action_menu_show_diff = v:false
-"nnoremap <silent> <leader>ca :CodeActionMenu<cr>
-nnoremap <silent> <leader><leader> :CodeActionMenu<cr>
+nnoremap <silent> <leader>ca :CodeActionMenu<cr>
+"nnoremap <silent> <leader><leader> :CodeActionMenu<cr>
+
+"nnoremap ]] :bn<cr>
+"nnoremap [[ :bp<cr>
+
+command! Prettier %!npx prettier %
+
+inoremap <c-l> <nop>
+
+nnoremap <f8> :w !bash<cr>
+nnoremap <leader>b :w !bash<cr>
