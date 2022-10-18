@@ -211,6 +211,20 @@ map <C-c> <Nop>
 		cmp_autopairs.on_confirm_done()
 	)
 
+	require('code_runner').setup({
+		filetype = {
+			javascript = "node",
+			python = "python3",
+			bash = "bash",
+			sh = "sh",
+		}
+	})
+
+	require('diffview').setup({
+		use_icons = false,
+		enhanced_diff_hl = true,
+	})
+
 	require'nvim-treesitter.configs'.setup {
 		-- A list of parser names, or "all"
 		ensure_installed = {},
@@ -244,7 +258,17 @@ map <C-c> <Nop>
 			enable = true
 		},
 	}
+	require('tokyonight').setup({
+		on_highlights = function (hl, c)
+			hl.EndOfBuffer = {
+				fg = c.dark3
+			}
+		end
+	})
 EOF
+
+set termguicolors
+color tokyonight
 
 "set foldmethod=expr
 "set foldexpr=nvim_treesitter#foldexpr()
@@ -255,12 +279,12 @@ let g:code_action_menu_show_diff = v:false
 nnoremap <silent> <leader>ca :CodeActionMenu<cr>
 "nnoremap <silent> <leader><leader> :CodeActionMenu<cr>
 
-"nnoremap ]] :bn<cr>
-"nnoremap [[ :bp<cr>
-
 command! Prettier %!npx prettier %
+command! Format :lua vim.lsp.buf.format()<cr>
 
 inoremap <c-l> <nop>
 
 nnoremap <f8> :w !bash<cr>
 nnoremap <leader>b :w !bash<cr>
+
+nnoremap <leader>r :RunCode<cr>
