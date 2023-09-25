@@ -1,0 +1,25 @@
+vim.wo.number = true
+--vim.wo.relativenumber = true
+vim.g.netrw_banner = false
+vim.opt.termguicolors = true
+vim.opt.incsearch = true
+vim.opt.hlsearch = false
+vim.opt.scrolloff = 5
+vim.opt.history = 500
+vim.opt.display = "truncate"
+vim.opt.updatetime = 100
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.backup = true
+vim.opt.backupdir = vim.fn.expand("~/.config/nvim/.neovim_backups")
+vim.opt.dir = vim.fn.expand("~/.config/nvim/.neovim_tmp")
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.expand("~/.config/nvim/.neovim_undo")
+vim.opt.modeline = false
+vim.opt.wrap = false
+vim.opt.signcolumn = "auto"
+vim.opt.lbr = true
+vim.opt.smartindent = true
+vim.opt.formatoptions:append({ "o", "r" })
+--vim.opt.textwidth = 80
+vim.opt.lcs:append({ space = "·" })
