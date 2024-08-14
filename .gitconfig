@@ -1,7 +1,6 @@
 [user]
 	name = Robert Boyd III
 	email = git@robertboyd.dev
-	signingkey = 55B95B9349D916DF
 [mergetool]
 	keepBackup = false
 	path = nvim
@@ -19,34 +18,53 @@
 [recieve]
 	fsckObjects = true
 [commit]
-	gpgsign = true
 	verbose = true
 [alias]
-	#co = checkout
-	sw = switch
-	a = add
-	c = commit
-	#m = merge
-	s = status
+	#sw = switch
+	#a = add
+	#c = commit
+	#s = status
 	#l = log --oneline --graph --decorate
-	l = log --graph --pretty=format:'%C(auto)%h%d %w(100,0,8)%s %C(dim)(%ar by %aN)%Creset'
+	l = log --graph --pretty=format:'%C(auto)%h%d %w(100,0,8)%s %C(dim)(%cr | %ar by %aN)%Creset'
 	#b = branch
-	ca = commit --amend
-	st = stash
-	diffw = diff --word-diff=color
+	#ca = commit --amend
+	#st = stash
+	#diffw = diff --word-diff=color
+	difft = difftool
+	#wt = worktree
 [rerere]
 	enabled = true
 [pull]
 	ff = only
 [core]
-	editor = nvim
 	ignorecase = false
 	excludesFile = /Users/rob/.gitignore
 	attributesFile = /Users/rob/.gitattributes
 	autocrlf = input
+	sshCommand = ssh -i ~/.ssh/id_ed25519_new -F /dev/null
 [init]
 	defaultBranch = main
 [checkout]
 	defaultRemote = origin
 [stash]
 	showPatch = true
+	showIncludeUntracked = true
+#[filter "lfs"]
+#	smudge = git-lfs smudge -- %f
+#	process = git-lfs filter-process
+#	required = true
+#	clean = git-lfs clean -- %f
+[tag]
+	gpgSign = true
+[push]
+	default = nothing
+[diff]
+	tool = difftastic
+[difftool]
+	prompt = false
+[difftool "difftastic"]
+	cmd = difft --tab-width 2 "$LOCAL" "$REMOTE"
+[pager]
+	difftool = true
+[rebase]
+	autosquash = true
