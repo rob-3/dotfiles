@@ -374,9 +374,44 @@ require("lazy").setup({
   {
     "Robitx/gp.nvim",
     config = function()
+      local API_KEYS = require("rob-3.secrets")
       require("gp").setup({
-        openai_api_key=require("rob-3.secrets").openai_api_key,
+        providers = {
+          openai = {
+            endpoint = "https://api.openai.com/v1/chat/completions",
+            secret = API_KEYS.OPENAI_API_KEY
+          },
+          anthropic = {
+            endpoint = "https://api.anthropic.com/v1/messages",
+            secret = API_KEYS.ANTHROPIC_API_KEY
+          }
+        },
+        --openai_api_key=,--require("rob-3.secrets").openai_api_key,
         agents = {
+          {
+            name = "ConciseClaude",
+            provider = "anthropic",
+            chat = true,
+            command = false,
+            -- string with model name or table with model name and parameters
+            model = { model = "claude-3-5-sonnet-20240620", temperature = 0.7, top_p = 1 },
+            -- system prompt (use this to specify the persona/role of the AI)
+            system_prompt = "You are a pleasant, clever AI assistant with a dry sense of "
+              .. "humor.\n\n"
+              .. "The user provided the additional info about how they would like you to respond:\n\n"
+              --.. "- If there's a good chance, use a short and clever response.\n"
+              .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
+              .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
+              --.. "- Feel free to speculate, but mention if you are speculating.\n"
+              .. "- Ask questions if you need clarification to provide better answer.\n"
+              --.. "- Think deeply and carefully from first principles step by step.\n"
+              --.. "- Zoom out first to see the big picture and then zoom in to details.\n"
+              --.. "- Use Socratic method to improve your thinking and coding skills.\n"
+              .. "- Don't elide any code from your output if the answer requires coding.\n"
+              .. "- For simple questions, a response with only code or a command is perfect.\n"
+              .. "- Please be concise and favor keeping your response short.\n"
+              .. "- Take a deep breath; You've got this!\n",
+          },
           {
             name = "ConciseGPT4",
             chat = true,
@@ -484,6 +519,9 @@ require("lazy").setup({
   }
 },
   {
+    git = {
+      timeout = 600,
+    },
     ui = {
       icons = {
         cmd = "⌘",
