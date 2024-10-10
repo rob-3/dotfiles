@@ -18,7 +18,7 @@ vim.wo.number = true
 vim.g.netrw_banner = false
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.scrolloff = 5
 vim.opt.history = 500
 vim.opt.display = "truncate"
@@ -169,7 +169,24 @@ require("lazy").setup({
       require("nvim-surround").setup({})
     end
   },
-  "lewis6991/gitsigns.nvim",
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "BufReadPre",
+    opts = function()
+      --- @type Gitsigns.Config
+      local C = {
+        on_attach = function(buffer)
+          local gs = package.loaded.gitsigns
+          local function map(mode, l, r, desc)
+            vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+          end
+          map("n", "]g", gs.next_hunk, "Next Hunk")
+          map("n", "[g", gs.prev_hunk, "Prev Hunk")
+        end,
+      }
+      return C
+    end,
+  },
   "nvchad/nvim-colorizer.lua",
   {"NMAC427/guess-indent.nvim",
     config = function()
@@ -540,16 +557,31 @@ require("lazy").setup({
     },
 })
 
-require('gitsigns').setup()
+--require('lspconfig').ruff_lsp.setup {
+--  init_options = {
+--    settings = {
+--      -- Any extra CLI arguments for `ruff` go here.
+--      args = {},
+--    }
+--  }
+--}
 
-require('lspconfig').ruff_lsp.setup {
-  init_options = {
-    settings = {
-      -- Any extra CLI arguments for `ruff` go here.
-      args = {},
-    }
-  }
+require('lspconfig').nil_ls.setup {
+  autostart = true,
+  capabilities = caps,
+  cmd = { "nil" },
+  settings = {
+    ['nil'] = {
+      testSetting = 42,
+      formatting = {
+        command = { "nixpkgs-fmt" },
+      },
+    },
+  },
 }
+
+require('lspconfig').ts_ls.setup {}
+
 -- lsp config
 --local lsp = require("lsp-zero")
 --lsp.preset("lsp-compe")
@@ -610,6 +642,9 @@ local default_setup = function(server)
   local if_nil = function(val, default)
     if val == nil then return default end
     return val
+  end
+  if server == "tsserver" then 
+    return
   end
   require('lspconfig')[server].setup({
     capabilities = {
@@ -784,3 +819,10 @@ vim.keymap.set("n", "k", "v:count ? 'k' : 'gk'", { expr = true, noremap = true }
 
 vim.cmd([[cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"]])
 vim.cmd([[cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"]])
+
+vim.cmd("omap ]] <Plug>(matchup-]%)")
+vim.cmd("omap [[ <Plug>(matchup-[%)")
+vim.cmd("nmap ]] <Plug>(matchup-]%)")
+vim.cmd("nmap [[ <Plug>(matchup-[%)")
+vim.cmd("xmap ]] <Plug>(matchup-]%)")
+vim.cmd("xmap [[ <Plug>(matchup-[%)")
