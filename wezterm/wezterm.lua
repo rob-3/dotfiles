@@ -14,6 +14,7 @@ config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.default_prog = { 'bash', '-cl', '/Users/rob/.nix-profile/bin/fish' }
 config.audible_bell = "Disabled"
+--config.pane_focus_follows_mouse = true
 
 local act = wezterm.action
 
@@ -27,6 +28,77 @@ config.keys = {
       cwd = "/Users/rob/",
       domain = "CurrentPaneDomain",
     },
+  },
+  {
+    key = 'h',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.SplitPane { 
+      direction = "Left",
+    },
+  },
+  {
+    key = 'j',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.SplitPane { 
+      direction = "Down",
+    },
+  },
+  {
+    key = 'k',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.SplitPane { 
+      direction = "Up",
+    },
+  },
+  {
+    key = 'l',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.SplitPane { 
+      direction = "Right",
+    },
+  },
+  {
+    key = 'w',
+    mods = 'CMD',
+    action = wezterm.action.CloseCurrentPane { 
+      confirm = true,
+    },
+  },
+  {
+    key = 'h',
+    mods = 'CMD',
+    action = act.ActivatePaneDirection 'Left',
+  },
+  {
+    key = 'l',
+    mods = 'CMD',
+    action = act.ActivatePaneDirection 'Right',
+  },
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = act.ActivatePaneDirection 'Up',
+  },
+  {
+    key = 'j',
+    mods = 'CMD',
+    action = act.ActivatePaneDirection 'Down',
+  },
+  {
+    key = 'H',
+    mods = 'CMD|SHIFT',
+    action = act.AdjustPaneSize { 'Left', 5 },
+  },
+  {
+    key = 'J',
+    mods = 'CMD|SHIFT',
+    action = act.AdjustPaneSize { 'Down', 5 },
+  },
+  { key = 'K', mods = 'CMD|SHIFT', action = act.AdjustPaneSize { 'Up', 5 } },
+  {
+    key = 'L',
+    mods = 'CMD|SHIFT',
+    action = act.AdjustPaneSize { 'Right', 5 },
   },
 }
 
