@@ -29,7 +29,7 @@ if status is-interactive
 
 	set fish_greeting
 
-	eval (/opt/homebrew/bin/brew shellenv)
+    #eval (/opt/homebrew/bin/brew shellenv)
 
 	set __fish_git_prompt_show_informative_status 1
 	set __fish_git_prompt_showdirtystate 1
