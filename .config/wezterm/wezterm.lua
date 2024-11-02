@@ -31,28 +31,28 @@ config.keys = {
   },
   {
     key = 'h',
-    mods = 'CTRL|SHIFT',
+    mods = 'CMD|SHIFT',
     action = wezterm.action.SplitPane { 
       direction = "Left",
     },
   },
   {
     key = 'j',
-    mods = 'CTRL|SHIFT',
+    mods = 'CMD|SHIFT',
     action = wezterm.action.SplitPane { 
       direction = "Down",
     },
   },
   {
     key = 'k',
-    mods = 'CTRL|SHIFT',
+    mods = 'CMD|SHIFT',
     action = wezterm.action.SplitPane { 
       direction = "Up",
     },
   },
   {
     key = 'l',
-    mods = 'CTRL|SHIFT',
+    mods = 'CMD|SHIFT',
     action = wezterm.action.SplitPane { 
       direction = "Right",
     },
@@ -86,18 +86,18 @@ config.keys = {
   },
   {
     key = 'H',
-    mods = 'CMD|SHIFT',
+    mods = 'CTRL|SHIFT',
     action = act.AdjustPaneSize { 'Left', 5 },
   },
   {
     key = 'J',
-    mods = 'CMD|SHIFT',
+    mods = 'CTRL|SHIFT',
     action = act.AdjustPaneSize { 'Down', 5 },
   },
-  { key = 'K', mods = 'CMD|SHIFT', action = act.AdjustPaneSize { 'Up', 5 } },
+  { key = 'K', mods = 'CTRL|SHIFT', action = act.AdjustPaneSize { 'Up', 5 } },
   {
     key = 'L',
-    mods = 'CMD|SHIFT',
+    mods = 'CTRL|SHIFT',
     action = act.AdjustPaneSize { 'Right', 5 },
   },
 }

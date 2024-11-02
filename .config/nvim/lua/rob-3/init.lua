@@ -204,159 +204,7 @@ require("lazy").setup({
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
 
-  -- Autocompletion
---  {
---    'hrsh7th/nvim-cmp',
---    config = function()
---      local cmp = require("cmp")
---      local cmp_config = {
---      --  sources = {
---      --    {name = 'nvim_lsp'},
---      --  },
---        mapping = {
---          -- confirm selection
---          ['<C-y>'] = cmp.mapping.confirm({select = false}),
---
---          -- cancel completion
---          ['<C-e>'] = cmp.mapping.abort(),
---
---          -- navigate items on the list
---          --['<Up>'] = cmp.mapping.select_prev_item({behavior = 'select'}),
---          --['<Down>'] = cmp.mapping.select_next_item({behavior = 'select'}),
---
---          -- if completion menu is visible, go to the previous item
---          -- else, trigger completion menu
---      --    ['<C-p>'] = cmp.mapping(function()
---      --      if cmp.visible() then
---      --        cmp.select_prev_item({behavior = 'insert'})
---      --      else
---      --        cmp.complete()
---      --      end
---      --    end),
---
---          -- if completion menu is visible, go to the next item
---          -- else, trigger completion menu
---      --    ['<C-n>'] = cmp.mapping(function()
---      --      if cmp.visible() then
---      --        cmp.select_next_item({behavior = 'insert'})
---      --      else
---      --        cmp.complete()
---      --      end
---      --    end),
---        },
---        snippet = {
---          expand = function(args)
---            require('luasnip').lsp_expand(args.body)
---          end,
---        },
---        completion = {
---          completeopt = "menu,menuone,noinsert,noselect",
---          --autocomplete = false,
---        },
---        preselect = 'none',
---      }
---      --cmp_config.preselect = 'none'
---      --cmp_config.completion.completeopt = "menu,menuone,noinsert,noselect"
---      cmp_config.mapping["<C-Space>"] = cmp.mapping(function()
---        if cmp.visible() then
---          cmp.abort()
---        else
---          cmp.complete()
---        end
---      end)
---      --cmp_config.mapping['<C-e>'] = cmp.mapping({ i = cmp.mapping.close(), c = cmp.mapping.close() })
---      --cmp_config.mapping["<C-l>"] = cmp.mapping.confirm({ select = false })
---      --cmp_config.mapping["<Tab>"] = nil
---      --cmp_config.mapping["<S-Tab>"] = nil
---      --cmp_config.mapping["<CR>"] = nil
---      cmp_config.mapping["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), {'i','c'})
---      cmp_config.mapping["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), {'i','c'})
---      cmp_config.mapping["<C-u>"] = cmp.mapping.scroll_docs(-4)
---      cmp_config.mapping["<C-d>"] = cmp.mapping.scroll_docs(4)
---      cmp_config.mapping["<C-f>"] = cmp.mapping.scroll_docs(4)
---      cmp_config.mapping["<C-b>"] = cmp.mapping.scroll_docs(-4)
---      cmp_config.experimental = { ghost_text = false }
---      cmp_config.sources = {
---        { name = "path" },
---        { name = "nvim_lsp", keyword_length = 1 },
---        { name = "buffer", keyword_length = 1 },
---        { name = "luasnip", keyword_length = 2 },
---      }
---      cmp.setup(cmp_config)
---    end
---  },
---'hrsh7th/cmp-buffer',
---'hrsh7th/cmp-path',
---'saadparwaiz1/cmp_luasnip',
---'hrsh7th/cmp-nvim-lsp',
-  -- not under license!
-  --{'hrsh7th/cmp-nvim-lua'},
-
-  -- Snippets
---'L3MON4D3/LuaSnip',
---'rafamadriz/friendly-snippets',
-  --end
---  {
---    'VonHeikemen/lsp-zero.nvim',
---    dependencies = {
---      -- LSP Support
---      {'neovim/nvim-lspconfig'},
---      {'williamboman/mason.nvim'},
---      {'williamboman/mason-lspconfig.nvim'},
---
---      -- Autocompletion
---      {'hrsh7th/nvim-cmp'},
---      {'hrsh7th/cmp-buffer'},
---      {'hrsh7th/cmp-path'},
---      {'saadparwaiz1/cmp_luasnip'},
---      {'hrsh7th/cmp-nvim-lsp'},
---      -- not under license!
---      --{'hrsh7th/cmp-nvim-lua'},
---
---      -- Snippets
---      {'L3MON4D3/LuaSnip'},
---      {'rafamadriz/friendly-snippets'},
---    },
---  },
   "andymass/vim-matchup",
---  {
---    "themaxmarchuk/tailwindcss-colors.nvim",
---    -- load only on require("tailwindcss-colors")
---    module = "tailwindcss-colors",
---    -- run the setup function after plugin is loaded
---    config = function ()
---      -- pass config options here (or nothing to defaults)
---      require("tailwindcss-colors").setup()
---    end
---  },
-  --  "mfussenegger/nvim-dap",
---  {
---    "zbirenbaum/copilot.lua",
---    cmd = "Copilot",
---    event = "InsertEnter",
---    config = function()
---      require("copilot").setup({
---        panel = { enabled = false },
---        suggestion = {
---          auto_trigger = true,
---          keymap = {
---            accept_word = "<M-w>",
---          },
---        },
---        filetypes = {
---          clojure = false,
---          mdx = false
---        }
---      })
---      vim.keymap.set("i", "<M-l>", function ()
---        require("copilot.suggestion").accept()
---        -- exit insert mode with feedkeys
---        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
---      end)
---    end,
---  },
---  "sbdchd/neoformat",
---  "HiPhish/rainbow-delimiters.nvim",
   {
     'ibhagwan/fzf-lua',
     config = function()
@@ -403,7 +251,6 @@ require("lazy").setup({
             secret = API_KEYS.ANTHROPIC_API_KEY
           }
         },
-        --openai_api_key=,--require("rob-3.secrets").openai_api_key,
         agents = {
           {
             name = "ConciseClaude",
@@ -476,29 +323,6 @@ require("lazy").setup({
               .. "- Take a deep breath; You've got this!\n",
           },
           { name = "ChatGPT3-5", disable = true },
---          {
---            name = "ChatGPT3-5",
---            chat = true,
---            command = false,
---            -- string with model name or table with model name and parameters
---            model = { model = "gpt-3.5-turbo-preview", temperature = 1.1, top_p = 1 },
---            -- system prompt (use this to specify the persona/role of the AI)
---            system_prompt = "You are a pleasant, clever AI assistant with a dry, subtle sense of "
---              .. "callback humor, but you have a deep, cosmopolitan intelligence under the surface.\n\n"
---              .. "The user provided the additional info about how they would like you to respond:\n\n"
---              --.. "- If there's a good chance, use a short and clever response.\n"
---              .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
---              .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
---              --.. "- Feel free to speculate, but mention if you are speculating.\n"
---              .. "- Ask questions if you need clarification to provide better answer.\n"
---              --.. "- Think deeply and carefully from first principles step by step.\n"
---              --.. "- Zoom out first to see the big picture and then zoom in to details.\n"
---              --.. "- Use Socratic method to improve your thinking and coding skills.\n"
---              .. "- Don't elide any code from your output if the answer requires coding.\n"
---              .. "- For simple questions, a response with only code or a command is perfect.\n"
---              .. "- Please be concise and favor keeping your response short.\n"
---              .. "- Take a deep breath; You've got this!\n",
---          },
           {
             name = "CodeGPT4",
             chat = false,
@@ -582,23 +406,6 @@ require('lspconfig').nil_ls.setup {
 
 require('lspconfig').ts_ls.setup {}
 
--- lsp config
---local lsp = require("lsp-zero")
---lsp.preset("lsp-compe")
---lsp.setup()
---local command = vim.api.nvim_create_user_command
---
---command('LspWorkspaceAdd', function()
---  vim.lsp.buf.add_workspace_folder()
---end, {desc = 'Add folder to workspace'})
---
---command('LspWorkspaceList', function()
---  vim.notify(vim.inspect(vim.lsp.buf.list_workspace_folders()))
---end, {desc = 'List workspace folders'})
---
---command('LspWorkspaceRemove', function()
---  vim.lsp.buf.remove_workspace_folder()
---end, {desc = 'Remove folder from workspace'})
 ---- note: diagnostics are not exclusive to lsp servers
 -- so these can be global keybindings
 vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
@@ -760,16 +567,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
     if not is_file_small(vim.fn.expand("<afile>")) then
       vim.cmd("setlocal syntax=off")
       vim.cmd("TSBufDisable highlight")
-      --cmp_config.enabled = function()
-      --  if vim.bo.buftype == 'prompt' then
-      --    return false
-      --  end
-      --  if is_file_small(vim.fn.expand("<afile>")) then
-      --    return false
-      --  end
-      --  return true
-      --end
-      --cmp.setup(cmp_config)
     end
   end
 })
