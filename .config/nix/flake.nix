@@ -65,6 +65,7 @@
           typescript-language-server
           stow
           tree
+          zulu
         ];
       in 
         { 
