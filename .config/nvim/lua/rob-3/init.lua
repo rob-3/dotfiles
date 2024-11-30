@@ -192,7 +192,7 @@ require("lazy").setup({
     config = function()
       require('guess-indent').setup {
         filetype_exclude = {
-          "clojure"
+          --"clojure"
         }
       }
     end
