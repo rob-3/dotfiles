@@ -63,7 +63,6 @@
           fish
           cargo
           typescript-language-server
-          stow
           tree
           zulu
         ];
