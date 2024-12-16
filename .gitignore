@@ -1,3 +1,4 @@
-.neovim_backups
-.neovim_tmp
-.neovim_undo
+TODO.md
+.DS_Store
+curl.sh
+.envrc

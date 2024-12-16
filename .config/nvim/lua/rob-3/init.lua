@@ -152,7 +152,11 @@ require("lazy").setup({
       }
     end
   },
-  "Olical/conjure",
+  {"Olical/conjure",
+    config = function()
+      vim.keymap.set("n", "<leader><leader>", ":ConjureEvalCurrentForm<cr>", { silent = true })
+    end
+  },
 --  {
 --    "gpanders/nvim-parinfer",
 --    config = function ()
