@@ -157,12 +157,6 @@ require("lazy").setup({
       --vim.keymap.set("n", "<leader><leader>", ":ConjureEvalCurrentForm<cr>", { silent = true })
     end
   },
---  {
---    "gpanders/nvim-parinfer",
---    config = function ()
---      vim.keymap.set('n', '<F5>', '<cmd>ParinferToggle<cr>', opts)
---    end
---  },
   {"eraserhd/parinfer-rust",
     build = "nix-shell --run \"cargo build --release\""
   },
