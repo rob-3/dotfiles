@@ -8,15 +8,14 @@
     flake-utils.url = "github:numtide/flake-utils";
     nills.url = "github:oxalica/nil";
     nills.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { nix-search-github, nixpkgs, flake-utils, nills, neovim-nightly-overlay, ... }:
+  outputs = { nix-search-github, nixpkgs, flake-utils, nills, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let 
         pkgs = nixpkgs.legacyPackages.${system};
         robsPackages = with pkgs; [
-          neovim-nightly-overlay.packages.${system}.default
+          neovim
           curl
           sqlite-interactive
           ripgrep
