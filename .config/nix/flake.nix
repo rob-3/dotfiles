@@ -65,6 +65,7 @@
           typescript-language-server
           tree
           zulu
+          procps
         ];
       in 
         { 
