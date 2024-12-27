@@ -1,3 +1,9 @@
+# Nix
+if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+	source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+end
+# End Nix
+
 if status is-interactive
 	# Commands to run in interactive sessions can go here
 	fish_vi_key_bindings
@@ -42,6 +48,9 @@ if status is-interactive
 	set __fish_git_prompt_char_stashstate "≡"
 
 	set -gx EDITOR nvim
+
+	# Set up fzf key bindings
+	fzf --fish | source
 end
 
 function fish_git_prompt
