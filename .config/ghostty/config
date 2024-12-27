@@ -1,0 +1,29 @@
+font-family = Inconsolata Nerd Font Mono
+font-size = 28
+theme = tokyonight-storm
+keybind = global:cmd+;=toggle_quick_terminal
+quick-terminal-animation-duration = 0.1
+shell-integration-features = no-cursor
+macos-titlebar-style = tabs
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+cursor-style-blink = false
+adjust-underline-thickness=-1
+
+keybind = cmd+shift+l=new_split:right
+keybind = cmd+shift+h=new_split:left
+keybind = cmd+shift+j=new_split:down
+keybind = cmd+shift+k=new_split:up
+
+keybind = ctrl+shift+l=resize_split:right,10
+keybind = ctrl+shift+h=resize_split:left,10
+keybind = ctrl+shift+j=resize_split:down,10
+keybind = ctrl+shift+k=resize_split:up,10
+
+keybind = cmd+l=goto_split:right
+keybind = cmd+h=goto_split:left
+keybind = cmd+j=goto_split:bottom
+keybind = cmd+k=goto_split:top
+
+keybind = ctrl+[=text:\x1b
