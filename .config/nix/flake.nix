@@ -67,6 +67,7 @@
           zulu
           procps
           clojure-lsp
+          clj-kondo
         ];
       in 
         { 
