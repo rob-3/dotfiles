@@ -49,6 +49,8 @@ if status is-interactive
 
 	set -gx EDITOR nvim
 
+	set fish_prompt_pwd_dir_length 0
+
 	# Set up fzf key bindings
 	fzf --fish | source
 end
