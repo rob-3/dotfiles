@@ -12,6 +12,8 @@ cursor-style-blink = false
 adjust-underline-thickness=-1
 window-height=9999
 window-width=9999
+auto-update=off
+unfocused-split-opacity=0.9
 
 keybind = cmd+shift+l=new_split:right
 keybind = cmd+shift+h=new_split:left
