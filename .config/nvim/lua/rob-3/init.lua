@@ -176,7 +176,18 @@ require("lazy").setup({
       return C
     end,
   },
-  "nvchad/nvim-colorizer.lua",
+  --{"nvchad/nvim-colorizer.lua",
+  --  config = function()
+  --    require("colorizer").setup({
+  --      user_default_options = {
+  --        mode = "background",
+  --        tailwind = true,
+  --        css = true,
+  --        always_update = true,
+  --      },
+  --    })
+  --  end
+  --},
   {"NMAC427/guess-indent.nvim",
     config = function()
       require('guess-indent').setup {
@@ -525,9 +536,6 @@ vim.diagnostic.config({
   severity_sort = false,
 })
 
--- nvim-surround
-require("colorizer").setup()
-
 -- latex
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   pattern = { "*.tex" },
@@ -538,15 +546,6 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 --vim.api.nvim_create_user_command("Format", function() vim.lsp.buf.format() end, {})
 
 vim.opt.mouse = ""
-
-require("colorizer").setup({
-  user_default_options = {
-    mode = "background",
-    tailwind = true,
-    css = true,
-    always_update = true,
-  },
-})
 
 vim.api.nvim_create_autocmd({ "BufReadPre" }, {
   callback = function()
