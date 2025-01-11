@@ -74,6 +74,71 @@ vim.g["conjure#mapping#def_word"] = ""
 vim.cmd("let g:matchup_matchparen_offscreen = { 'method': '' }")
 vim.cmd("let g:disable_virtual_text = 1")
 
+local default_setup = function(server)
+  -- graciously adapted from nvim-cmp
+  -- https://github.com/hrsh7th/cmp-nvim-lsp/blob/main/lua/cmp_nvim_lsp/init.lua
+  override = {}
+  local if_nil = function(val, default)
+    if val == nil then return default end
+    return val
+  end
+  if server == "tsserver" then 
+    return
+  end
+  require('lspconfig')[server].setup({
+    capabilities = {
+      textDocument = {
+        completion = {
+          dynamicRegistration = if_nil(override.dynamicRegistration, false),
+          completionItem = {
+            snippetSupport = if_nil(override.snippetSupport, true),
+            commitCharactersSupport = if_nil(override.commitCharactersSupport, true),
+            deprecatedSupport = if_nil(override.deprecatedSupport, true),
+            preselectSupport = if_nil(override.preselectSupport, true),
+            tagSupport = if_nil(override.tagSupport, {
+              valueSet = {
+                1, -- Deprecated
+              }
+            }),
+            insertReplaceSupport = if_nil(override.insertReplaceSupport, true),
+            resolveSupport = if_nil(override.resolveSupport, {
+              properties = {
+                "documentation",
+                "detail",
+                "additionalTextEdits",
+                "sortText",
+                "filterText",
+                "insertText",
+                "textEdit",
+                "insertTextFormat",
+                "insertTextMode",
+              },
+            }),
+            insertTextModeSupport = if_nil(override.insertTextModeSupport, {
+              valueSet = {
+                1, -- asIs
+                2, -- adjustIndentation
+              }
+            }),
+            labelDetailsSupport = if_nil(override.labelDetailsSupport, true),
+          },
+          contextSupport = if_nil(override.snippetSupport, true),
+          insertTextMode = if_nil(override.insertTextMode, 1),
+          completionList = if_nil(override.completionList, {
+            itemDefaults = {
+              'commitCharacters',
+              'editRange',
+              'insertTextFormat',
+              'insertTextMode',
+              'data',
+            }
+          })
+        },
+      },
+    }
+  })
+end
+
 require("lazy").setup({
   {"folke/tokyonight.nvim",
     config = function()
@@ -201,9 +266,21 @@ require("lazy").setup({
   -- new stuff
   -- LSP Support
   'neovim/nvim-lspconfig',
-  'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig.nvim',
-
+  {'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup({})
+    end
+  },
+  {'williamboman/mason-lspconfig.nvim',
+    config = function()
+      require('mason-lspconfig').setup({
+        ensure_installed = {},
+        handlers = {
+          default_setup,
+        },
+      })
+    end
+  },
   "andymass/vim-matchup",
   {
     'ibhagwan/fzf-lua',
@@ -435,81 +512,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
     vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
   end
-})
-
---local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-local default_setup = function(server)
-  -- graciously adapted from nvim-cmp
-  -- https://github.com/hrsh7th/cmp-nvim-lsp/blob/main/lua/cmp_nvim_lsp/init.lua
-  override = {}
-  local if_nil = function(val, default)
-    if val == nil then return default end
-    return val
-  end
-  if server == "tsserver" then 
-    return
-  end
-  require('lspconfig')[server].setup({
-    capabilities = {
-      textDocument = {
-        completion = {
-          dynamicRegistration = if_nil(override.dynamicRegistration, false),
-          completionItem = {
-            snippetSupport = if_nil(override.snippetSupport, true),
-            commitCharactersSupport = if_nil(override.commitCharactersSupport, true),
-            deprecatedSupport = if_nil(override.deprecatedSupport, true),
-            preselectSupport = if_nil(override.preselectSupport, true),
-            tagSupport = if_nil(override.tagSupport, {
-              valueSet = {
-                1, -- Deprecated
-              }
-            }),
-            insertReplaceSupport = if_nil(override.insertReplaceSupport, true),
-            resolveSupport = if_nil(override.resolveSupport, {
-              properties = {
-                "documentation",
-                "detail",
-                "additionalTextEdits",
-                "sortText",
-                "filterText",
-                "insertText",
-                "textEdit",
-                "insertTextFormat",
-                "insertTextMode",
-              },
-            }),
-            insertTextModeSupport = if_nil(override.insertTextModeSupport, {
-              valueSet = {
-                1, -- asIs
-                2, -- adjustIndentation
-              }
-            }),
-            labelDetailsSupport = if_nil(override.labelDetailsSupport, true),
-          },
-          contextSupport = if_nil(override.snippetSupport, true),
-          insertTextMode = if_nil(override.insertTextMode, 1),
-          completionList = if_nil(override.completionList, {
-            itemDefaults = {
-              'commitCharacters',
-              'editRange',
-              'insertTextFormat',
-              'insertTextMode',
-              'data',
-            }
-          })
-        },
-      },
-    }
-  })
-end
-
-require('mason').setup({})
-require('mason-lspconfig').setup({
-  ensure_installed = {},
-  handlers = {
-    default_setup,
-  },
 })
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
