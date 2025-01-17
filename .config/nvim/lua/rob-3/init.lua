@@ -36,7 +36,6 @@ vim.opt.signcolumn = "auto"
 vim.opt.lbr = true
 vim.opt.smartindent = true
 vim.opt.formatoptions:append({ "o", "r" })
---vim.opt.textwidth = 80
 vim.opt.lcs:append({ space = "·" })
 --vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 --vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
