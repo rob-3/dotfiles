@@ -32,5 +32,5 @@ keybind = cmd+k=goto_split:top
 
 keybind = ctrl+[=text:\x1b
 
-keybind = ctrl+k=jump_to_prompt:-1
-keybind = ctrl+j=jump_to_prompt:1
+#keybind = ctrl+k=jump_to_prompt:-1
+#keybind = ctrl+j=jump_to_prompt:1

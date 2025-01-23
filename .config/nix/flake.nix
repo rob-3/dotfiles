@@ -56,10 +56,7 @@
           direnv
           restic
           coreutils
-          pinentry_mac
-          colima
           docker
-          texliveFull
           fish
           cargo
           typescript-language-server
@@ -68,6 +65,10 @@
           procps
           clojure-lsp
           clj-kondo
+        ] ++ lib.optionals stdenv.isDarwin [
+            pinentry_mac
+            colima
+            texliveFull
         ];
       in 
         { 
