@@ -315,16 +315,15 @@ require("lazy").setup({
   {
     "Robitx/gp.nvim",
     config = function()
-      local API_KEYS = require("rob-3.secrets")
       require("gp").setup({
         providers = {
           openai = {
             endpoint = "https://api.openai.com/v1/chat/completions",
-            secret = API_KEYS.OPENAI_API_KEY
+            secret = os.getenv("OPENAI_API_KEY")
           },
           anthropic = {
             endpoint = "https://api.anthropic.com/v1/messages",
-            secret = API_KEYS.ANTHROPIC_API_KEY
+            secret = os.getenv("ANTHROPIC_API_KEY")
           }
         },
         agents = {
