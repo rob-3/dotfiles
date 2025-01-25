@@ -8,9 +8,10 @@
     flake-utils.url = "github:numtide/flake-utils";
     nills.url = "github:oxalica/nil";
     nills.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
   };
 
-  outputs = { nix-search-github, nixpkgs, flake-utils, nills, ... }:
+  outputs = { nix-search-github, nixpkgs, nixpkgs-stable, flake-utils, nills, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let 
         pkgs = nixpkgs.legacyPackages.${system};
@@ -68,7 +69,7 @@
         ] ++ lib.optionals stdenv.isDarwin [
             pinentry_mac
             colima
-            texliveFull
+            nixpkgs-stable.legacyPackages.${system}.texliveFull
         ];
       in 
         { 
