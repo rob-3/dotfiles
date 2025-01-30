@@ -66,6 +66,7 @@
           procps
           clojure-lsp
           clj-kondo
+          unzip
         ] ++ lib.optionals stdenv.isDarwin [
             pinentry_mac
             colima

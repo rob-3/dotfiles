@@ -4,6 +4,10 @@ if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
 end
 # End Nix
 
+# cloud CLI tool
+fish_add_path ~/vm-create/bin/
+fish_add_path ~/bills/bin/
+
 if status is-interactive
 	# Commands to run in interactive sessions can go here
 	fish_vi_key_bindings
