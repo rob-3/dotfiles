@@ -19,7 +19,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
         master = nixpkgs-master.legacyPackages.${system};
         robsPackages = with pkgs; [
-          master.neovim
+          neovim
           curl
           sqlite-interactive
           ripgrep

@@ -213,7 +213,7 @@ require("lazy").setup({
     end
   },
   {"eraserhd/parinfer-rust",
-    build = "nix-shell --run \"cargo build --release\""
+    build = "nix build && mkdir -p ./target/ && ln -s ../result/lib ./target/release"
   },
   "tpope/vim-fugitive",
   "farmergreg/vim-lastplace",
