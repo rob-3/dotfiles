@@ -20,28 +20,15 @@
 [commit]
 	verbose = true
 [alias]
-	#sw = switch
-	#a = add
-	#c = commit
-	#s = status
-	#l = log --oneline --graph --decorate
-	l = log --graph --pretty=format:'%C(auto)%h%d %w(100,0,8)%s %C(dim)(%cr | %ar by %aN)%Creset'
-	#b = branch
-	#ca = commit --amend
-	#st = stash
-	#diffw = diff --word-diff=color
+	l = log --graph --pretty=format:'%C(auto)%h%d %w(100,0,8)%s %C(dim)(%ai by %aN)%Creset'
 	difft = difftool
-	#wt = worktree
 [rerere]
 	enabled = true
 [pull]
 	ff = only
 [core]
 	ignorecase = false
-	excludesFile = /Users/rob/.gitignore
-	attributesFile = /Users/rob/.gitattributes
 	autocrlf = input
-	sshCommand = ssh -i ~/.ssh/id_ed25519_new -F /dev/null
 [init]
 	defaultBranch = main
 [checkout]
