@@ -68,10 +68,11 @@
           clojure-lsp
           clj-kondo
           unzip
+          jujutsu
         ] ++ lib.optionals stdenv.isDarwin [
             pinentry_mac
             colima
-            stable.texliveFull
+            texliveFull
         ];
       in 
         { 
