@@ -8,11 +8,9 @@
     nix-search-github.url = "github:peterldowns/nix-search-cli";
     nix-search-github.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    nills.url = "github:oxalica/nil";
-    nills.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nix-search-github, nixpkgs, nixpkgs-stable, nixpkgs-master, flake-utils, nills, ... }:
+  outputs = { nix-search-github, nixpkgs, nixpkgs-stable, nixpkgs-master, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let 
         stable = nixpkgs-stable.legacyPackages.${system};
@@ -52,7 +50,7 @@
           git
           shellcheck
           nix-search-github.packages.${system}.default
-          nills.packages.${system}.default
+          nil
           python3Full
           gcc
           gnupg
