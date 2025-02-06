@@ -155,7 +155,7 @@ end
 
 function update
 	which brew && brew update && brew upgrade && brew upgrade --cask --greedy
-	cd ~/.config/nix && nix flake update && nix profile upgrade nix && ls /Users/rob/.local/state/nix/profiles | sort -V | tail -n 2 | awk '{print "/Users/rob/.local/state/nix/profiles/" $0}' - | xargs nix run nixpkgs#nvd diff
+	cd ~/.config/nix && nix flake update && nix profile upgrade nix && ls ~/.local/state/nix/profiles | sort -V | tail -n 2 | awk "{print \"$HOME/.local/state/nix/profiles/\" \$0}" - | xargs nix run nixpkgs#nvd diff
 	cd -
 end
 
