@@ -5,7 +5,7 @@ end
 # End Nix
 
 # cloud CLI tool
-fish_add_path ~/vm-create/bin/
+fish_add_path ~/cloud/bin/
 fish_add_path ~/bills/bin/
 
 if status is-interactive
