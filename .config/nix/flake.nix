@@ -3,21 +3,22 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     nix-search-github.url = "github:peterldowns/nix-search-cli";
     nix-search-github.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { nix-search-github, nixpkgs, nixpkgs-stable, nixpkgs-master, flake-utils, ... }:
+  outputs = { nix-search-github, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let 
-        stable = nixpkgs-stable.legacyPackages.${system};
         pkgs = nixpkgs.legacyPackages.${system};
-        master = nixpkgs-master.legacyPackages.${system};
+        macPackages = with pkgs; [
+            pinentry_mac
+            colima
+            texliveFull
+        ];
         robsPackages = with pkgs; [
-          neovim
+          neovim-unwrapped
           curl
           sqlite-interactive
           ripgrep
@@ -69,17 +70,22 @@
           clj-kondo
           unzip
           jujutsu
-        ] ++ lib.optionals stdenv.isDarwin [
-            pinentry_mac
-            colima
-            texliveFull
+          astro-language-server
+          clojure-lsp
+          pyright
+          rust-analyzer
+          bash-language-server
         ];
       in 
         { 
-        packages.default = pkgs.buildEnv {
-          name = "development-stuff";
-          paths = robsPackages;
-        };
-      }
+          packages.personal-mac = pkgs.buildEnv {
+            name = "personal-mac";
+            paths = robsPackages ++ macPackages;
+          };
+          packages.default = pkgs.buildEnv {
+            name = "rob-base";
+            paths = robsPackages;
+          };
+        }
     );
 }

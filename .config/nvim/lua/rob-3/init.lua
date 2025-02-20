@@ -213,7 +213,75 @@ require("lazy").setup({
     end
   },
   {"eraserhd/parinfer-rust",
-    build = "nix build && mkdir -p ./target/ && ln -sfn ../result/lib ./target/release"
+    build = "nix build && mkdir -p ./target/ && ln -sfn ../result/lib ./target/release",
+  },
+  {
+    "julienvincent/nvim-paredit",
+    config = function()
+      local paredit = require("nvim-paredit")
+      paredit.setup({
+        use_default_keys = false,
+        dragging = { auto_drag_pairs = false },
+        keys = {
+          ["<localleader>@"] = { paredit.unwrap.unwrap_form_under_cursor, "Splice sexp" },
+          [">)"] = { paredit.api.slurp_forwards, "Slurp forwards" },
+          [">("] = { paredit.api.barf_backwards, "Barf backwards" },
+
+          ["<)"] = { paredit.api.barf_forwards, "Barf forwards" },
+          ["<("] = { paredit.api.slurp_backwards, "Slurp backwards" },
+
+          [">e"] = { paredit.api.drag_element_forwards, "Drag element right" },
+          ["<e"] = { paredit.api.drag_element_backwards, "Drag element left" },
+
+          [">p"] = { paredit.api.drag_pair_forwards, "Drag element pairs right" },
+          ["<p"] = { paredit.api.drag_pair_backwards, "Drag element pairs left" },
+
+          [">f"] = { paredit.api.drag_form_forwards, "Drag form right" },
+          ["<f"] = { paredit.api.drag_form_backwards, "Drag form left" },
+
+          ["<localleader>o"] = { paredit.api.raise_form, "Raise form" },
+          ["<localleader>O"] = { paredit.api.raise_element, "Raise element" },
+
+          -- These are text object selection keybindings which can used with standard `d, y, c`, `v`
+          ["af"] = {
+            paredit.api.select_around_form,
+            "Around form",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["if"] = {
+            paredit.api.select_in_form,
+            "In form",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["aF"] = {
+            paredit.api.select_around_top_level_form,
+            "Around top level form",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["iF"] = {
+            paredit.api.select_in_top_level_form,
+            "In top level form",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["ae"] = {
+            paredit.api.select_element,
+            "Around element",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+          ["ie"] = {
+            paredit.api.select_element,
+            "Element",
+            repeatable = false,
+            mode = { "o", "v" },
+          },
+        }
+      })
+    end
   },
   "tpope/vim-fugitive",
   "farmergreg/vim-lastplace",
@@ -449,7 +517,7 @@ require("lazy").setup({
         lazy = "💤 ",
       },
     },
-})
+  })
 
 --require('lspconfig').ruff_lsp.setup {
 --  init_options = {
@@ -477,6 +545,12 @@ require('lspconfig').nil_ls.setup {
 require('lspconfig').ts_ls.setup {}
 
 require('lspconfig').clojure_lsp.setup {}
+
+require('lspconfig').pyright.setup {}
+
+require('lspconfig').rust_analyzer.setup {}
+
+require('lspconfig').bashls.setup {}
 
 ---- note: diagnostics are not exclusive to lsp servers
 -- so these can be global keybindings
