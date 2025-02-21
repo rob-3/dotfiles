@@ -75,6 +75,7 @@
           pyright
           rust-analyzer
           bash-language-server
+          clang-tools
         ];
       in 
         { 
