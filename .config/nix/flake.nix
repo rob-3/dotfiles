@@ -76,6 +76,7 @@
           rust-analyzer
           bash-language-server
           clang-tools
+          jdt-language-server
         ];
       in 
         { 
