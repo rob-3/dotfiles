@@ -77,6 +77,11 @@
           bash-language-server
           clang-tools
           jdt-language-server
+          vscode-langservers-extracted
+          zls
+          mdx-language-server
+          lemminx
+          yaml-language-server
         ];
       in 
         { 

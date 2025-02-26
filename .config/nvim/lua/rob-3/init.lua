@@ -215,74 +215,74 @@ require("lazy").setup({
   {"eraserhd/parinfer-rust",
     build = "nix build && mkdir -p ./target/ && ln -sfn ../result/lib ./target/release",
   },
-  {
-    "julienvincent/nvim-paredit",
-    config = function()
-      local paredit = require("nvim-paredit")
-      paredit.setup({
-        use_default_keys = false,
-        dragging = { auto_drag_pairs = false },
-        keys = {
-          ["<localleader>@"] = { paredit.unwrap.unwrap_form_under_cursor, "Splice sexp" },
-          [">)"] = { paredit.api.slurp_forwards, "Slurp forwards" },
-          [">("] = { paredit.api.barf_backwards, "Barf backwards" },
-
-          ["<)"] = { paredit.api.barf_forwards, "Barf forwards" },
-          ["<("] = { paredit.api.slurp_backwards, "Slurp backwards" },
-
-          [">e"] = { paredit.api.drag_element_forwards, "Drag element right" },
-          ["<e"] = { paredit.api.drag_element_backwards, "Drag element left" },
-
-          [">p"] = { paredit.api.drag_pair_forwards, "Drag element pairs right" },
-          ["<p"] = { paredit.api.drag_pair_backwards, "Drag element pairs left" },
-
-          [">f"] = { paredit.api.drag_form_forwards, "Drag form right" },
-          ["<f"] = { paredit.api.drag_form_backwards, "Drag form left" },
-
-          ["<localleader>o"] = { paredit.api.raise_form, "Raise form" },
-          ["<localleader>O"] = { paredit.api.raise_element, "Raise element" },
-
-          -- These are text object selection keybindings which can used with standard `d, y, c`, `v`
-          ["af"] = {
-            paredit.api.select_around_form,
-            "Around form",
-            repeatable = false,
-            mode = { "o", "v" },
-          },
-          ["if"] = {
-            paredit.api.select_in_form,
-            "In form",
-            repeatable = false,
-            mode = { "o", "v" },
-          },
-          ["aF"] = {
-            paredit.api.select_around_top_level_form,
-            "Around top level form",
-            repeatable = false,
-            mode = { "o", "v" },
-          },
-          ["iF"] = {
-            paredit.api.select_in_top_level_form,
-            "In top level form",
-            repeatable = false,
-            mode = { "o", "v" },
-          },
-          ["ae"] = {
-            paredit.api.select_element,
-            "Around element",
-            repeatable = false,
-            mode = { "o", "v" },
-          },
-          ["ie"] = {
-            paredit.api.select_element,
-            "Element",
-            repeatable = false,
-            mode = { "o", "v" },
-          },
-        }
-      })
-    end
-  },
+  -- {
+  --   "julienvincent/nvim-paredit",
+  --   config = function()
+  --     local paredit = require("nvim-paredit")
+  --     paredit.setup({
+  --       use_default_keys = false,
+  --       dragging = { auto_drag_pairs = false },
+  --       keys = {
+  --         ["<localleader>@"] = { paredit.unwrap.unwrap_form_under_cursor, "Splice sexp" },
+  --         [">)"] = { paredit.api.slurp_forwards, "Slurp forwards" },
+  --         [">("] = { paredit.api.barf_backwards, "Barf backwards" },
+  --
+  --         ["<)"] = { paredit.api.barf_forwards, "Barf forwards" },
+  --         ["<("] = { paredit.api.slurp_backwards, "Slurp backwards" },
+  --
+  --         [">e"] = { paredit.api.drag_element_forwards, "Drag element right" },
+  --         ["<e"] = { paredit.api.drag_element_backwards, "Drag element left" },
+  --
+  --         [">p"] = { paredit.api.drag_pair_forwards, "Drag element pairs right" },
+  --         ["<p"] = { paredit.api.drag_pair_backwards, "Drag element pairs left" },
+  --
+  --         [">f"] = { paredit.api.drag_form_forwards, "Drag form right" },
+  --         ["<f"] = { paredit.api.drag_form_backwards, "Drag form left" },
+  --
+  --         ["<localleader>o"] = { paredit.api.raise_form, "Raise form" },
+  --         ["<localleader>O"] = { paredit.api.raise_element, "Raise element" },
+  --
+  --         -- These are text object selection keybindings which can used with standard `d, y, c`, `v`
+  --         ["af"] = {
+  --           paredit.api.select_around_form,
+  --           "Around form",
+  --           repeatable = false,
+  --           mode = { "o", "v" },
+  --         },
+  --         ["if"] = {
+  --           paredit.api.select_in_form,
+  --           "In form",
+  --           repeatable = false,
+  --           mode = { "o", "v" },
+  --         },
+  --         ["aF"] = {
+  --           paredit.api.select_around_top_level_form,
+  --           "Around top level form",
+  --           repeatable = false,
+  --           mode = { "o", "v" },
+  --         },
+  --         ["iF"] = {
+  --           paredit.api.select_in_top_level_form,
+  --           "In top level form",
+  --           repeatable = false,
+  --           mode = { "o", "v" },
+  --         },
+  --         ["ae"] = {
+  --           paredit.api.select_element,
+  --           "Around element",
+  --           repeatable = false,
+  --           mode = { "o", "v" },
+  --         },
+  --         ["ie"] = {
+  --           paredit.api.select_element,
+  --           "Element",
+  --           repeatable = false,
+  --           mode = { "o", "v" },
+  --         },
+  --       }
+  --     })
+  --   end
+  -- },
   "tpope/vim-fugitive",
   "farmergreg/vim-lastplace",
   {"kylechui/nvim-surround",
@@ -519,15 +519,6 @@ require("lazy").setup({
     },
   })
 
---require('lspconfig').ruff_lsp.setup {
---  init_options = {
---    settings = {
---      -- Any extra CLI arguments for `ruff` go here.
---      args = {},
---    }
---  }
---}
-
 require('lspconfig').nil_ls.setup {
   autostart = true,
   capabilities = caps,
@@ -555,6 +546,20 @@ require('lspconfig').bashls.setup {}
 require('lspconfig').clangd.setup {}
 
 require('lspconfig').jdtls.setup {}
+
+require('lspconfig').html.setup {}
+
+require('lspconfig').cssls.setup {}
+
+require('lspconfig').jsonls.setup {}
+
+require('lspconfig').zls.setup {}
+
+require('lspconfig').mdx_analyzer.setup {}
+
+require('lspconfig').lemminx.setup{}
+
+require('lspconfig').yamlls.setup{}
 
 ---- note: diagnostics are not exclusive to lsp servers
 -- so these can be global keybindings
@@ -673,9 +678,6 @@ vim.cmd("set clipboard+=unnamedplus")
 -- function to flip on gj and gk
 vim.keymap.set("n", "j", "v:count ? 'j' : 'gj'", { expr = true, noremap = true })
 vim.keymap.set("n", "k", "v:count ? 'k' : 'gk'", { expr = true, noremap = true })
-
---vim.cmd("filetype indent off")
---vim.cmd("autocmd BufRead,BufNewFile *.cljc lua vim.diagnostic.disable(0)")
 
 vim.cmd([[cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"]])
 vim.cmd([[cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"]])
