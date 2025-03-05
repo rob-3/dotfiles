@@ -333,21 +333,21 @@ require("lazy").setup({
   -- new stuff
   -- LSP Support
   'neovim/nvim-lspconfig',
-  {'williamboman/mason.nvim',
-    config = function()
-      require('mason').setup({})
-    end
-  },
-  {'williamboman/mason-lspconfig.nvim',
-    config = function()
-      require('mason-lspconfig').setup({
-        ensure_installed = {},
-        handlers = {
-          default_setup,
-        },
-      })
-    end
-  },
+  -- {'williamboman/mason.nvim',
+  --   config = function()
+  --     require('mason').setup({})
+  --   end
+  -- },
+  -- {'williamboman/mason-lspconfig.nvim',
+  --   config = function()
+  --     require('mason-lspconfig').setup({
+  --       ensure_installed = {},
+  --       handlers = {
+  --         default_setup,
+  --       },
+  --     })
+  --   end
+  -- },
   "andymass/vim-matchup",
   {
     'ibhagwan/fzf-lua',
@@ -401,7 +401,7 @@ require("lazy").setup({
             chat = true,
             command = false,
             -- string with model name or table with model name and parameters
-            model = { model = "claude-3-5-sonnet-latest", temperature = 0.7, top_p = 1 },
+            model = { model = "claude-3-7-sonnet-20250219", temperature = 0.7, top_p = 1 },
             -- system prompt (use this to specify the persona/role of the AI)
             system_prompt = "You are a pleasant, clever AI assistant with a dry sense of "
               .. "humor.\n\n"

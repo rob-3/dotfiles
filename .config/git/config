@@ -16,6 +16,9 @@
 	prompt = false
 [fetch]
 	fsckObjects = true
+	prune = true
+	pruneTags = true
+	all = true
 [transfer]
 	fsckObjects = true
 [recieve]
@@ -47,9 +50,13 @@
 #[tag]
 #	gpgSign = true
 [push]
-	default = nothing
+	; default = nothing
+	autoSetupRemote = true
 [diff]
 	tool = difftastic
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
 [difftool]
 	prompt = false
 [difftool "difftastic"]
@@ -58,3 +65,9 @@
 	difftool = true
 [rebase]
 	autosquash = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname

@@ -16,6 +16,7 @@
             pinentry_mac
             colima
             texliveFull
+            brave
         ];
         robsPackages = with pkgs; [
           neovim-unwrapped
