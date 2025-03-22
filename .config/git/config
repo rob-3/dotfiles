@@ -65,8 +65,6 @@
 	difftool = true
 [rebase]
 	autosquash = true
-[column]
-	ui = auto
 [branch]
 	sort = -committerdate
 [tag]

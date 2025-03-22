@@ -3,14 +3,6 @@ vim.g.maplocalleader = " "
 vim.keymap.set("n", "<Leader>s", function()
   vim.opt.spell = not vim.opt.spell:get()
 end)
---vim.keymap.set("n", "<leader>ca", ":CodeActionMenu<CR>", {silent=true})
---vim.keymap.set("i", "<C-l>", "copilot#Accept()", { silent=true, expr=true, nowait=true, script=true })
---vim.cmd("imap <script><silent><nowait><expr> <C-l> copilot#Accept()")
---vim.keymap.set("i", "<M-j>", "copilot#Next()", { silent=true, expr=true, nowait=true, script=true })
---vim.keymap.set("i", "<M-k>", "copilot#Previous()", { silent=true, expr=true, nowait=true, script=true })
---vim.keymap.set("n", "'", "`")
---vim.keymap.set("n", "`", "'")
---vim.cmd("inoremap <expr> <A-l> copilot#Accept() . \"\\<Esc>\"")
 vim.keymap.set('n', ']q', ':cn<cr>', { silent = true })
 vim.keymap.set('n', '[q', ':cp<cr>', { silent = true })
 
@@ -26,10 +18,10 @@ vim.opt.updatetime = 100
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.backup = true
-vim.opt.backupdir = vim.fn.expand("~/.config/nvim/.neovim_backups//")
-vim.opt.dir = vim.fn.expand("~/.config/nvim/.neovim_tmp//")
+vim.opt.backupdir = vim.fn.expand("~/.local/state/nvim/backup//")
+--vim.opt.dir = vim.fn.expand("~/.config/nvim/.neovim_tmp//")
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.expand("~/.config/nvim/.neovim_undo//")
+--vim.opt.undodir = vim.fn.expand("~/.config/nvim/.neovim_undo//")
 vim.opt.modeline = false
 vim.opt.wrap = false
 vim.opt.signcolumn = "auto"
@@ -73,70 +65,70 @@ vim.g["conjure#mapping#def_word"] = ""
 vim.cmd("let g:matchup_matchparen_offscreen = { 'method': '' }")
 vim.cmd("let g:disable_virtual_text = 1")
 
-local default_setup = function(server)
-  -- graciously adapted from nvim-cmp
-  -- https://github.com/hrsh7th/cmp-nvim-lsp/blob/main/lua/cmp_nvim_lsp/init.lua
-  override = {}
-  local if_nil = function(val, default)
-    if val == nil then return default end
-    return val
-  end
-  if server == "tsserver" then 
-    return
-  end
-  require('lspconfig')[server].setup({
-    capabilities = {
-      textDocument = {
-        completion = {
-          dynamicRegistration = if_nil(override.dynamicRegistration, false),
-          completionItem = {
-            snippetSupport = if_nil(override.snippetSupport, true),
-            commitCharactersSupport = if_nil(override.commitCharactersSupport, true),
-            deprecatedSupport = if_nil(override.deprecatedSupport, true),
-            preselectSupport = if_nil(override.preselectSupport, true),
-            tagSupport = if_nil(override.tagSupport, {
-              valueSet = {
-                1, -- Deprecated
-              }
-            }),
-            insertReplaceSupport = if_nil(override.insertReplaceSupport, true),
-            resolveSupport = if_nil(override.resolveSupport, {
-              properties = {
-                "documentation",
-                "detail",
-                "additionalTextEdits",
-                "sortText",
-                "filterText",
-                "insertText",
-                "textEdit",
-                "insertTextFormat",
-                "insertTextMode",
-              },
-            }),
-            insertTextModeSupport = if_nil(override.insertTextModeSupport, {
-              valueSet = {
-                1, -- asIs
-                2, -- adjustIndentation
-              }
-            }),
-            labelDetailsSupport = if_nil(override.labelDetailsSupport, true),
-          },
-          contextSupport = if_nil(override.snippetSupport, true),
-          insertTextMode = if_nil(override.insertTextMode, 1),
-          completionList = if_nil(override.completionList, {
-            itemDefaults = {
-              'commitCharacters',
-              'editRange',
-              'insertTextFormat',
-              'insertTextMode',
-              'data',
-            }
-          })
-        },
-      },
-    }
-  })
-end
+-- local default_setup = function(server)
+--   -- graciously adapted from nvim-cmp
+--   -- https://github.com/hrsh7th/cmp-nvim-lsp/blob/main/lua/cmp_nvim_lsp/init.lua
+--   override = {}
+--   local if_nil = function(val, default)
+--     if val == nil then return default end
+--     return val
+--   end
+--   if server == "tsserver" then 
+--     return
+--   end
+--   require('lspconfig')[server].setup({
+--     capabilities = {
+--       textDocument = {
+--         completion = {
+--           dynamicRegistration = if_nil(override.dynamicRegistration, false),
+--           completionItem = {
+--             snippetSupport = if_nil(override.snippetSupport, true),
+--             commitCharactersSupport = if_nil(override.commitCharactersSupport, true),
+--             deprecatedSupport = if_nil(override.deprecatedSupport, true),
+--             preselectSupport = if_nil(override.preselectSupport, true),
+--             tagSupport = if_nil(override.tagSupport, {
+--               valueSet = {
+--                 1, -- Deprecated
+--               }
+--             }),
+--             insertReplaceSupport = if_nil(override.insertReplaceSupport, true),
+--             resolveSupport = if_nil(override.resolveSupport, {
+--               properties = {
+--                 "documentation",
+--                 "detail",
+--                 "additionalTextEdits",
+--                 "sortText",
+--                 "filterText",
+--                 "insertText",
+--                 "textEdit",
+--                 "insertTextFormat",
+--                 "insertTextMode",
+--               },
+--             }),
+--             insertTextModeSupport = if_nil(override.insertTextModeSupport, {
+--               valueSet = {
+--                 1, -- asIs
+--                 2, -- adjustIndentation
+--               }
+--             }),
+--             labelDetailsSupport = if_nil(override.labelDetailsSupport, true),
+--           },
+--           contextSupport = if_nil(override.snippetSupport, true),
+--           insertTextMode = if_nil(override.insertTextMode, 1),
+--           completionList = if_nil(override.completionList, {
+--             itemDefaults = {
+--               'commitCharacters',
+--               'editRange',
+--               'insertTextFormat',
+--               'insertTextMode',
+--               'data',
+--             }
+--           })
+--         },
+--       },
+--     }
+--   })
+-- end
 
 require("lazy").setup({
   {"folke/tokyonight.nvim",
@@ -215,74 +207,6 @@ require("lazy").setup({
   {"eraserhd/parinfer-rust",
     build = "nix build && mkdir -p ./target/ && ln -sfn ../result/lib ./target/release",
   },
-  -- {
-  --   "julienvincent/nvim-paredit",
-  --   config = function()
-  --     local paredit = require("nvim-paredit")
-  --     paredit.setup({
-  --       use_default_keys = false,
-  --       dragging = { auto_drag_pairs = false },
-  --       keys = {
-  --         ["<localleader>@"] = { paredit.unwrap.unwrap_form_under_cursor, "Splice sexp" },
-  --         [">)"] = { paredit.api.slurp_forwards, "Slurp forwards" },
-  --         [">("] = { paredit.api.barf_backwards, "Barf backwards" },
-  --
-  --         ["<)"] = { paredit.api.barf_forwards, "Barf forwards" },
-  --         ["<("] = { paredit.api.slurp_backwards, "Slurp backwards" },
-  --
-  --         [">e"] = { paredit.api.drag_element_forwards, "Drag element right" },
-  --         ["<e"] = { paredit.api.drag_element_backwards, "Drag element left" },
-  --
-  --         [">p"] = { paredit.api.drag_pair_forwards, "Drag element pairs right" },
-  --         ["<p"] = { paredit.api.drag_pair_backwards, "Drag element pairs left" },
-  --
-  --         [">f"] = { paredit.api.drag_form_forwards, "Drag form right" },
-  --         ["<f"] = { paredit.api.drag_form_backwards, "Drag form left" },
-  --
-  --         ["<localleader>o"] = { paredit.api.raise_form, "Raise form" },
-  --         ["<localleader>O"] = { paredit.api.raise_element, "Raise element" },
-  --
-  --         -- These are text object selection keybindings which can used with standard `d, y, c`, `v`
-  --         ["af"] = {
-  --           paredit.api.select_around_form,
-  --           "Around form",
-  --           repeatable = false,
-  --           mode = { "o", "v" },
-  --         },
-  --         ["if"] = {
-  --           paredit.api.select_in_form,
-  --           "In form",
-  --           repeatable = false,
-  --           mode = { "o", "v" },
-  --         },
-  --         ["aF"] = {
-  --           paredit.api.select_around_top_level_form,
-  --           "Around top level form",
-  --           repeatable = false,
-  --           mode = { "o", "v" },
-  --         },
-  --         ["iF"] = {
-  --           paredit.api.select_in_top_level_form,
-  --           "In top level form",
-  --           repeatable = false,
-  --           mode = { "o", "v" },
-  --         },
-  --         ["ae"] = {
-  --           paredit.api.select_element,
-  --           "Around element",
-  --           repeatable = false,
-  --           mode = { "o", "v" },
-  --         },
-  --         ["ie"] = {
-  --           paredit.api.select_element,
-  --           "Element",
-  --           repeatable = false,
-  --           mode = { "o", "v" },
-  --         },
-  --       }
-  --     })
-  --   end
-  -- },
   "tpope/vim-fugitive",
   "farmergreg/vim-lastplace",
   {"kylechui/nvim-surround",
@@ -308,18 +232,6 @@ require("lazy").setup({
       return C
     end,
   },
-  --{"nvchad/nvim-colorizer.lua",
-  --  config = function()
-  --    require("colorizer").setup({
-  --      user_default_options = {
-  --        mode = "background",
-  --        tailwind = true,
-  --        css = true,
-  --        always_update = true,
-  --      },
-  --    })
-  --  end
-  --},
   {"NMAC427/guess-indent.nvim",
     config = function()
       require('guess-indent').setup {
@@ -333,21 +245,6 @@ require("lazy").setup({
   -- new stuff
   -- LSP Support
   'neovim/nvim-lspconfig',
-  -- {'williamboman/mason.nvim',
-  --   config = function()
-  --     require('mason').setup({})
-  --   end
-  -- },
-  -- {'williamboman/mason-lspconfig.nvim',
-  --   config = function()
-  --     require('mason-lspconfig').setup({
-  --       ensure_installed = {},
-  --       handlers = {
-  --         default_setup,
-  --       },
-  --     })
-  --   end
-  -- },
   "andymass/vim-matchup",
   {
     'ibhagwan/fzf-lua',
@@ -626,7 +523,6 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     vim.cmd(":call jobstart(['pdflatex', expand('%')])")
   end
 })
---vim.api.nvim_create_user_command("Format", function() vim.lsp.buf.format() end, {})
 
 vim.opt.mouse = ""
 
@@ -648,30 +544,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
     vim.cmd("setlocal filetype=mdx")
   end
 })
-
---vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
---vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
---vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
---vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
---vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
---vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
---vim.keymap.set('n', '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
---vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
---vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
---vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
---  require('dap.ui.widgets').hover()
---end)
---vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
---  require('dap.ui.widgets').preview()
---end)
---vim.keymap.set('n', '<Leader>df', function()
---  local widgets = require('dap.ui.widgets')
---  widgets.centered_float(widgets.frames)
---end)
---vim.keymap.set('n', '<Leader>ds', function()
---  local widgets = require('dap.ui.widgets')
---  widgets.centered_float(widgets.scopes)
---end)
 
 vim.cmd("set clipboard+=unnamedplus")
 
