@@ -12,13 +12,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let 
         pkgs = nixpkgs.legacyPackages.${system};
-        macPackages = with pkgs; [
-            pinentry_mac
-            colima
-            texliveFull
-            brave
-        ];
-        robsPackages = with pkgs; [
+        base = with pkgs; [
           neovim
           curl
           sqlite-interactive
@@ -82,12 +76,18 @@
           mdx-language-server
           lemminx
           yaml-language-server
+
+          # Mac packages
+          pinentry_mac
+          colima
+          texliveFull
+          brave
         ];
       in 
         { 
           packages.default = pkgs.buildEnv {
-            name = "rob-packages";
-            paths = robsPackages ++ macPackages;
+            name = "base";
+            paths = base;
           };
         }
     );
