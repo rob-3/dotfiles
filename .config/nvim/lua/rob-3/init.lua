@@ -505,7 +505,7 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
   {border = 'rounded'}
 )
 
-vim.diagnostic.config({
+local diagnostic_config = {
   float = {
     border = 'rounded',
     header = '',
@@ -515,7 +515,15 @@ vim.diagnostic.config({
   virtual_lines = { current_line = true },
   underline = true,
   severity_sort = false,
-})
+}
+vim.diagnostic.config(default_config)
+vim.keymap.set('n', 'gl', function()
+  if vim.diagnostic.config().virtual_lines then
+    vim.diagnostic.config({ virtual_lines = false })
+  else
+    vim.diagnostic.config(default_config)
+  end
+end)
 
 -- latex
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
