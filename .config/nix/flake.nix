@@ -6,10 +6,9 @@
     nix-search-github.url = "github:peterldowns/nix-search-cli";
     nix-search-github.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { nix-search-github, nixpkgs, flake-utils, neovim-nightly-overlay, ... }:
+  outputs = { nix-search-github, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let 
         pkgs = nixpkgs.legacyPackages.${system};
@@ -20,8 +19,7 @@
             brave
         ];
         robsPackages = with pkgs; [
-          neovim-nightly-overlay.packages.${system}.default
-          #neovim-unwrapped
+          neovim
           curl
           sqlite-interactive
           ripgrep
@@ -50,7 +48,6 @@
           babashka
           rsync
           go_1_22
-          gh
           git
           shellcheck
           nix-search-github.packages.${system}.default
@@ -67,7 +64,7 @@
           cargo
           typescript-language-server
           tree
-          zulu
+          zulu23
           procps
           clojure-lsp
           clj-kondo
@@ -88,13 +85,9 @@
         ];
       in 
         { 
-          packages.personal-mac = pkgs.buildEnv {
-            name = "personal-mac";
-            paths = robsPackages ++ macPackages;
-          };
           packages.default = pkgs.buildEnv {
-            name = "rob-base";
-            paths = robsPackages;
+            name = "rob-packages";
+            paths = robsPackages ++ macPackages;
           };
         }
     );

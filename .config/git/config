@@ -1,9 +1,6 @@
-[includeIf "gitdir:/Users/rob/**"]
-	path = ~/.config/git/personal
-[includeIf "gitdir:/home/rob/**"]
-	path = ~/.config/git/work
 [user]
 	name = Robert Boyd III
+	email = git@robertboyd.dev
 [mergetool]
 	keepBackup = false
 	path = nvim

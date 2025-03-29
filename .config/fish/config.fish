@@ -154,12 +154,10 @@ function review-download
 end
 
 function update
-	set -f machinename "nix"
 	if test (hostname) = "ouroboros.local"
 		brew update && brew upgrade && brew upgrade --cask --greedy
-		set machinename "personal-mac"
 	end
-	cd ~/.config/nix && nix flake update && nix profile upgrade $machinename && ls ~/.local/state/nix/profiles | sort -V | tail -n 2 | awk "{print \"$HOME/.local/state/nix/profiles/\" \$0}" - | xargs nix run nixpkgs#nvd diff
+	cd ~/.config/nix && nix flake update && nix profile upgrade nix && ls ~/.local/state/nix/profiles | sort -V | tail -n 2 | awk "{print \"$HOME/.local/state/nix/profiles/\" \$0}" - | xargs nix run nixpkgs#nvd diff
 	cd -
 end
 

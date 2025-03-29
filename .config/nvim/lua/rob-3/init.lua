@@ -3,8 +3,8 @@ vim.g.maplocalleader = " "
 vim.keymap.set("n", "<Leader>s", function()
   vim.opt.spell = not vim.opt.spell:get()
 end)
-vim.keymap.set('n', ']q', ':cn<cr>', { silent = true })
-vim.keymap.set('n', '[q', ':cp<cr>', { silent = true })
+--vim.keymap.set('n', ']q', ':cn<cr>', { silent = true })
+--vim.keymap.set('n', '[q', ':cp<cr>', { silent = true })
 
 vim.wo.number = true
 vim.g.netrw_banner = false
@@ -31,7 +31,7 @@ vim.opt.formatoptions:append({ "o", "r" })
 vim.opt.lcs:append({ space = "·" })
 --vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 --vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
-vim.opt.completeopt = { "menu" }
+vim.opt.completeopt = { "fuzzy,menu" }
 
 local function is_file_small(file)
   file = file or "%"
@@ -460,9 +460,11 @@ require('lspconfig').yamlls.setup{}
 
 ---- note: diagnostics are not exclusive to lsp servers
 -- so these can be global keybindings
-vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
-vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({ float = false })<cr>')
-vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next({ float = false })<cr>') 
+--vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+
+--vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+--vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({ float = false })<cr>')
+--vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next({ float = false })<cr>') 
 
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
@@ -476,45 +478,52 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- these will be buffer-local keybindings
     -- because they only work if you have an active language server
 
-    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    --vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     --vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
     vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
     --vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-    vim.keymap.set('n', 'grr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-    vim.keymap.set('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-    vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    --vim.keymap.set('n', 'grr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+    --vim.keymap.set('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    --vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     --vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-    vim.keymap.set('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    --vim.keymap.set('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
     vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
     vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
   end
 })
 
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-  vim.lsp.handlers.hover,
-  {border = 'rounded'}
-)
+--vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+--  vim.lsp.handlers.hover,
+--  {border = 'rounded'}
+--)
+vim.o.winborder = 'rounded'
 
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
   vim.lsp.handlers.signature_help,
   {border = 'rounded'}
 )
 
-vim.diagnostic.config({
+local default_config = {
   float = {
     border = 'rounded',
     header = '',
     prefix = '',
     source = 'if_many'
   },
-  virtual_text = true,
-  signs = false,
-  --update_in_insert = true,
+  virtual_lines = false,
   underline = true,
   severity_sort = false,
-})
+}
+vim.diagnostic.config(default_config)
+vim.keymap.set('n', 'gl', function()
+  if vim.diagnostic.config().virtual_lines then
+    vim.diagnostic.config(default_config)
+  else
+    vim.diagnostic.config({ virtual_lines = { current_line = true } })
+  end
+end, { desc = 'Toggle showing all diagnostics or just current line' })
 
 -- latex
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
