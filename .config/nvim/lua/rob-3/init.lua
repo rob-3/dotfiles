@@ -490,22 +490,23 @@ vim.o.winborder = 'rounded'
 -- )
 
 local diagnostic_config = {
-  float = {
-    border = 'rounded',
-    header = '',
-    prefix = '',
-    source = 'if_many'
-  },
-  virtual_lines = { current_line = true },
+  -- float = {
+  --   border = 'rounded',
+  --   header = '',
+  --   prefix = '',
+  --   source = 'if_many'
+  -- },
+  virtual_lines = false,
+  virtual_text = true,
   underline = true,
   severity_sort = false,
 }
 vim.diagnostic.config(diagnostic_config)
 vim.keymap.set('n', 'gl', function()
   if vim.diagnostic.config().virtual_lines then
-    vim.diagnostic.config({ virtual_lines = false })
-  else
     vim.diagnostic.config(diagnostic_config)
+  else
+    vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
   end
 end)
 
