@@ -496,6 +496,7 @@ local diagnostic_config = {
   --   prefix = '',
   --   source = 'if_many'
   -- },
+  signs = false,
   virtual_lines = false,
   virtual_text = true,
   underline = true,
