@@ -3,7 +3,7 @@
 To pull these down and set up a new system:
 
 ```bash
-curl https://raw.githubusercontent.com/rob-3/dotfiles/refs/heads/master/setup.sh | bash
+curl https://raw.githubusercontent.com/rob-3/dotfiles/refs/heads/phone/setup.sh | bash
 ```
 
 # License
