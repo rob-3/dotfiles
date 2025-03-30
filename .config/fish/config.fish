@@ -43,14 +43,6 @@ if status is-interactive
 		eval (/opt/homebrew/bin/brew shellenv)
 	end
 
-	set __fish_git_prompt_show_informative_status 1
-	set __fish_git_prompt_showdirtystate 1
-	set __fish_git_prompt_showuntrackedfiles 1
-	set __fish_git_prompt_showstashstate 1
-	set __fish_git_prompt_char_cleanstate ""
-	set __fish_git_prompt_char_dirtystate "*"
-	set __fish_git_prompt_char_stashstate "≡"
-
 	set -gx EDITOR nvim
 
 	set fish_prompt_pwd_dir_length 0
@@ -58,50 +50,6 @@ if status is-interactive
 	# Set up fzf key bindings
 	fzf --fish | source
 end
-
-#function fish_git_prompt
-#	set -l branch (command git rev-parse --abbrev-ref HEAD 2>/dev/null)
-#	if test $status -eq 0
-#		set_color 6c6c6c
-#		echo -n " $branch"
-#
-#		# Check for untracked or dirty files
-#		if not command git diff-index --quiet HEAD -- 2>/dev/null
-#			or count (git ls-files --others --exclude-standard) >/dev/null
-#			set_color ffafd7
-#			echo -n "*"
-#		end
-#
-#		# Check upstream status
-#		set -l upstream (git rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)
-#		if test $status -eq 0
-#			set -l behind (git rev-list --count HEAD..$upstream 2>/dev/null)
-#			set -l ahead (git rev-list --count $upstream..HEAD 2>/dev/null)
-#
-#			set_color cyan
-#			if test $behind -gt 0 -a $ahead -gt 0
-#				echo -n " ⇣⇡"
-#			else if test $behind -gt 0
-#				echo -n " ⇣"
-#			else if test $ahead -gt 0
-#				echo -n " ⇡"
-#			end
-#		end
-#
-#		# Check for stashes
-#		set -l stash_count (git stash list | wc -l | tr -d ' ')
-#		if test $stash_count -gt 0
-#			set_color cyan
-#			echo -n " ≡"
-#		end
-#
-#		echo -n " "
-#		set_color normal
-#	end
-#end
-
-# name: Default
-# author: Lily Ballard
 
 function fish_prompt --description 'Write out the prompt'
 	set -l last_pipestatus $pipestatus
