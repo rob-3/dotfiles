@@ -22,7 +22,7 @@
           rlwrap
           fd
           ffmpeg
-          cloudflared
+          #cloudflared
           sqlite-analyzer
           clojure
           jq
@@ -41,7 +41,6 @@
           bat
           babashka
           rsync
-          go_1_22
           git
           shellcheck
           nix-search-github.packages.${system}.default
