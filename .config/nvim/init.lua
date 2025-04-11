@@ -361,6 +361,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
 })
 
 vim.cmd("set clipboard+=unnamedplus")
+vim.g.clipboard = 'osc52'
 
 -- function to flip on gj and gk
 vim.keymap.set("n", "j", "v:count ? 'j' : 'gj'", { expr = true, noremap = true })
