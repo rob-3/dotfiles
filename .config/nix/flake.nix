@@ -75,11 +75,6 @@
           mdx-language-server
           lemminx
           yaml-language-server
-
-          # Mac packages
-          pinentry_mac
-          colima
-          texliveFull
         ];
       in 
         { 
