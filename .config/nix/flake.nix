@@ -76,9 +76,6 @@
           mdx-language-server
           lemminx
           yaml-language-server
-
-          # Mac packages
-          colima
         ];
       in 
         { 

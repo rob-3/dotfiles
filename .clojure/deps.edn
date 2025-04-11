@@ -29,7 +29,7 @@
   ;;     :extra-paths - vector of additional paths to add to the classpath
   ;;     :classpath-overrides - map of lib to path that overrides the result of resolving deps
 
- :aliases {:user {:extra-deps {global/user-clj {:local/root "/Users/rob/.clojure/"}
+ :aliases {:user {:extra-deps {global/user-clj {:local/root "/home/rob/.clojure/"}
                                vvvvalvalval/scope-capture {:mvn/version "0.3.3"}}}
            :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "1.1.1"}}
                    :main-opts ["-m" "nrepl.cmdline" "--interactive" "--color"]}
