@@ -3,12 +3,9 @@ vim.g.maplocalleader = " "
 vim.keymap.set("n", "<Leader>s", function()
   vim.opt.spell = not vim.opt.spell:get()
 end)
---vim.keymap.set('n', ']q', ':cn<cr>', { silent = true })
---vim.keymap.set('n', '[q', ':cp<cr>', { silent = true })
 
 vim.wo.number = true
 vim.g.netrw_banner = false
--- vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
 vim.opt.scrolloff = 5
@@ -19,9 +16,7 @@ vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.backup = true
 vim.opt.backupdir = vim.fn.expand("~/.local/state/nvim/backup//")
---vim.opt.dir = vim.fn.expand("~/.config/nvim/.neovim_tmp//")
 vim.opt.undofile = true
---vim.opt.undodir = vim.fn.expand("~/.config/nvim/.neovim_undo//")
 vim.opt.modeline = false
 vim.opt.wrap = false
 vim.opt.signcolumn = "auto"
@@ -29,8 +24,6 @@ vim.opt.lbr = true
 vim.opt.smartindent = true
 vim.opt.formatoptions:append({ "o", "r" })
 vim.opt.lcs:append({ space = "·" })
---vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
---vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 vim.opt.completeopt = { "fuzzy,menu" }
 vim.cmd.colorscheme("habamax")
 
@@ -66,84 +59,7 @@ vim.g["conjure#mapping#def_word"] = ""
 vim.cmd("let g:matchup_matchparen_offscreen = { 'method': '' }")
 vim.cmd("let g:disable_virtual_text = 1")
 
--- local default_setup = function(server)
---   -- graciously adapted from nvim-cmp
---   -- https://github.com/hrsh7th/cmp-nvim-lsp/blob/main/lua/cmp_nvim_lsp/init.lua
---   override = {}
---   local if_nil = function(val, default)
---     if val == nil then return default end
---     return val
---   end
---   if server == "tsserver" then 
---     return
---   end
---   require('lspconfig')[server].setup({
---     capabilities = {
---       textDocument = {
---         completion = {
---           dynamicRegistration = if_nil(override.dynamicRegistration, false),
---           completionItem = {
---             snippetSupport = if_nil(override.snippetSupport, true),
---             commitCharactersSupport = if_nil(override.commitCharactersSupport, true),
---             deprecatedSupport = if_nil(override.deprecatedSupport, true),
---             preselectSupport = if_nil(override.preselectSupport, true),
---             tagSupport = if_nil(override.tagSupport, {
---               valueSet = {
---                 1, -- Deprecated
---               }
---             }),
---             insertReplaceSupport = if_nil(override.insertReplaceSupport, true),
---             resolveSupport = if_nil(override.resolveSupport, {
---               properties = {
---                 "documentation",
---                 "detail",
---                 "additionalTextEdits",
---                 "sortText",
---                 "filterText",
---                 "insertText",
---                 "textEdit",
---                 "insertTextFormat",
---                 "insertTextMode",
---               },
---             }),
---             insertTextModeSupport = if_nil(override.insertTextModeSupport, {
---               valueSet = {
---                 1, -- asIs
---                 2, -- adjustIndentation
---               }
---             }),
---             labelDetailsSupport = if_nil(override.labelDetailsSupport, true),
---           },
---           contextSupport = if_nil(override.snippetSupport, true),
---           insertTextMode = if_nil(override.insertTextMode, 1),
---           completionList = if_nil(override.completionList, {
---             itemDefaults = {
---               'commitCharacters',
---               'editRange',
---               'insertTextFormat',
---               'insertTextMode',
---               'data',
---             }
---           })
---         },
---       },
---     }
---   })
--- end
-
 require("lazy").setup({
-  -- {"folke/tokyonight.nvim",
-  --   config = function()
-  --     require("tokyonight").setup({
-  --       on_highlights = function (hl, c)
-  --         hl.EndOfBuffer = {
-  --           fg = c.dark3
-  --         }
-  --       end
-  --     })
-  --     vim.cmd.colorscheme("tokyonight-storm")
-  --   end
-  -- },
   {
     "nvim-treesitter/nvim-treesitter",
     --commit="42acc3f6e778dd6eb6e0e92690c7d56eab859b6a",
@@ -281,20 +197,20 @@ require("lazy").setup({
   {
     "Robitx/gp.nvim",
     config = function()
+      local system_prompt = 
+        "You are a pleasant, clever AI assistant with a dry sense of humor.\n\n"
+        .. "The user provided the additional info about how they would like you to respond:\n\n"
+        .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
+        .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
+        .. "- Ask questions if you need clarification to provide better answer.\n"
+        .. "- Don't elide any code from your output if the answer requires coding.\n"
+        .. "- For simple questions, a response with only code or a command is perfect.\n"
+        .. "- Please be concise and favor keeping your response short.\n"
+        .. "- Take a deep breath; You've got this!\n"
       require("gp").setup({
         providers = {
-          openai = {
-            endpoint = "https://api.openai.com/v1/chat/completions",
-            secret = os.getenv("OPENAI_API_KEY")
-          },
-          anthropic = {
-            endpoint = "https://api.anthropic.com/v1/messages",
-            secret = os.getenv("ANTHROPIC_API_KEY")
-          },
-          googleai = {
-            endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:streamGenerateContent?key={{secret}}",
-            secret = os.getenv("GOOGLEAI_API_KEY")
-          }
+          anthropic = { disable = false },
+          googleai = { disable = false }
         },
         agents = {
           {
@@ -302,108 +218,42 @@ require("lazy").setup({
             provider = "anthropic",
             chat = true,
             command = false,
-            -- string with model name or table with model name and parameters
             model = { model = "claude-3-7-sonnet-20250219", temperature = 0.7, top_p = 1 },
-            -- system prompt (use this to specify the persona/role of the AI)
-            system_prompt = "You are a pleasant, clever AI assistant with a dry sense of "
-              .. "humor.\n\n"
-              .. "The user provided the additional info about how they would like you to respond:\n\n"
-              .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
-              .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
-              .. "- Ask questions if you need clarification to provide better answer.\n"
-              .. "- Don't elide any code from your output if the answer requires coding.\n"
-              .. "- For simple questions, a response with only code or a command is perfect.\n"
-              .. "- Please be concise and favor keeping your response short.\n"
-              .. "- Take a deep breath; You've got this!\n",
+            system_prompt = system_prompt
           },
           {
             name = "ConciseGPT4",
             chat = true,
             command = false,
-            -- string with model name or table with model name and parameters
             model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
-            -- system prompt (use this to specify the persona/role of the AI)
-            system_prompt = "You are a pleasant, clever AI assistant with a dry sense of "
-              .. "humor.\n\n"
-              .. "The user provided the additional info about how they would like you to respond:\n\n"
-              --.. "- If there's a good chance, use a short and clever response.\n"
-              .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
-              .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
-              --.. "- Feel free to speculate, but mention if you are speculating.\n"
-              .. "- Ask questions if you need clarification to provide better answer.\n"
-              --.. "- Think deeply and carefully from first principles step by step.\n"
-              --.. "- Zoom out first to see the big picture and then zoom in to details.\n"
-              --.. "- Use Socratic method to improve your thinking and coding skills.\n"
-              .. "- Don't elide any code from your output if the answer requires coding.\n"
-              .. "- For simple questions, a response with only code or a command is perfect.\n"
-              .. "- Please be concise and favor keeping your response short.\n"
-              .. "- Take a deep breath; You've got this!\n",
+            system_prompt = system_prompt
           },
           {
             name = "ConciseGemini",
             provider = "googleai",
             chat = true,
             command = false,
-            -- string with model name or table with model name and parameters
  			      model = { model = "gemini-2.5-pro-exp-03-25", temperature = 1.1, top_p = 1 }, 
-            -- system prompt (use this to specify the persona/role of the AI)
-            system_prompt = "You are a pleasant, clever AI assistant with a dry sense of "
-              .. "humor.\n\n"
-              .. "The user provided the additional info about how they would like you to respond:\n\n"
-              --.. "- If there's a good chance, use a short and clever response.\n"
-              .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
-              .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
-              --.. "- Feel free to speculate, but mention if you are speculating.\n"
-              .. "- Ask questions if you need clarification to provide better answer.\n"
-              --.. "- Think deeply and carefully from first principles step by step.\n"
-              --.. "- Zoom out first to see the big picture and then zoom in to details.\n"
-              --.. "- Use Socratic method to improve your thinking and coding skills.\n"
-              .. "- Don't elide any code from your output if the answer requires coding.\n"
-              .. "- For simple questions, a response with only code or a command is perfect.\n"
-              .. "- Please be concise and favor keeping your response short.\n"
-              .. "- Take a deep breath; You've got this!\n",
+            system_prompt = system_prompt
           },
           {
             name = "ChatGPT4",
             chat = true,
             command = false,
-            -- string with model name or table with model name and parameters
             model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
-            -- system prompt (use this to specify the persona/role of the AI)
-            system_prompt = "You are a pleasant, clever AI assistant with a dry, subtle sense of "
-              .. "callback humor, but you have a deep, cosmopolitan intelligence under the surface.\n\n"
-              .. "The user provided the additional info about how they would like you to respond:\n\n"
-              --.. "- If there's a good chance, use a short and clever response.\n"
-              .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
-              .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
-              --.. "- Feel free to speculate, but mention if you are speculating.\n"
-              .. "- Ask questions if you need clarification to provide better answer.\n"
-              --.. "- Think deeply and carefully from first principles step by step.\n"
-              --.. "- Zoom out first to see the big picture and then zoom in to details.\n"
-              --.. "- Use Socratic method to improve your thinking and coding skills.\n"
-              .. "- Don't elide any code from your output if the answer requires coding.\n"
-              .. "- For simple questions, a response with only code or a command is perfect.\n"
-              .. "- Please be concise and favor keeping your response short.\n"
-              .. "- Take a deep breath; You've got this!\n",
+            system_prompt = system_prompt
           },
-          { name = "ChatGPT3-5", disable = true },
           {
             name = "CodeGPT4",
             chat = false,
             command = true,
-            -- string with model name or table with model name and parameters
             model = { model = "gpt-4o", temperature = 0.8, top_p = 1 },
-            -- system prompt (use this to specify the persona/role of the AI)
             system_prompt = "You are an AI working as a code editor.\n\n"
               .. "Please AVOID COMMENTARY OUTSIDE OF THE SNIPPET RESPONSE.\n"
               .. "START AND END YOUR ANSWER WITH:\n\n```",
           },
-          { name = "CodeGPT3-5", disable = true },
         },
       })
-
-      -- or setup with your own config (see Install > Configuration in Readme)
-      -- require("gp").setup(config)
 
       -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
       local function keymapOptions(desc)
@@ -442,89 +292,30 @@ require('lspconfig').nil_ls.setup {
     },
   },
 }
-
 require('lspconfig').ts_ls.setup {}
-
 require('lspconfig').clojure_lsp.setup {}
-
 require('lspconfig').pyright.setup {}
-
 require('lspconfig').rust_analyzer.setup {}
-
 require('lspconfig').bashls.setup {}
-
 require('lspconfig').clangd.setup {}
-
 require('lspconfig').jdtls.setup {}
-
 require('lspconfig').html.setup {}
-
 require('lspconfig').cssls.setup {}
-
 require('lspconfig').jsonls.setup {}
-
 require('lspconfig').zls.setup {}
-
 require('lspconfig').mdx_analyzer.setup {}
-
 require('lspconfig').lemminx.setup{}
-
 require('lspconfig').yamlls.setup{}
-
----- note: diagnostics are not exclusive to lsp servers
--- so these can be global keybindings
---vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
-
---vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
---vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({ float = false })<cr>')
---vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next({ float = false })<cr>') 
 
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(event)
-    --local client = vim.lsp.get_client_by_id(event.data.client_id)
-    --if client.server_capabilities.inlayHintProvider then
-    --  vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
-    --end
-    --local opts = {buffer = event.buf}
-
-    -- these will be buffer-local keybindings
-    -- because they only work if you have an active language server
-
-    --vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-    --vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-    --vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-    --vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-    --vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-    --vim.keymap.set('n', 'grr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-    --vim.keymap.set('i', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-    --vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-    --vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-    --vim.keymap.set('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
     vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-    --vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
   end
 })
 
---vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
---  vim.lsp.handlers.hover,
---  {border = 'rounded'}
---)
--- vim.o.winborder = 'rounded'
-
--- vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
---   vim.lsp.handlers.signature_help,
---   {border = 'rounded'}
--- )
-
 local diagnostic_config = {
-  -- float = {
-  --   border = 'rounded',
-  --   header = '',
-  --   prefix = '',
-  --   source = 'if_many'
-  -- },
   signs = false,
   virtual_lines = false,
   virtual_text = true,
