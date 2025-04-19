@@ -8,7 +8,7 @@ end)
 
 vim.wo.number = true
 vim.g.netrw_banner = false
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
 vim.opt.scrolloff = 5
@@ -32,6 +32,7 @@ vim.opt.lcs:append({ space = "·" })
 --vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 --vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 vim.opt.completeopt = { "fuzzy,menu" }
+vim.cmd.colorscheme("habamax")
 
 local function is_file_small(file)
   file = file or "%"
@@ -131,18 +132,18 @@ vim.cmd("let g:disable_virtual_text = 1")
 -- end
 
 require("lazy").setup({
-  {"folke/tokyonight.nvim",
-    config = function()
-      require("tokyonight").setup({
-        on_highlights = function (hl, c)
-          hl.EndOfBuffer = {
-            fg = c.dark3
-          }
-        end
-      })
-      vim.cmd.colorscheme("tokyonight-storm")
-    end
-  },
+  -- {"folke/tokyonight.nvim",
+  --   config = function()
+  --     require("tokyonight").setup({
+  --       on_highlights = function (hl, c)
+  --         hl.EndOfBuffer = {
+  --           fg = c.dark3
+  --         }
+  --       end
+  --     })
+  --     vim.cmd.colorscheme("tokyonight-storm")
+  --   end
+  -- },
   {
     "nvim-treesitter/nvim-treesitter",
     --commit="42acc3f6e778dd6eb6e0e92690c7d56eab859b6a",
@@ -289,6 +290,10 @@ require("lazy").setup({
           anthropic = {
             endpoint = "https://api.anthropic.com/v1/messages",
             secret = os.getenv("ANTHROPIC_API_KEY")
+          },
+          googleai = {
+            endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:streamGenerateContent?key={{secret}}",
+            secret = os.getenv("GOOGLEAI_API_KEY")
           }
         },
         agents = {
@@ -317,6 +322,30 @@ require("lazy").setup({
             command = false,
             -- string with model name or table with model name and parameters
             model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
+            -- system prompt (use this to specify the persona/role of the AI)
+            system_prompt = "You are a pleasant, clever AI assistant with a dry sense of "
+              .. "humor.\n\n"
+              .. "The user provided the additional info about how they would like you to respond:\n\n"
+              --.. "- If there's a good chance, use a short and clever response.\n"
+              .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
+              .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
+              --.. "- Feel free to speculate, but mention if you are speculating.\n"
+              .. "- Ask questions if you need clarification to provide better answer.\n"
+              --.. "- Think deeply and carefully from first principles step by step.\n"
+              --.. "- Zoom out first to see the big picture and then zoom in to details.\n"
+              --.. "- Use Socratic method to improve your thinking and coding skills.\n"
+              .. "- Don't elide any code from your output if the answer requires coding.\n"
+              .. "- For simple questions, a response with only code or a command is perfect.\n"
+              .. "- Please be concise and favor keeping your response short.\n"
+              .. "- Take a deep breath; You've got this!\n",
+          },
+          {
+            name = "ConciseGemini",
+            provider = "googleai",
+            chat = true,
+            command = false,
+            -- string with model name or table with model name and parameters
+ 			      model = { model = "gemini-2.5-pro-exp-03-25", temperature = 1.1, top_p = 1 }, 
             -- system prompt (use this to specify the persona/role of the AI)
             system_prompt = "You are a pleasant, clever AI assistant with a dry sense of "
               .. "humor.\n\n"
@@ -482,7 +511,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --  vim.lsp.handlers.hover,
 --  {border = 'rounded'}
 --)
-vim.o.winborder = 'rounded'
+-- vim.o.winborder = 'rounded'
 
 -- vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
 --   vim.lsp.handlers.signature_help,

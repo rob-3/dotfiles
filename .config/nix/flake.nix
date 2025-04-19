@@ -80,7 +80,7 @@
           pinentry_mac
           colima
           texliveFull
-          brave
+          #brave
         ];
       in 
         { 
