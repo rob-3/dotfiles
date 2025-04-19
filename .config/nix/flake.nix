@@ -22,7 +22,7 @@
           rlwrap
           fd
           ffmpeg
-          #cloudflared
+          cloudflared
           sqlite-analyzer
           clojure
           jq
@@ -80,7 +80,6 @@
           pinentry_mac
           colima
           texliveFull
-          #brave
         ];
       in 
         { 
