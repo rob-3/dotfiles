@@ -3,12 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     nix-search-github.url = "github:peterldowns/nix-search-cli";
     nix-search-github.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { nix-search-github, nixpkgs, flake-utils, ... }:
+  outputs = { nix-search-github, nixpkgs, nixpkgs-master, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let 
         pkgs = nixpkgs.legacyPackages.${system};
@@ -62,7 +63,7 @@
           clojure-lsp
           clj-kondo
           unzip
-          jujutsu
+          nixpkgs-master.legacyPackages.${system}.jujutsu
           astro-language-server
           clojure-lsp
           pyright
