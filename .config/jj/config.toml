@@ -1,0 +1,25 @@
+[ui]
+default-command = "log"
+#diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+
+[user]
+name = "Robert Boyd III"
+email = "git@robertboyd.dev"
+
+[templates]
+draft_commit_description = '''
+concat(
+  description,
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.summary()),
+  ),
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.stat(72)),
+  ),
+  "\n",
+  "JJ: ignore-rest\n",
+  diff.git(),
+)
+'''
