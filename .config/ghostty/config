@@ -36,3 +36,4 @@ keybind = ctrl+[=text:\x1b
 #keybind = ctrl+j=jump_to_prompt:1
 
 clipboard-read = allow
+#command = ssh -p 2222 rob@localhost
