@@ -183,12 +183,12 @@ require("lazy").setup({
         }
       }
 
-      vim.keymap.set("n", "<leader>f", "<cmd>lua require('fzf-lua').files({ cmd = vim.env.FZF_DEFAULT_COMMAND, include_current_session = true })<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>f", "<cmd>lua require('fzf-lua').files({ cmd = vim.env.FZF_DEFAULT_COMMAND, include_current_session = true, silent = true })<CR>", { noremap = true, silent = true })
       --vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_project()<CR>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep_native()<CR>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>p", "<cmd>lua require('fzf-lua').oldfiles()<CR>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
-      vim.keymap.set("n", "<leader>i", "<cmd>lua require('fzf-lua').git_files()<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>i", "<cmd>lua require('fzf-lua').git_files({ silent = true })<CR>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>m", "<cmd>lua require('fzf-lua').git_status()<CR>", { noremap = true, silent = true })
     end

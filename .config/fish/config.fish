@@ -29,7 +29,7 @@ if status is-interactive
 	# visual mode, but due to fish_cursor_default, is redundant here
 	set fish_cursor_visual block
 
-	abbr vimrc "nvim ~/.config/nvim/lua/rob-3/init.lua"
+	abbr vimrc "nvim ~/.config/nvim/init.lua"
 	#alias ssh="kitty +kitten ssh"
 	#abbr ssh "wezterm ssh"
 	abbr vimdiff "nvim -d"
