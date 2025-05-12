@@ -53,8 +53,8 @@
           direnv
           restic
           coreutils
-          docker
           fish
+          podman
           cargo
           typescript-language-server
           tree
