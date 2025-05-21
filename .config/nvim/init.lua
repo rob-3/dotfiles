@@ -24,7 +24,7 @@ vim.opt.lbr = true
 vim.opt.smartindent = true
 vim.opt.formatoptions:append({ "o", "r" })
 vim.opt.lcs:append({ space = "·" })
-vim.opt.completeopt = { "fuzzy,menu" }
+vim.opt.completeopt = { "fuzzy", "menu" }
 vim.cmd.colorscheme("habamax")
 
 local function is_file_small(file)
@@ -33,11 +33,14 @@ local function is_file_small(file)
   return file_size < 256 * 1024
 end
 
-local is_small = is_file_small()
-
-if not is_small then
-  vim.api.nvim_command("syntax off")
-end
+vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+  callback = function()
+    if not is_file_small(vim.fn.expand("<afile>")) then
+      vim.cmd("setlocal syntax=off")
+      vim.cmd("TSBufDisable highlight")
+    end
+  end
+})
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -56,8 +59,8 @@ vim.g["conjure#log#hud#enabled"] = false
 vim.g["conjure#mapping#doc_word"] = ""
 vim.g["conjure#mapping#def_word"] = ""
 
-vim.cmd("let g:matchup_matchparen_offscreen = { 'method': '' }")
-vim.cmd("let g:disable_virtual_text = 1")
+vim.g.matchup_matchparen_offscreen = { method = "" }
+vim.g.disable_virtual_text = 1
 
 require("lazy").setup({
   {
@@ -133,7 +136,7 @@ require("lazy").setup({
   },
   {
     "lewis6991/gitsigns.nvim",
-    event = "BufReadPre",
+    event = "VeryLazy",
     opts = function()
       --- @type Gitsigns.Config
       local C = {
@@ -191,6 +194,8 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>i", "<cmd>lua require('fzf-lua').git_files({ silent = true })<CR>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>m", "<cmd>lua require('fzf-lua').git_status()<CR>", { noremap = true, silent = true })
+
+      vim.cmd(":FzfLua register_ui_select")
     end
   },
   -- lazy.nvim
@@ -281,7 +286,6 @@ require("lazy").setup({
 
 require('lspconfig').nil_ls.setup {
   autostart = true,
-  capabilities = caps,
   cmd = { "nil" },
   settings = {
     ['nil'] = {
@@ -310,8 +314,8 @@ require('lspconfig').yamlls.setup{}
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(event)
-    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-    vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+    vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>')
   end
 })
 
@@ -341,15 +345,6 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 
 vim.opt.mouse = ""
 
-vim.api.nvim_create_autocmd({ "BufReadPre" }, {
-  callback = function()
-    if not is_file_small(vim.fn.expand("<afile>")) then
-      vim.cmd("setlocal syntax=off")
-      vim.cmd("TSBufDisable highlight")
-    end
-  end
-})
-
 vim.o.fixeol = false
 
 -- set mdx filetype
@@ -360,7 +355,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
   end
 })
 
-vim.cmd("set clipboard+=unnamedplus")
+vim.opt.clipboard:append("unnamedplus")
+vim.g.clipboard = 'osc52'
 
 -- function to flip on gj and gk
 vim.keymap.set("n", "j", "v:count ? 'j' : 'gj'", { expr = true, noremap = true })
@@ -369,9 +365,5 @@ vim.keymap.set("n", "k", "v:count ? 'k' : 'gk'", { expr = true, noremap = true }
 vim.cmd([[cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"]])
 vim.cmd([[cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"]])
 
-vim.cmd("omap ]] <Plug>(matchup-]%)")
-vim.cmd("omap [[ <Plug>(matchup-[%)")
-vim.cmd("nmap ]] <Plug>(matchup-]%)")
-vim.cmd("nmap [[ <Plug>(matchup-[%)")
-vim.cmd("xmap ]] <Plug>(matchup-]%)")
-vim.cmd("xmap [[ <Plug>(matchup-[%)")
+vim.keymap.set({ "o", "x", "n" }, "]]", "<Plug>(matchup-]%)", { noremap = false, silent = true })
+vim.keymap.set({ "o", "x", "n" }, "[[", "<Plug>(matchup-[%)", { noremap = false, silent = true })
