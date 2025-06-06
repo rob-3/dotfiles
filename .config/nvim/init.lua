@@ -125,7 +125,7 @@ require("lazy").setup({
     end
   },
   {"eraserhd/parinfer-rust",
-    build = "nix build && mkdir -p ./target/ && ln -sfn ../result/lib ./target/release",
+    build = "nix build",
   },
   "tpope/vim-fugitive",
   "farmergreg/vim-lastplace",
@@ -367,3 +367,8 @@ vim.cmd([[cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"]])
 
 vim.keymap.set({ "o", "x", "n" }, "]]", "<Plug>(matchup-]%)", { noremap = false, silent = true })
 vim.keymap.set({ "o", "x", "n" }, "[[", "<Plug>(matchup-[%)", { noremap = false, silent = true })
+
+if vim.fn.executable("rg") == 1 then
+  vim.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
+  vim.opt.grepformat = "%f:%l:%c:%m"
+end
