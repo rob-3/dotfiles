@@ -125,7 +125,7 @@ require("lazy").setup({
     end
   },
   {"eraserhd/parinfer-rust",
-    build = "nix build",
+    build = "nix build && mkdir -p ./target/ && ln -sfn ../result/lib ./target/release",
   },
   "tpope/vim-fugitive",
   "farmergreg/vim-lastplace",
