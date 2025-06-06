@@ -4,7 +4,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 
 nix run nixpkgs#git -- clone --bare https://github.com/rob-3/dotfiles "$HOME/.dotfiles"
-nix run nixpkgs#git -- --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" checkout linux
+nix run nixpkgs#git -- --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" checkout
 
 cd "$HOME/.config/nix" || exit
 nix profile install
