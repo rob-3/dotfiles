@@ -105,6 +105,9 @@ function update
 	if test (hostname) = "ouroboros.local"
 		brew update && brew upgrade && brew upgrade --cask --greedy
 	end
+	if test (hostname) = "debian"
+		sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+	end
 	cd ~/.config/nix && nix flake update && nix profile upgrade nix && ls ~/.local/state/nix/profiles | sort -V | tail -n 2 | awk "{print \"$HOME/.local/state/nix/profiles/\" \$0}" - | xargs nix run nixpkgs#nvd diff
 	cd -
 end
