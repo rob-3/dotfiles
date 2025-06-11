@@ -1,6 +1,5 @@
 [ui]
 default-command = "log"
-#diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 
 [user]
 name = "Robert Boyd III"
@@ -23,3 +22,6 @@ concat(
   diff.git(),
 )
 '''
+
+[aliases]
+rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable())", "-d", "trunk()"]
