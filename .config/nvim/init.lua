@@ -238,7 +238,7 @@ require("lazy").setup({
             provider = "googleai",
             chat = true,
             command = false,
- 			      model = { model = "gemini-2.5-pro-preview-05-06", temperature = 1.1, top_p = 1 }, 
+ 			      model = { model = "gemini-2.5-pro-preview-06-05", temperature = 1.1, top_p = 1 }, 
             system_prompt = system_prompt
           },
           {
