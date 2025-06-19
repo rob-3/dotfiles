@@ -63,7 +63,7 @@
           clojure-lsp
           clj-kondo
           unzip
-          nixpkgs-master.legacyPackages.${system}.jujutsu
+          jujutsu
           astro-language-server
           clojure-lsp
           pyright
