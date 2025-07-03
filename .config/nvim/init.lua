@@ -121,7 +121,7 @@ require("lazy").setup({
   },
   {"Olical/conjure",
     config = function()
-      --vim.keymap.set("n", "<leader><leader>", ":ConjureEvalCurrentForm<cr>", { silent = true })
+      vim.keymap.set("n", "<leader>d", "mryiw:ConjureEval (def <C-r>\" *1)<CR>`r", { silent = true })
     end
   },
   {"eraserhd/parinfer-rust",
