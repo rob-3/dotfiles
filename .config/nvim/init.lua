@@ -27,6 +27,17 @@ vim.opt.lcs:append({ space = "·" })
 vim.opt.completeopt = { "fuzzy", "menu" }
 vim.cmd.colorscheme("habamax")
 
+vim.cmd("au BufRead,BufNewFile *.cljr set filetype=clojure")
+
+function get_node()
+  local ts_utils = require('nvim-treesitter.ts_utils')
+  local node = ts_utils.get_node_at_cursor()
+  if node then
+    local text = vim.treesitter.get_node_text(node, 0)
+    return text
+  end
+end
+
 local function is_file_small(file)
   file = file or "%"
   local file_size = vim.api.nvim_call_function("getfsize", { vim.fn.expand(file) })
@@ -198,6 +209,19 @@ require("lazy").setup({
       vim.cmd(":FzfLua register_ui_select")
     end
   },
+--  {"jpalardy/vim-slime", 
+--    ft = { "clojure" },
+--    init = function()
+--      vim.g.slime_no_mappings = 1
+--      vim.g.slime_target = "neovim"
+--    end,
+--    config = function()
+--      vim.keymap.set('n', '<leader><leader>', function()
+--        local text = get_node()
+--        vim.fn['slime#send'](text .. "\n")
+--      end)
+--    end
+--  },
   -- lazy.nvim
   {
     "Robitx/gp.nvim",
