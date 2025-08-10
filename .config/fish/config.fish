@@ -94,7 +94,7 @@ end
 
 function shell
 	set packages (string replace -r '^' 'nixpkgs#' $argv)
-	nix shell $packages --command fish
+	nix shell --offline $packages --command fish
 end
 
 function review-download

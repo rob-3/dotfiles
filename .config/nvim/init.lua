@@ -209,24 +209,26 @@ require("lazy").setup({
       vim.cmd(":FzfLua register_ui_select")
     end
   },
---  {"jpalardy/vim-slime", 
---    ft = { "clojure" },
---    init = function()
---      vim.g.slime_no_mappings = 1
---      vim.g.slime_target = "neovim"
---    end,
---    config = function()
---      vim.keymap.set('n', '<leader><leader>', function()
---        local text = get_node()
---        vim.fn['slime#send'](text .. "\n")
---      end)
---    end
---  },
+  -- {"jpalardy/vim-slime",
+  --   ft = { "clojure" },
+  --   init = function()
+  --     vim.g.slime_no_mappings = 1
+  --     vim.g.slime_target = "neovim"
+  --   end,
+  --   config = function()
+  --     vim.keymap.set('n', '<leader>ee', 'va):SlimeSend<cr>')
+  --     vim.keymap.set('n', '<leader>ew', function()
+  --       local text = get_node()
+  --       vim.fn['slime#send'](text .. "\n")
+  --     end)
+  --     vim.keymap.set('n', '<leader>eb', ':%SlimeSend<cr>')
+  --   end
+  -- },
   -- lazy.nvim
   {
     "Robitx/gp.nvim",
     config = function()
-      local system_prompt = 
+      local system_prompt =
         "You are a pleasant, clever AI assistant with a dry sense of humor.\n\n"
         .. "The user provided the additional info about how they would like you to respond:\n\n"
         .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
@@ -251,10 +253,10 @@ require("lazy").setup({
             system_prompt = system_prompt
           },
           {
-            name = "ConciseGPT4",
+            name = "ConciseGPT5",
             chat = true,
             command = false,
-            model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
+            model = { model = "gpt-5", temperature = 1.1, top_p = 1 },
             system_prompt = system_prompt
           },
           {
@@ -262,7 +264,15 @@ require("lazy").setup({
             provider = "googleai",
             chat = true,
             command = false,
- 			      model = { model = "gemini-2.5-pro-preview-06-05", temperature = 1.1, top_p = 1 }, 
+            model = { model = "gemini-2.5-pro", temperature = 1.1, top_p = 1 },
+            system_prompt = system_prompt
+          },
+          {
+            name = "ConciseGeminiFlash",
+            provider = "googleai",
+            chat = true,
+            command = false,
+            model = { model = "gemini-2.5-flash-lite", temperature = 1.1, top_p = 1 },
             system_prompt = system_prompt
           },
           {

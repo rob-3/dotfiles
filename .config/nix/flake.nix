@@ -13,6 +13,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let 
         pkgs = nixpkgs.legacyPackages.${system};
+        master = nixpkgs-master.legacyPackages.${system};
         base = with pkgs; [
           neovim
           curl
@@ -76,6 +77,7 @@
           mdx-language-server
           lemminx
           yaml-language-server
+          master.ollama
         ];
       in 
         { 
