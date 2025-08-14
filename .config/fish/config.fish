@@ -36,6 +36,8 @@ if status is-interactive
 	#alias icat="kitty +kitten icat"
 	#abbr icat "wezterm imgcat"
 	abbr g "nvim +':GpChatNew'"
+	abbr shell --set-cursor "nix shell --offline nixpkgs#% --command fish "
+	abbr ntfy --set-cursor "curl https://rob-3.dev/ntfy/general -d \"%\""
 
 	set fish_greeting
 
@@ -92,10 +94,10 @@ function postexec_test --on-event fish_postexec
    echo
 end
 
-function shell
-	set packages (string replace -r '^' 'nixpkgs#' $argv)
-	nix shell --offline $packages --command fish
-end
+# function shell
+# 	set packages (string replace -r '^' 'nixpkgs#' $argv)
+# 	nix shell --offline $packages --command fish
+# end
 
 function review-download
 	node code-review/download-client/dist/index.js $argv
