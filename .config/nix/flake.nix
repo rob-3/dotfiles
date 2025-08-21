@@ -77,7 +77,6 @@
           mdx-language-server
           lemminx
           yaml-language-server
-          master.ollama
         ];
       in 
         { 
