@@ -49,8 +49,6 @@
           nil
           python3Full
           gcc
-          gnupg
-          devbox
           direnv
           restic
           coreutils
