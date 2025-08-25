@@ -18,27 +18,20 @@
           neovim
           curl
           sqlite-interactive
+          sqlite-analyzer
           ripgrep
           nodejs_latest
           fzf
           rlwrap
           fd
-          ffmpeg
           cloudflared
-          sqlite-analyzer
           clojure
           jq
           gnugrep
-          units
-          luajit_openresty
-          nmap
-          wrk
           watchexec
           wget
           difftastic
-          pandoc
           openssh
-          imagemagick
           htop
           bat
           babashka
@@ -47,14 +40,11 @@
           shellcheck
           nix-search-github.packages.${system}.default
           nil
-          python3Full
           gcc
           direnv
           restic
           coreutils
           fish
-          podman
-          cargo
           typescript-language-server
           tree
           zulu23
