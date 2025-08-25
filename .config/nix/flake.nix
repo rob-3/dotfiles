@@ -20,7 +20,6 @@
           sqlite-interactive
           sqlite-analyzer
           ripgrep
-          nodejs_latest
           fzf
           rlwrap
           fd
@@ -40,6 +39,7 @@
           shellcheck
           nix-search-github.packages.${system}.default
           nil
+          nixfmt-rfc-style
           gcc
           direnv
           restic
