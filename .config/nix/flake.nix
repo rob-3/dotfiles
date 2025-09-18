@@ -65,6 +65,7 @@
           mdx-language-server
           lemminx
           yaml-language-server
+          tailscale
         ];
       in 
         { 

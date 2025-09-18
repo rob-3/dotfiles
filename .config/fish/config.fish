@@ -36,8 +36,9 @@ if status is-interactive
 	#alias icat="kitty +kitten icat"
 	#abbr icat "wezterm imgcat"
 	abbr g "nvim +':GpChatNew'"
-	abbr shell --set-cursor "nix shell --offline nixpkgs#% --command fish "
+	abbr shell --set-cursor "nix shell nixpkgs#% --command fish "
 	abbr ntfy --set-cursor "curl https://rob-3.dev/ntfy/general -d \"%\""
+	abbr until --set-cursor "while not %; sleep 1; end"
 
 	set fish_greeting
 
