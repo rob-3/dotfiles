@@ -319,7 +319,7 @@ require("lazy").setup({
   },
 })
 
-require('lspconfig').nil_ls.setup {
+vim.lsp.enable("nil_ls", {
   autostart = true,
   cmd = { "nil" },
   settings = {
@@ -329,21 +329,21 @@ require('lspconfig').nil_ls.setup {
       },
     },
   },
-}
-require('lspconfig').ts_ls.setup {}
-require('lspconfig').clojure_lsp.setup {}
-require('lspconfig').pyright.setup {}
-require('lspconfig').rust_analyzer.setup {}
-require('lspconfig').bashls.setup {}
-require('lspconfig').clangd.setup {}
-require('lspconfig').jdtls.setup {}
-require('lspconfig').html.setup {}
-require('lspconfig').cssls.setup {}
-require('lspconfig').jsonls.setup {}
-require('lspconfig').zls.setup {}
-require('lspconfig').mdx_analyzer.setup {}
-require('lspconfig').lemminx.setup{}
-require('lspconfig').yamlls.setup{}
+})
+vim.lsp.enable('ts_ls', {})
+vim.lsp.enable('clojure_lsp', {})
+vim.lsp.enable('pyright', {})
+vim.lsp.enable('rust_analyzer', {})
+vim.lsp.enable('bashls', {})
+vim.lsp.enable('clangd', {})
+vim.lsp.enable('jdtls', {})
+vim.lsp.enable('html', {})
+vim.lsp.enable('cssls', {})
+vim.lsp.enable('jsonls', {})
+vim.lsp.enable('zls', {})
+vim.lsp.enable('mdx_analyzer', {})
+vim.lsp.enable('lemminx', {})
+vim.lsp.enable('yamlls', {})
 
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
