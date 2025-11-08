@@ -344,6 +344,8 @@ vim.lsp.enable('zls', {})
 vim.lsp.enable('mdx_analyzer', {})
 vim.lsp.enable('lemminx', {})
 vim.lsp.enable('yamlls', {})
+vim.lsp.enable('yamlls', {})
+vim.lsp.enable('astro')
 
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
