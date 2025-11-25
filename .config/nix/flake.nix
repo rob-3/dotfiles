@@ -47,7 +47,7 @@
           fish
           typescript-language-server
           tree
-          zulu23
+          zulu25
           procps
           clojure-lsp
           clj-kondo

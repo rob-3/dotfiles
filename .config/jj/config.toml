@@ -24,4 +24,10 @@ concat(
 '''
 
 [aliases]
-rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable())", "-d", "trunk()"]
+rebase-all = ["rebase", "-s", "roots(trunk()..mutable())", "-d", "trunk()"]
+
+[revsets]
+log-graph-prioritize = 'coalesce(description("megamerge\n"), trunk())'
+
+[git]
+private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
