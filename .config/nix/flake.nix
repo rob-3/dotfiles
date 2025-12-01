@@ -66,6 +66,7 @@
           lemminx
           yaml-language-server
           tailscale
+          (python3.withPackages(ps: [ ps.llm ps.llm-gemini ]))
         ];
       in 
         { 
