@@ -24,7 +24,7 @@ vim.opt.lbr = true
 vim.opt.smartindent = true
 vim.opt.formatoptions:append({ "o", "r" })
 vim.opt.lcs:append({ space = "·" })
-vim.opt.completeopt = { "fuzzy", "menu" }
+vim.opt.completeopt = { "fuzzy", "menu", "noselect" }
 vim.cmd.colorscheme("habamax")
 
 vim.cmd("au BufRead,BufNewFile *.cljr set filetype=clojure")
@@ -74,6 +74,9 @@ vim.g.matchup_matchparen_offscreen = { method = "" }
 vim.g.disable_virtual_text = 1
 
 require("lazy").setup({
+  { 'nvim-mini/mini.pick', version = '*', config=function()
+    require('mini.pick').setup()
+  end },
   {
     "nvim-treesitter/nvim-treesitter",
     --commit="42acc3f6e778dd6eb6e0e92690c7d56eab859b6a",
@@ -177,7 +180,7 @@ require("lazy").setup({
   -- new stuff
   -- LSP Support
   'neovim/nvim-lspconfig',
-  "andymass/vim-matchup",
+  -- "andymass/vim-matchup",
   {
     'ibhagwan/fzf-lua',
     config = function()
@@ -358,7 +361,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local diagnostic_config = {
   signs = false,
   virtual_lines = false,
-  virtual_text = true,
+  virtual_text = false,
   underline = true,
   severity_sort = false,
 }
@@ -408,3 +411,32 @@ if vim.fn.executable("rg") == 1 then
   vim.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
   vim.opt.grepformat = "%f:%l:%c:%m"
 end
+
+local group = vim.api.nvim_create_augroup("ConjureDiagnosticRefresh", { clear = true })
+vim.api.nvim_create_autocmd("User", {
+  group = group,
+  pattern = "ConjureEval",
+  callback = function()
+    vim.defer_fn(function()
+      local bufnr = vim.api.nvim_get_current_buf()
+      local client = vim.lsp.get_clients({ bufnr = bufnr, name = "clojure_lsp" })[1]
+
+      if client then
+        local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+        local content = table.concat(lines, "\n")
+        local uri = vim.uri_from_bufnr(bufnr)
+
+        client:notify("textDocument/didClose", { textDocument = { uri = uri } })
+
+        client:notify("textDocument/didOpen", {
+          textDocument = {
+            uri = uri,
+            version = 0,
+            languageId = "clojure",
+            text = content
+          }
+        })
+      end
+    end, 100)
+  end,
+})

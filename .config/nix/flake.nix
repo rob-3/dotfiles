@@ -7,15 +7,17 @@
     nix-search-github.url = "github:peterldowns/nix-search-cli";
     nix-search-github.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { nix-search-github, nixpkgs, nixpkgs-master, flake-utils, ... }:
+  outputs = { nix-search-github, nixpkgs, nixpkgs-master, flake-utils, neovim-nightly-overlay, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let 
         pkgs = nixpkgs.legacyPackages.${system};
         master = nixpkgs-master.legacyPackages.${system};
         base = with pkgs; [
-          neovim
+          #neovim
+          neovim-nightly-overlay.packages.${system}.default
           curl
           sqlite-interactive
           sqlite-analyzer
@@ -66,7 +68,7 @@
           lemminx
           yaml-language-server
           tailscale
-          (python3.withPackages(ps: [ ps.llm ps.llm-gemini ]))
+          (python3.withPackages(ps: [ ps.llm ps.llm-openrouter ]))
         ];
       in 
         { 
