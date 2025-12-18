@@ -69,6 +69,7 @@
           yaml-language-server
           tailscale
           (python3.withPackages(ps: [ ps.llm ps.llm-openrouter ]))
+          chafa
         ];
       in 
         { 

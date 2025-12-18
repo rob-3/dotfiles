@@ -30,7 +30,7 @@ jj diff -f "heads(::$1 & ::trunk)" -t "$1"
 """, ""]
 
 [revsets]
-log-graph-prioritize = 'coalesce(description("megamerge\n"), trunk())'
+log-graph-prioritize = 'coalesce(description(substring:"megamerge\n"), trunk())'
 
 [git]
 private-commits = "description(glob:'wip:*') | description(glob:'private:*')"

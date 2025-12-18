@@ -70,12 +70,38 @@ vim.g["conjure#log#hud#enabled"] = false
 vim.g["conjure#mapping#doc_word"] = ""
 vim.g["conjure#mapping#def_word"] = ""
 
-vim.g.matchup_matchparen_offscreen = { method = "" }
-vim.g.disable_virtual_text = 1
+-- vim.g.matchup_matchparen_offscreen = { method = "" }
+-- vim.g.disable_virtual_text = 1
 
 require("lazy").setup({
+  { 'nvim-mini/mini.extra', version = '*', config=function()
+    require('mini.extra').setup()
+  end },
+  { 'nvim-mini/mini.visits', version = '*', config=function()
+    require('mini.visits').setup()
+  end },
   { 'nvim-mini/mini.pick', version = '*', config=function()
-    require('mini.pick').setup()
+    local MiniPick = require('mini.pick')
+    local MiniVisits = require('mini.visits')
+    local sort_recent = MiniVisits.gen_sort.default({ recency_weight = 1 })
+    MiniPick.setup()
+    vim.keymap.set("n", "<leader>f", function() MiniPick.builtin.files() end, { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>g", function() MiniPick.builtin.grep_live() end, { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>p", function()
+      local current_file_filter = function(x) return vim.fs.normalize(x.path) ~= vim.fs.normalize(vim.fn.expand('%:p')) end
+      MiniPick.start({
+        source={
+          items=MiniVisits.list_paths(nil, {
+            filter=current_file_filter,
+            sort=sort_recent
+          })
+        }
+      })
+    end, { noremap = true, silent = true })
+    -- vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>i", function() MiniPick.builtin.files({ tool = 'git' }) end, { noremap = true, silent = true })
+    -- vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>m", function() require('mini.extra').pickers.git_files({scope='modified'}) end, { noremap = true, silent = true })
   end },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -181,38 +207,38 @@ require("lazy").setup({
   -- LSP Support
   'neovim/nvim-lspconfig',
   -- "andymass/vim-matchup",
-  {
-    'ibhagwan/fzf-lua',
-    config = function()
-      require("fzf-lua").setup {
-        winopts = {
-          border = false,
-          fullscreen = true,
-          preview = {
-            default = "bat",
-            border = "noborder",
-          },
-        },
-        grep = {
-          rg_opts = "--glob '!.git/' --hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -F -e"
-        },
-        oldfiles = {
-          include_current_session = true
-        }
-      }
-
-      vim.keymap.set("n", "<leader>f", "<cmd>lua require('fzf-lua').files({ cmd = vim.env.FZF_DEFAULT_COMMAND, include_current_session = true, silent = true })<CR>", { noremap = true, silent = true })
-      --vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_project()<CR>", { noremap = true, silent = true })
-      vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep_native()<CR>", { noremap = true, silent = true })
-      vim.keymap.set("n", "<leader>p", "<cmd>lua require('fzf-lua').oldfiles()<CR>", { noremap = true, silent = true })
-      vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
-      vim.keymap.set("n", "<leader>i", "<cmd>lua require('fzf-lua').git_files({ silent = true })<CR>", { noremap = true, silent = true })
-      vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
-      vim.keymap.set("n", "<leader>m", "<cmd>lua require('fzf-lua').git_status()<CR>", { noremap = true, silent = true })
-
-      vim.cmd(":FzfLua register_ui_select")
-    end
-  },
+  -- {
+  --   'ibhagwan/fzf-lua',
+  --   config = function()
+  --     require("fzf-lua").setup {
+  --       winopts = {
+  --         border = false,
+  --         fullscreen = true,
+  --         preview = {
+  --           default = "bat",
+  --           border = "noborder",
+  --         },
+  --       },
+  --       grep = {
+  --         rg_opts = "--glob '!.git/' --hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -F -e"
+  --       },
+  --       oldfiles = {
+  --         include_current_session = true
+  --       }
+  --     }
+  --
+  --     vim.keymap.set("n", "<leader>f", "<cmd>lua require('fzf-lua').files({ cmd = vim.env.FZF_DEFAULT_COMMAND, include_current_session = true, silent = true })<CR>", { noremap = true, silent = true })
+  --     --vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_project()<CR>", { noremap = true, silent = true })
+  --     vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep_native()<CR>", { noremap = true, silent = true })
+  --     vim.keymap.set("n", "<leader>p", "<cmd>lua require('fzf-lua').oldfiles()<CR>", { noremap = true, silent = true })
+  --     vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
+  --     vim.keymap.set("n", "<leader>i", "<cmd>lua require('fzf-lua').git_files({ silent = true })<CR>", { noremap = true, silent = true })
+  --     vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
+  --     vim.keymap.set("n", "<leader>m", "<cmd>lua require('fzf-lua').git_status()<CR>", { noremap = true, silent = true })
+  --
+  --     vim.cmd(":FzfLua register_ui_select")
+  --   end
+  -- },
   -- {"jpalardy/vim-slime",
   --   ft = { "clojure" },
   --   init = function()
@@ -228,93 +254,6 @@ require("lazy").setup({
   --     vim.keymap.set('n', '<leader>eb', ':%SlimeSend<cr>')
   --   end
   -- },
-  -- lazy.nvim
-  -- {
-  --   "Robitx/gp.nvim",
-  --   config = function()
-  --     local system_prompt =
-  --       "You are a pleasant, clever AI assistant with a dry sense of humor.\n\n"
-  --       .. "The user provided the additional info about how they would like you to respond:\n\n"
-  --       .. "- I am an expert and don't require detailed explanations. Be brutally direct.\n"
-  --       .. "- Be confident, but if you're unsure don't guess and say you don't know instead.\n"
-  --       .. "- Ask questions if you need clarification to provide better answer.\n"
-  --       .. "- Don't elide any code from your output if the answer requires coding.\n"
-  --       .. "- For simple questions, a response with only code or a command is perfect.\n"
-  --       .. "- Please be concise and favor keeping your response short.\n"
-  --       .. "- Take a deep breath; You've got this!\n"
-  --     require("gp").setup({
-  --       providers = {
-  --         anthropic = { disable = false },
-  --         googleai = { disable = false }
-  --       },
-  --       agents = {
-  --         {
-  --           name = "ConciseClaude",
-  --           provider = "anthropic",
-  --           chat = true,
-  --           command = false,
-  --           model = { model = "claude-3-7-sonnet-20250219", temperature = 0.7, top_p = 1 },
-  --           system_prompt = system_prompt
-  --         },
-  --         {
-  --           name = "ConciseGPT5",
-  --           chat = true,
-  --           command = false,
-  --           model = { model = "gpt-5", temperature = 1.1, top_p = 1 },
-  --           system_prompt = system_prompt
-  --         },
-  --         {
-  --           name = "ConciseGemini",
-  --           provider = "googleai",
-  --           chat = true,
-  --           command = false,
-  --           model = { model = "gemini-2.5-pro", temperature = 1.1, top_p = 1 },
-  --           system_prompt = system_prompt
-  --         },
-  --         {
-  --           name = "ConciseGeminiFlash",
-  --           provider = "googleai",
-  --           chat = true,
-  --           command = false,
-  --           model = { model = "gemini-2.5-flash-lite", temperature = 1.1, top_p = 1 },
-  --           system_prompt = system_prompt
-  --         },
-  --         {
-  --           name = "ChatGPT4",
-  --           chat = true,
-  --           command = false,
-  --           model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
-  --           system_prompt = system_prompt
-  --         },
-  --         {
-  --           name = "CodeGPT4",
-  --           chat = false,
-  --           command = true,
-  --           model = { model = "gpt-4o", temperature = 0.8, top_p = 1 },
-  --           system_prompt = "You are an AI working as a code editor.\n\n"
-  --             .. "Please AVOID COMMENTARY OUTSIDE OF THE SNIPPET RESPONSE.\n"
-  --             .. "START AND END YOUR ANSWER WITH:\n\n```",
-  --         },
-  --       },
-  --     })
-  --
-  --     -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
-  --     local function keymapOptions(desc)
-  --       return {
-  --         noremap = true,
-  --         silent = true,
-  --         nowait = true,
-  --         desc = "GPT prompt " .. desc,
-  --       }
-  --     end
-  --     vim.keymap.set("v", "<leader>r", ":<C-u>'<,'>GpRewrite<cr>", keymapOptions("Visual Rewrite"))
-  --     vim.keymap.set("v", "<leader>a", ":<C-u>'<,'>GpAppend<cr>", keymapOptions("Visual Append (after)"))
-  --     vim.keymap.set("v", "<leader>p", ":<C-u>'<,'>GpPrepend<cr>", keymapOptions("Visual Prepend (before)"))
-  --     --vim.keymap.set("v", "<leader><leader>", ":<C-u>'<,'>GpChatNew tabnew<cr>", keymapOptions("Visual Chat tabnew"))
-  --     --vim.keymap.set("n", "<leader><leader>", "<cmd>GpChatNew<cr>", keymapOptions("New Chat tabnew"))
-  --     --vim.keymap.set("v", "<leader>c", ":<C-u>'<,'>GpVnew<cr>", keymapOptions("Visual Chat New vsplit"))
-  --   end,
-  -- }
 },
 {
   git = {
@@ -394,8 +333,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
   end
 })
 
-vim.opt.clipboard:append("unnamedplus")
-vim.g.clipboard = 'osc52'
+--vim.opt.clipboard:append("unnamedplus")
+--vim.g.clipboard = 'osc52'
 
 -- function to flip on gj and gk
 vim.keymap.set("n", "j", "v:count ? 'j' : 'gj'", { expr = true, noremap = true })
@@ -404,8 +343,8 @@ vim.keymap.set("n", "k", "v:count ? 'k' : 'gk'", { expr = true, noremap = true }
 vim.cmd([[cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"]])
 vim.cmd([[cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"]])
 
-vim.keymap.set({ "o", "x", "n" }, "]]", "<Plug>(matchup-]%)", { noremap = false, silent = true })
-vim.keymap.set({ "o", "x", "n" }, "[[", "<Plug>(matchup-[%)", { noremap = false, silent = true })
+-- vim.keymap.set({ "o", "x", "n" }, "]]", "<Plug>(matchup-]%)", { noremap = false, silent = true })
+-- vim.keymap.set({ "o", "x", "n" }, "[[", "<Plug>(matchup-[%)", { noremap = false, silent = true })
 
 if vim.fn.executable("rg") == 1 then
   vim.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
