@@ -84,7 +84,7 @@ require("lazy").setup({
     local MiniPick = require('mini.pick')
     local MiniVisits = require('mini.visits')
     local sort_recent = MiniVisits.gen_sort.default({ recency_weight = 1 })
-    MiniPick.setup()
+    MiniPick.setup({ window = { config = { width = vim.o.columns, height = vim.o.lines }}})
     vim.keymap.set("n", "<leader>f", function() MiniPick.builtin.files() end, { noremap = true, silent = true })
     vim.keymap.set("n", "<leader>g", function() MiniPick.builtin.grep_live() end, { noremap = true, silent = true })
     vim.keymap.set("n", "<leader>p", function()
