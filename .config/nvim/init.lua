@@ -162,34 +162,18 @@ require("lazy").setup({
   end },
   {
     "nvim-treesitter/nvim-treesitter",
-    --commit="42acc3f6e778dd6eb6e0e92690c7d56eab859b6a",
     build = function()
       local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
       ts_update()
     end,
     config=function()
-      -- treesitter
       require("nvim-treesitter.configs").setup {
-        -- A list of parser names, or "all"
         ensure_installed = {},
-
-        -- Install parsers synchronously (only applied to `ensure_installed`)
         sync_install = false,
-
-        -- Automatically install missing parsers when entering buffer
         auto_install = true,
-
-        -- List of parsers to ignore installing (for "all")
         ignore_install = {},
-
         highlight = {
-          -- `false` will disable the whole extension
           enable = true,
-
-          -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-          -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-          -- the name of the parser)
-          -- list of language that will be disabled
           disable = function(_, bufnr)
             if vim.api.nvim_buf_get_option(bufnr, "filetype") == "gitcommit" then
               return false
@@ -198,11 +182,6 @@ require("lazy").setup({
             local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
             return file_size > 256 * 1024
           end,
-
-          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-          -- Set this to `true` if you depend on "syntax" being enabled (like for indentation).
-          -- Using this option may slow down your editor, and you may see some duplicate highlights.
-          -- Instead of true it can also be a list of languages
           additional_vim_regex_highlighting = {"gitcommit", "markdown"},
         },
         indent = {
@@ -259,43 +238,7 @@ require("lazy").setup({
       }
     end
   },
-
-  -- new stuff
-  -- LSP Support
   'neovim/nvim-lspconfig',
-  -- "andymass/vim-matchup",
-  -- {
-  --   'ibhagwan/fzf-lua',
-  --   config = function()
-  --     require("fzf-lua").setup {
-  --       winopts = {
-  --         border = false,
-  --         fullscreen = true,
-  --         preview = {
-  --           default = "bat",
-  --           border = "noborder",
-  --         },
-  --       },
-  --       grep = {
-  --         rg_opts = "--glob '!.git/' --hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -F -e"
-  --       },
-  --       oldfiles = {
-  --         include_current_session = true
-  --       }
-  --     }
-  --
-  --     vim.keymap.set("n", "<leader>f", "<cmd>lua require('fzf-lua').files({ cmd = vim.env.FZF_DEFAULT_COMMAND, include_current_session = true, silent = true })<CR>", { noremap = true, silent = true })
-  --     --vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_project()<CR>", { noremap = true, silent = true })
-  --     vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep_native()<CR>", { noremap = true, silent = true })
-  --     vim.keymap.set("n", "<leader>p", "<cmd>lua require('fzf-lua').oldfiles()<CR>", { noremap = true, silent = true })
-  --     vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
-  --     vim.keymap.set("n", "<leader>i", "<cmd>lua require('fzf-lua').git_files({ silent = true })<CR>", { noremap = true, silent = true })
-  --     vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
-  --     vim.keymap.set("n", "<leader>m", "<cmd>lua require('fzf-lua').git_status()<CR>", { noremap = true, silent = true })
-  --
-  --     vim.cmd(":FzfLua register_ui_select")
-  --   end
-  -- },
   -- {"jpalardy/vim-slime",
   --   ft = { "clojure" },
   --   init = function()
@@ -399,9 +342,6 @@ vim.keymap.set("n", "k", "v:count ? 'k' : 'gk'", { expr = true, noremap = true }
 
 vim.cmd([[cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"]])
 vim.cmd([[cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"]])
-
--- vim.keymap.set({ "o", "x", "n" }, "]]", "<Plug>(matchup-]%)", { noremap = false, silent = true })
--- vim.keymap.set({ "o", "x", "n" }, "[[", "<Plug>(matchup-[%)", { noremap = false, silent = true })
 
 if vim.fn.executable("rg") == 1 then
   vim.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
