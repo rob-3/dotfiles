@@ -3,3 +3,5 @@ TODO.md
 curl.sh
 .envrc
 result
+.clj-kondo
+.cpcache
