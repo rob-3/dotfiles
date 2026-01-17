@@ -74,92 +74,92 @@ vim.g["conjure#mapping#def_word"] = ""
 -- vim.g.disable_virtual_text = 1
 
 require("lazy").setup({
-  { 'nvim-mini/mini.visits', version = '*', config=function()
-    require('mini.visits').setup()
-  end },
-  { 'nvim-mini/mini.pick', version = '*', config=function()
-    local MiniPick = require('mini.pick')
-    local MiniVisits = require('mini.visits')
-    local sort_recent = MiniVisits.gen_sort.default({ recency_weight = 1 })
-    MiniPick.setup({ window = { config = { width = vim.o.columns, height = vim.o.lines }}})
-    vim.keymap.set("n", "<leader>f", function() MiniPick.builtin.files() end, { noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>g", function() MiniPick.builtin.grep_live() end, { noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>p", function()
-      local current_file_filter = function(x) return vim.fs.normalize(x.path) ~= vim.fs.normalize(vim.fn.expand('%:p')) end
-      MiniPick.start({
-        source={
-          items=MiniVisits.list_paths(nil, {
-            filter=current_file_filter,
-            sort=sort_recent
-          })
-        }
-      })
-    end, { noremap = true, silent = true })
-    -- vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>i", function() MiniPick.builtin.files({ tool = 'git' }) end, { noremap = true, silent = true })
-    -- vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
-
-    --- Adapted from mini.extra, https://github.com/nvim-mini/mini.extra
-    local H = {}
-    H.error = function(msg) error('(mini.extra) ' .. msg, 0) end
-    H.full_path = function(path) return (vim.fn.fnamemodify(path, ':p'):gsub('(.)/$', '%1')) end
-    H.validate_pick = function(fun_name)
-      local has_pick, pick = pcall(require, 'mini.pick')
-      if not has_pick then
-        H.error(string.format([[`pickers.%s()` requires 'mini.pick' which can not be found.]], fun_name))
-      end
-      return pick
-    end
-    H.validate_git = function(picker_name)
-      if vim.fn.executable('git') == 1 then return true end
-      local msg = string.format('`pickers.%s` requires executable `git`.', picker_name)
-      H.error(msg)
-    end
-    H.git_normalize_path = function(path, picker_name)
-      path = type(path) == 'string' and path or vim.fn.getcwd()
-      if path == '' then H.error(string.format('Path in `%s` is empty.', picker_name)) end
-      path = H.full_path(path)
-      local path_is_dir, path_is_file = vim.fn.isdirectory(path) == 1, vim.fn.filereadable(path) == 1
-      if not (path_is_dir or path_is_file) then H.error('Path ' .. path .. ' is not a valid path.') end
-      return path, path_is_dir and 'directory' or 'file'
-    end
-
-    H.git_get_repo_dir = function(path, path_type, picker_name)
-      local path_dir = path_type == 'directory' and path or vim.fn.fnamemodify(path, ':h')
-      local repo_dir = vim.fn.systemlist({ 'git', '-C', path_dir, 'rev-parse', '--show-toplevel' })[1]
-      if vim.v.shell_error ~= 0 then
-        local msg = string.format('`pickers.%s` could not find Git repo for %s.', picker_name, path)
-        H.error(msg)
-      end
-      return repo_dir
-    end
-    H.pick_get_config = function()
-      return vim.tbl_deep_extend('force', (require('mini.pick') or {}).config or {}, vim.b.minipick_config or {})
-    end
-    H.show_with_icons = function(buf_id, items, query)
-      require('mini.pick').default_show(buf_id, items, query, { show_icons = true })
-    end
-    local git_files = function(local_opts, opts)
-      local pick = H.validate_pick('git_files')
-      H.validate_git('git_files')
-
-      local_opts = vim.tbl_deep_extend('force', { path = nil, scope = 'tracked' }, local_opts or {})
-
-      -- Compute path to repo with target path (as it might differ from current)
-      local path, path_type = H.git_normalize_path(local_opts.path, 'git_files')
-      H.git_get_repo_dir(path, path_type, 'git_files')
-      local path_dir = path_type == 'directory' and path or vim.fn.fnamemodify(path, ':h')
-
-      -- Define source
-      local show = H.pick_get_config().source.show or H.show_with_icons
-
-      local name = 'Git files (modified)'
-      local default_source = { name = name, cwd = path_dir, show = show }
-      opts = vim.tbl_deep_extend('force', { source = default_source }, opts or {})
-      return pick.builtin.cli({ command = { 'git', '-C', path_dir, 'ls-files', '--modified' } }, opts)
-    end
-    vim.keymap.set("n", "<leader>m", function() git_files() end, { noremap = true, silent = true })
-  end },
+  -- { 'nvim-mini/mini.visits', version = '*', config=function()
+  --   require('mini.visits').setup()
+  -- end },
+  -- { 'nvim-mini/mini.pick', version = '*', config=function()
+  --   local MiniPick = require('mini.pick')
+  --   local MiniVisits = require('mini.visits')
+  --   local sort_recent = MiniVisits.gen_sort.default({ recency_weight = 1 })
+  --   MiniPick.setup({ window = { config = { width = vim.o.columns, height = vim.o.lines }}})
+  --   vim.keymap.set("n", "<leader>f", function() MiniPick.builtin.files() end, { noremap = true, silent = true })
+  --   vim.keymap.set("n", "<leader>g", function() MiniPick.builtin.grep_live() end, { noremap = true, silent = true })
+  --   vim.keymap.set("n", "<leader>p", function()
+  --     local current_file_filter = function(x) return vim.fs.normalize(x.path) ~= vim.fs.normalize(vim.fn.expand('%:p')) end
+  --     MiniPick.start({
+  --       source={
+  --         items=MiniVisits.list_paths(nil, {
+  --           filter=current_file_filter,
+  --           sort=sort_recent
+  --         })
+  --       }
+  --     })
+  --   end, { noremap = true, silent = true })
+  --   -- vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
+  --   vim.keymap.set("n", "<leader>i", function() MiniPick.builtin.files({ tool = 'git' }) end, { noremap = true, silent = true })
+  --   -- vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
+  --
+  --   --- Adapted from mini.extra, https://github.com/nvim-mini/mini.extra
+  --   local H = {}
+  --   H.error = function(msg) error('(mini.extra) ' .. msg, 0) end
+  --   H.full_path = function(path) return (vim.fn.fnamemodify(path, ':p'):gsub('(.)/$', '%1')) end
+  --   H.validate_pick = function(fun_name)
+  --     local has_pick, pick = pcall(require, 'mini.pick')
+  --     if not has_pick then
+  --       H.error(string.format([[`pickers.%s()` requires 'mini.pick' which can not be found.]], fun_name))
+  --     end
+  --     return pick
+  --   end
+  --   H.validate_git = function(picker_name)
+  --     if vim.fn.executable('git') == 1 then return true end
+  --     local msg = string.format('`pickers.%s` requires executable `git`.', picker_name)
+  --     H.error(msg)
+  --   end
+  --   H.git_normalize_path = function(path, picker_name)
+  --     path = type(path) == 'string' and path or vim.fn.getcwd()
+  --     if path == '' then H.error(string.format('Path in `%s` is empty.', picker_name)) end
+  --     path = H.full_path(path)
+  --     local path_is_dir, path_is_file = vim.fn.isdirectory(path) == 1, vim.fn.filereadable(path) == 1
+  --     if not (path_is_dir or path_is_file) then H.error('Path ' .. path .. ' is not a valid path.') end
+  --     return path, path_is_dir and 'directory' or 'file'
+  --   end
+  --
+  --   H.git_get_repo_dir = function(path, path_type, picker_name)
+  --     local path_dir = path_type == 'directory' and path or vim.fn.fnamemodify(path, ':h')
+  --     local repo_dir = vim.fn.systemlist({ 'git', '-C', path_dir, 'rev-parse', '--show-toplevel' })[1]
+  --     if vim.v.shell_error ~= 0 then
+  --       local msg = string.format('`pickers.%s` could not find Git repo for %s.', picker_name, path)
+  --       H.error(msg)
+  --     end
+  --     return repo_dir
+  --   end
+  --   H.pick_get_config = function()
+  --     return vim.tbl_deep_extend('force', (require('mini.pick') or {}).config or {}, vim.b.minipick_config or {})
+  --   end
+  --   H.show_with_icons = function(buf_id, items, query)
+  --     require('mini.pick').default_show(buf_id, items, query, { show_icons = true })
+  --   end
+  --   local git_files = function(local_opts, opts)
+  --     local pick = H.validate_pick('git_files')
+  --     H.validate_git('git_files')
+  --
+  --     local_opts = vim.tbl_deep_extend('force', { path = nil, scope = 'tracked' }, local_opts or {})
+  --
+  --     -- Compute path to repo with target path (as it might differ from current)
+  --     local path, path_type = H.git_normalize_path(local_opts.path, 'git_files')
+  --     H.git_get_repo_dir(path, path_type, 'git_files')
+  --     local path_dir = path_type == 'directory' and path or vim.fn.fnamemodify(path, ':h')
+  --
+  --     -- Define source
+  --     local show = H.pick_get_config().source.show or H.show_with_icons
+  --
+  --     local name = 'Git files (modified)'
+  --     local default_source = { name = name, cwd = path_dir, show = show }
+  --     opts = vim.tbl_deep_extend('force', { source = default_source }, opts or {})
+  --     return pick.builtin.cli({ command = { 'git', '-C', path_dir, 'ls-files', '--modified' } }, opts)
+  --   end
+  --   vim.keymap.set("n", "<leader>m", function() git_files() end, { noremap = true, silent = true })
+  -- end },
   {
     "nvim-treesitter/nvim-treesitter",
     build = function()
@@ -193,6 +193,36 @@ require("lazy").setup({
           disable_virtual_text = true,
         },
       }
+    end
+  },
+  {
+    'ibhagwan/fzf-lua',
+    config = function()
+      require("fzf-lua").setup {
+        winopts = {
+          border = false,
+          fullscreen = true,
+          preview = {
+            default = "bat",
+            border = "noborder",
+          },
+        },
+        grep = {
+          rg_opts = "--glob '!.git/' --hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 - F -e"
+        },
+        oldfiles = {
+          include_current_session = true
+        }
+      }
+
+      vim.keymap.set("n", "<leader>f", "<cmd>lua require('fzf-lua').files({ cmd = vim.env.FZF_DEFAULT_COMMAND, include_current_session = true, silent = true })<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep_native()<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>p", "<cmd>lua require('fzf-lua').oldfiles()<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>c", "<cmd>lua require('fzf-lua').commands()<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>i", "<cmd>lua require('fzf-lua').git_files({ silent = true })<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>a", "<cmd>lua require('fzf-lua').lsp_code_actions({ winopts = { border = true, fullscreen = false, height = 0.85, width = 0.8, preview = { default = 'bat' } } })<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>m", "<cmd>lua require('fzf-lua').git_status()<CR>", { noremap = true, silent = true })
+      vim.cmd(":FzfLua register_ui_select")
     end
   },
   {"Olical/conjure",

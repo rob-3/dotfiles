@@ -26,7 +26,7 @@ concat(
 [aliases]
 rebase-all = ["rebase", "-s", "roots(trunk()..mutable())", "-d", "trunk()"]
 tdiff = ["util", "exec", "--", "bash", "-c", """
-jj diff -f "heads(::$1 & ::trunk)" -t "$1"
+jj diff -f "heads(::$1 & ::trunk())" -t "$1" "${@:2}"
 """, ""]
 
 [revsets]
