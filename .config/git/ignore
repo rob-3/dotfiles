@@ -5,3 +5,4 @@ curl.sh
 result
 .clj-kondo
 .cpcache
+.lsp

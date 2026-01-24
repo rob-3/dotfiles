@@ -208,7 +208,7 @@ require("lazy").setup({
           },
         },
         grep = {
-          rg_opts = "--glob '!.git/' --hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 - F -e"
+          rg_opts = "--glob '!.git/' --hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -F -e"
         },
         oldfiles = {
           include_current_session = true

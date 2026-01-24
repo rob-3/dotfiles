@@ -14,6 +14,7 @@ if status is-interactive
 	bind -M insert \c] accept-autosuggestion execute
 	bind -M insert \cp history-prefix-search-backward
 	bind -M insert \cn history-prefix-search-forward
+	bind -M insert \cy execute
 	# Emulates vim's cursor shape behavior
 	# Set the normal and visual mode cursors to a block
 	set fish_cursor_default block
