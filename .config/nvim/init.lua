@@ -27,6 +27,11 @@ vim.opt.lcs:append({ space = "·" })
 vim.opt.completeopt = { "fuzzy", "menu", "noselect" }
 vim.cmd.colorscheme("habamax")
 
+vim.api.nvim_set_hl(0, "Search", { bg = "#FFFF00", fg = "#000000" })
+vim.api.nvim_set_hl(0, "CurSearch", { bg = "#ff9f00", fg = "#000000", bold = true })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff9f00", fg = "#000000", bold = true })
+vim.api.nvim_set_hl(0, 'Visual', { bg = '#87afaf', fg = '#000000' })
+
 vim.cmd("au BufRead,BufNewFile *.cljr set filetype=clojure")
 
 function get_node()

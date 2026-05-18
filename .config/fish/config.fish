@@ -32,7 +32,7 @@ if status is-interactive
 
 	abbr vimrc "nvim ~/.config/nvim/init.lua"
 	abbr vimdiff "nvim -d"
-	abbr shell --set-cursor "nix shell nixpkgs#% --command fish "
+	abbr shell --set-cursor "nix shell nixpkgs#%"
 	abbr ntfy --set-cursor "curl https://rob-3.dev/ntfy/general -d \"%\""
 	abbr until --set-cursor "while not %; sleep 1; end"
 
