@@ -1,0 +1,144 @@
+#!/usr/bin/env fish
+# opencode — run opencode inside `jail`, with access to only:
+#   * the current project (git toplevel if inside a repo, else $PWD), read-write
+#   * opencode's own config/data/cache/state dirs, read-write
+#   * git config and global skill dirs, read-only
+#
+# opencode v2 normally attaches to a per-user background server. That server
+# runs outside the jail, so this wrapper always uses a private server
+# (--standalone) and keeps tool execution inside the sandbox.
+#
+#   usage: opencode [-d PATH]... [-r PATH]... [-- ] [OPENCODE ARGS...]
+#
+# Extra -d/-r options are forwarded to jail (e.g. to expose another repo).
+
+set -l self (path resolve -- (status filename))
+
+if not command -sq jail
+    echo "opencode: 'jail' not found in PATH" >&2
+    exit 1
+end
+
+# Find the real opencode binary, skipping this script (in case it gets
+# symlinked/aliased as `opencode`).
+set -l oc
+for c in (command -sa opencode)
+    if test (path resolve -- $c) != "$self"
+        set oc (path resolve -- $c)
+        break
+    end
+end
+if not set -q oc[1]
+    echo "opencode: opencode binary not found in PATH" >&2
+    exit 1
+end
+
+# ---- extra jail options -------------------------------------------------
+set -l extra
+while set -q argv[1]
+    switch $argv[1]
+        case -d -r
+            if not set -q argv[2]
+                echo "opencode: $argv[1] requires a path" >&2
+                exit 1
+            end
+            set -a extra $argv[1] $argv[2]
+            set -e argv[1..2]
+        case --
+            set -e argv[1]
+            break
+        case '*'
+            break
+    end
+end
+
+# ---- standalone only (opencode v2) --------------------------------------
+# The shared background server runs outside the jail and owns tool execution,
+# so connecting to it would defeat the sandbox. Never use or start it: always
+# run with a private server. Not every subcommand accepts --standalone, so
+# skip the few that do not. Anything else (including a project directory) is
+# the normal TUI, which does.
+set -l no_standalone_commands acp debug mcp plugin pair serve service upgrade update uninstall
+set -l subcommand
+set -l skip_next
+for arg in $argv
+    if set -q skip_next[1]
+        set -e skip_next
+        continue
+    end
+    switch $arg
+        case '--server' '--session' '-s' '--prompt' '--log-level' '--completions'
+            set skip_next 1
+        case '-*'
+            # another option; keep looking for the subcommand
+        case '*'
+            set subcommand $arg
+            break
+    end
+end
+
+# Connecting to an explicit server is the one thing this wrapper must not do.
+if contains -- --server $argv; or string match -qr -- '^--server=' $argv
+    echo "opencode: --server is disabled; this wrapper only runs in standalone mode" >&2
+    exit 1
+end
+
+if not contains -- --standalone $argv
+    if not set -q subcommand[1]; or not contains -- $subcommand $no_standalone_commands
+        set -p argv --standalone
+    end
+end
+
+set -l args
+
+# ---- project ------------------------------------------------------------
+set -l project (git rev-parse --show-toplevel 2>/dev/null)
+or set project $PWD
+set -a args -d $project
+
+# ---- opencode's own directories (XDG-aware) -----------------------------
+set -l config_home $HOME/.config
+set -l data_home $HOME/.local/share
+set -l cache_home $HOME/.cache
+set -l state_home $HOME/.local/state
+set -q XDG_CONFIG_HOME; and set config_home $XDG_CONFIG_HOME
+set -q XDG_DATA_HOME; and set data_home $XDG_DATA_HOME
+set -q XDG_CACHE_HOME; and set cache_home $XDG_CACHE_HOME
+set -q XDG_STATE_HOME; and set state_home $XDG_STATE_HOME
+
+for d in $config_home/opencode $data_home/opencode $cache_home/opencode $state_home/opencode
+    mkdir -p $d; or exit 1
+    set -a args -d $d
+end
+
+# ---- read-only extras, only if they exist -------------------------------
+for p in $config_home/git $HOME/.gitconfig \
+        $HOME/.claude/skills $HOME/.claude/CLAUDE.md $HOME/.agents/skills
+    if test -e $p
+        set -a args -r $p
+    end
+end
+
+# ---- environment --------------------------------------------------------
+set -a args \
+    -e HOME=$HOME \
+    -e USER=$USER \
+    -e XDG_CONFIG_HOME=$config_home \
+    -e XDG_DATA_HOME=$data_home \
+    -e XDG_CACHE_HOME=$cache_home \
+    -e XDG_STATE_HOME=$state_home \
+    -E TERMINFO_DIRS \
+    -E SHELL \
+    -E EDITOR \
+    -E VISUAL
+
+# Provider credentials and opencode settings. OPENCODE / OPENCODE_PID are
+# set by a running opencode session and must not leak into a new one.
+# for var in (set -nx)
+#     if string match -qr -- '^(OPENCODE_.*|.*_API_KEY|.*_BASE_URL|AWS_.*|GOOGLE_.*|AZURE_.*|GITHUB_TOKEN|GH_TOKEN)$' $var
+#         and not contains -- $var OPENCODE_PID
+#         set -a args -E $var
+#     end
+# end
+
+exec jail $extra $args -- $oc $argv

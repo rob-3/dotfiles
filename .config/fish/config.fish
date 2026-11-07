@@ -7,6 +7,13 @@ end
 # cloud CLI tool
 fish_add_path ~/cloud/bin/
 fish_add_path ~/bills/bin/
+fish_add_path ~/.local/bin/
+
+# XDG paths for pi (pi itself only knows ~/.pi/agent)
+set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
+set -q XDG_STATE_HOME; or set -gx XDG_STATE_HOME $HOME/.local/state
+set -gx PI_CODING_AGENT_DIR $XDG_CONFIG_HOME/pi/agent
+set -gx PI_CODING_AGENT_SESSION_DIR $XDG_STATE_HOME/pi/sessions
 
 if status is-interactive
 	# Commands to run in interactive sessions can go here
