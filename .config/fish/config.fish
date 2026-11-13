@@ -14,9 +14,6 @@ set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
 set -q XDG_STATE_HOME; or set -gx XDG_STATE_HOME $HOME/.local/state
 set -gx PI_CODING_AGENT_DIR $XDG_CONFIG_HOME/pi/agent
 
-# pi runs in a bubblewrap jail via ~/.local/bin/pi (babashka). `pij` is a
-# symlink to it that takes jail flags before -- and pi flags after:
-#   pij -d ~/src -a github.com --net-public -- --resume
 if status is-interactive
 	# Commands to run in interactive sessions can go here
 	fish_vi_key_bindings
