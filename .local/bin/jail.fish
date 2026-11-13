@@ -16,8 +16,8 @@
 #
 # Requires: bubblewrap (bwrap), fish >= 3.5, and unprivileged user
 # namespaces enabled (or a setuid bwrap binary). --net-public additionally
-# needs python3 and unshare(1), plus jail-proxy and jail-bridge next to this
-# script.
+# needs bb and unshare(1), plus jail-proxy.bb and jail-bridge.bb next to
+# this script.
 
 function jail_usage
     echo "usage: jail [-d PATH]... [-r PATH]... [-e VAR=VAL]... [-E VAR]..."
@@ -364,7 +364,7 @@ end
 # host. jail-proxy refuses every destination that is not public internet
 # unless it matches -a/--allow. Nothing here changes host networking: it only
 # listens on a unix socket.
-for tool in python3 unshare
+for tool in bb unshare
     if not command -sq $tool
         echo "jail: $tool is required for the network policy (or use --net-host)" >&2
         exit 1
@@ -372,8 +372,9 @@ for tool in python3 unshare
 end
 
 set -l helper (path dirname (path resolve (status filename)))
-if not test -x "$helper/jail-proxy"; or not test -r "$helper/jail-bridge"
-    echo "jail: network policy needs jail-proxy and jail-bridge in $helper" >&2
+set -l proxy_exe "$helper/jail-proxy.bb"
+if not test -x "$proxy_exe"; or not test -x "$helper/jail-bridge.bb"
+    echo "jail: network policy needs jail-proxy.bb and jail-bridge.bb in $helper" >&2
     exit 1
 end
 
@@ -407,14 +408,14 @@ if set -q mitm_ca[1]
     end
     set -a proxy_args --inject-auth-provider "$inject_provider"
 end
-python3 "$helper/jail-proxy" $proxy_args >"$state/proxy.log" 2>&1 &
+"$proxy_exe" $proxy_args >"$state/proxy.log" 2>&1 &
 set -l proxy_pid $last_pid
 for i in (seq 100)
     test -S "$state/proxy.sock"; and break
     sleep 0.05
 end
 if not test -S "$state/proxy.sock"
-    echo "jail: jail-proxy failed to start:" >&2
+    echo "jail: jail-proxy.bb failed to start:" >&2
     cat "$state/proxy.log" >&2
     kill $proxy_pid 2>/dev/null
     rm -rf $state
@@ -422,7 +423,7 @@ if not test -S "$state/proxy.sock"
 end
 
 unshare --user --map-root-user --net --fork --kill-child -- \
-    python3 "$helper/jail-bridge" --socket "$state/proxy.sock" \
+    "$helper/jail-bridge.bb" --socket "$state/proxy.sock" \
         --port 8787 --port 1080 --ready "$state/ready" -- bwrap $cmd -- $argv
 set -l rc $status
 

@@ -1,0 +1,81 @@
+#!/usr/bin/env bb
+;; pi -- run pi inside the `jail` sandbox.
+;;
+;;   pi                      # all arguments are passed to pi
+;;   pij <jail flags> [-- <pi flags>]
+;;
+;; `pij` is a symlink to this script. Jail flags come before `--`, pi flags
+;; after:  pij -d ~/src -a github.com --net-public -- --resume
+;;
+;; The jail sees only the session store, settings.json, APPEND_SYSTEM.md and
+;; $PWD, and can only reach openrouter.ai. The real API key never enters the
+;; jail: jail-proxy swaps the placeholder below for the key from auth.json via
+;; TLS interception. With --net-host there is no interception, so no injected
+;; credentials either.
+
+(require '[babashka.fs :as fs]
+         '[babashka.process :as p]
+         '[clojure.string :as str])
+
+(def home (or (System/getenv "HOME") "/"))
+(def xdg-config (or (not-empty (System/getenv "XDG_CONFIG_HOME"))
+                    (fs/path home ".config")))
+(def xdg-state (or (not-empty (System/getenv "XDG_STATE_HOME"))
+                   (fs/path home ".local" "state")))
+(def agent (or (not-empty (System/getenv "PI_CODING_AGENT_DIR"))
+              (fs/path xdg-config "pi" "agent")))
+(defn jp [& parts] (str (apply fs/path parts)))
+
+;; pi's default session store, next to the rest of the agent config
+(def session-dir (jp agent "sessions"))
+
+(defn pij? [] (= "pij" (str (fs/file-name *file*))))
+
+(defn split-at-dash [args]
+  (let [i (first (keep-indexed (fn [i x] (when (= x "--") i)) args))]
+    (if i
+      [(vec (take i args)) (vec (drop (inc i) args))]
+      [(vec args) []])))
+
+(defn host-net? [jail-flags]
+  (boolean (some #{"--net-host"} jail-flags)))
+
+(defn base-opts [jail-flags]
+  (vec (concat
+        ["-E" "HOME" "-e" (str "PI_CODING_AGENT_DIR=" agent)]
+        (when-not (host-net? jail-flags)
+          ["-a" "openrouter.ai"
+           "--mitm-ca" (jp xdg-state "jail-proxy")
+           "--inject-auth-from" (jp agent "auth.json")
+           "-e" "OPENROUTER_API_KEY=jail-placeholder-0000"
+           "-e" "PI_SKIP_VERSION_CHECK=1"]))))
+
+(defn config-opts []
+  (fs/create-dirs session-dir)
+  (vec
+   (concat
+    (mapcat (fn [f]
+              (let [p (jp agent f)]
+                (when (fs/regular-file? p) ["-r" p])))
+            ["settings.json" "APPEND_SYSTEM.md"])
+    ["-d" session-dir])))
+
+(defn cwd-opts []
+  ;; Bind the project, but never $HOME or / -- that would hand the jail the
+  ;; whole home directory.
+  (let [cwd (str (fs/canonicalize "."))]
+    (when (and (not= cwd home) (not= cwd "/"))
+      ["-d" cwd])))
+
+(defn -main [args]
+  (let [[jail-flags pi-flags] (if (pij?) (split-at-dash args) [[] (vec args)])
+        cmd (concat ["jail"]
+                    (base-opts jail-flags)
+                    (config-opts)
+                    (cwd-opts)
+                    jail-flags
+                    ["--" "pi"]
+                    pi-flags)]
+    (p/exec (vec cmd))))
+
+(-main *command-line-args*)
