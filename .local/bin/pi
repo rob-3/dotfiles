@@ -57,7 +57,7 @@
     (mapcat (fn [f]
               (let [p (jp agent f)]
                 (when (fs/regular-file? p) ["-r" p])))
-            ["settings.json" "APPEND_SYSTEM.md"])
+            ["settings.json" "APPEND_SYSTEM.md" "keybindings.json"])
     ["-d" session-dir])))
 
 (defn cwd-opts []
