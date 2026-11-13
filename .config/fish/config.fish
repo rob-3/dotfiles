@@ -13,8 +13,10 @@ fish_add_path ~/.local/bin/
 set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
 set -q XDG_STATE_HOME; or set -gx XDG_STATE_HOME $HOME/.local/state
 set -gx PI_CODING_AGENT_DIR $XDG_CONFIG_HOME/pi/agent
-set -gx PI_CODING_AGENT_SESSION_DIR $XDG_STATE_HOME/pi/sessions
 
+# pi runs in a bubblewrap jail via ~/.local/bin/pi (babashka). `pij` is a
+# symlink to it that takes jail flags before -- and pi flags after:
+#   pij -d ~/src -a github.com --net-public -- --resume
 if status is-interactive
 	# Commands to run in interactive sessions can go here
 	fish_vi_key_bindings
@@ -42,11 +44,6 @@ if status is-interactive
 	abbr shell --set-cursor "nix shell nixpkgs#%"
 	abbr ntfy --set-cursor "curl https://rob-3.dev/ntfy/general -d \"%\""
 	abbr until --set-cursor "while not %; sleep 1; end"
-	# Credentials never enter the jail. pi only ever sees a throwaway placeholder;
-	# the host-side jail-proxy intercepts TLS to openrouter.ai and substitutes the
-	# real key from auth.json. Nothing under ~/.config/pi is writable except the
-	# session store, so the jail cannot plant config a later host-side pi loads.
-	abbr pi "jail -E PI_CODING_AGENT_DIR -E HOME -r ~/.config/pi/agent/settings.json -r ~/.config/pi/agent/APPEND_SYSTEM.md -d ~/.config/pi/agent/sessions -a openrouter.ai --mitm-ca ~/.local/state/jail-proxy --inject-auth-from ~/.config/pi/agent/auth.json -e OPENROUTER_API_KEY=jail-placeholder-0000 -- pi"
 
 	set fish_greeting
 
