@@ -29,8 +29,6 @@
 ;; pi's default session store, next to the rest of the agent config
 (def session-dir (jp agent "sessions"))
 
-(defn pij? [] (= "pij" (str (fs/file-name *file*))))
-
 (defn split-at-dash [args]
   (let [i (first (keep-indexed (fn [i x] (when (= x "--") i)) args))]
     (if i
@@ -68,7 +66,7 @@
       ["-d" cwd])))
 
 (defn -main [args]
-  (let [[jail-flags pi-flags] (if (pij?) (split-at-dash args) [[] (vec args)])
+  (let [[jail-flags pi-flags] (split-at-dash args)
         cmd (concat ["jail"]
                     (base-opts jail-flags)
                     (config-opts)
