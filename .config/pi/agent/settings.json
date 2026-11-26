@@ -1,6 +1,10 @@
 {
-  "lastChangelogVersion": "1.5.2",
+  "lastChangelogVersion": "1.6.1",
   "defaultProvider": "openrouter",
   "defaultModel": "deepseek/deepseek-v4.1-flash-1017",
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "markdown": {
+    "codeBlockIndent": ""
+  },
+  "outputPad": 0
 }
